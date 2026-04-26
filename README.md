@@ -1,2 +1,2 @@
 # continuitybioML
-Acceleration aptamer discovery
+Accelerating aptamer discovery
