@@ -1,0 +1,24 @@
+# Virtual environment
+condaptnet_env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Data (raw/processed data not tracked in git)
+data/raw/
+data/processed/
+data/augmented/
+
+# Model checkpoints (large binary files)
+models/checkpoints/
+
+# Cached embeddings and features
+*.pkl
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
