@@ -97,13 +97,20 @@ class CondAptNet(nn.Module):
         protein_tokens  : torch.Tensor,
         condition       : torch.Tensor,
         predict_kd      : Optional[bool] = None,
+        protein_emb     : Optional[torch.Tensor] = None,
     ) -> CondAptNetOutput:
         """
         Args:
             aptamer_tokens : [batch, apt_token_len]  LongTensor
             vienna_feats   : [batch, 6]              float32
             protein_tokens : [batch, prot_len]       LongTensor (ESM-2 alphabet)
+                             Ignored when protein_emb is provided.
             condition      : [batch, 5]              float32
+            protein_emb    : [batch, prot_len, ESM_EMBED_DIM]  float32  (optional)
+                             Pre-computed ESM-2 embeddings. When supplied, the
+                             protein_encoder forward pass is skipped entirely —
+                             use this during Stage 1 training to avoid re-running
+                             frozen ESM-2 on every batch (cache with numpy).
 
         Returns:
             CondAptNetOutput(binding_prob, kd_pred)
@@ -114,7 +121,10 @@ class CondAptNet(nn.Module):
         apt_emb  = self.dna_encoder(aptamer_tokens, vienna_feats)
         # apt_emb: [batch, apt_token_len, DNA_EMBED_DIM=128]
 
-        prot_emb = self.protein_encoder(protein_tokens)
+        if protein_emb is not None:
+            prot_emb = protein_emb
+        else:
+            prot_emb = self.protein_encoder(protein_tokens)
         # prot_emb: [batch, prot_len, ESM_EMBED_DIM=480]
 
         # ── Symmetric cross-attention with FiLM conditioning ─────────────────

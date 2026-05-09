@@ -10,7 +10,7 @@ Architecture:
     outer_product([batch,apt,D], [batch,prot,D])
         → [batch, D, apt_len, prot_len]   interaction matrix (2D image)
     1×1 conv to CNN_CHANNELS[0]
-    17 ConvBlocks (BatchNorm → GELU → Conv3×3 → BatchNorm → GELU → Conv3×3)
+    17 ConvBlocks (GroupNorm → GELU → Conv3×3 → GroupNorm → GELU → Conv3×3)
         channels: 64 (blocks 1–6) → 128 (blocks 7–12) → 256 (blocks 13–17)
         residual connections where in_channels == out_channels
         1×1 projection conv at channel transitions
@@ -40,7 +40,7 @@ from config import DEVICE, FUSION_DIM, CNN_CHANNELS, CNN_KERNEL_SIZE, CNN_NUM_BL
 
 class ConvBlock(nn.Module):
     """
-    One residual convolutional block: two Conv2d layers with BN+GELU.
+    One residual convolutional block: two Conv2d layers with GroupNorm+GELU.
     A 1×1 projection shortcut is added when in_channels != out_channels.
     """
 
@@ -49,10 +49,10 @@ class ConvBlock(nn.Module):
         pad = kernel_size // 2
 
         self.block = nn.Sequential(
-            nn.BatchNorm2d(in_channels),
+            nn.GroupNorm(8, in_channels),
             nn.GELU(),
             nn.Conv2d(in_channels, out_channels, kernel_size, padding=pad, bias=False),
-            nn.BatchNorm2d(out_channels),
+            nn.GroupNorm(8, out_channels),
             nn.GELU(),
             nn.Conv2d(out_channels, out_channels, kernel_size, padding=pad, bias=False),
         )
@@ -112,7 +112,7 @@ class CNNHead(nn.Module):
             ConvBlock(in_ch, out_ch) for in_ch, out_ch in schedule
         ])
 
-        self.final_norm = nn.BatchNorm2d(CNN_CHANNELS[-1])
+        self.final_norm = nn.GroupNorm(8, CNN_CHANNELS[-1])
         self.gap = nn.AdaptiveAvgPool2d(1)   # global average pooling → [batch, C, 1, 1]
 
     def forward(self, apt_fused: torch.Tensor, prot_fused: torch.Tensor) -> torch.Tensor:

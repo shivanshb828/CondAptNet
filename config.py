@@ -78,6 +78,13 @@ GRAD_CLIP               = 1.0
 
 # Class imbalance — positives weighted 3× in BCE loss
 POSITIVE_CLASS_WEIGHT   = 3.0
+# Loss component weights — total = BCE_WEIGHT*bce + KD_WEIGHT*mse_kd
+BCE_WEIGHT              = 1.0
+KD_WEIGHT               = 0.5
+# Kd head predicts in log10(nM+1) space; KD_LOG_MAX is the clamp ceiling
+KD_LOG_MAX              = 7.0   # corresponds to ~10 µM upper bound
+# Max protein tokens fed to ESM-2 (BOS + residues + EOS)
+PROT_MAX_TOKENS         = 1024
 
 # ── Data Validation Bounds ───────────────────────────────────────────────────
 SEQ_MIN_LEN     = 20
