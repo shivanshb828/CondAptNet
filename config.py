@@ -38,14 +38,24 @@ LORA_ALPHA      = 16
 LORA_DROPOUT    = 0.05
 
 # ── Condition Encoder (FiLM) ─────────────────────────────────────────────────
-CONDITION_DIM   = 128
-# Condition vector layout: [pH, salt_mM, temp_C, buffer_type_onehot × 4]
-CONDITION_INPUT_DIM = 7   # pH, salt, temp, + 4-class buffer one-hot
+# Input: 5 raw scalars [pH, salt_mM, temp_C, buffer_type, mg_mM]
+# mg_mM is separate from salt_mM — divalent Mg2+ critically affects aptamer folding
+CONDITION_INPUT_DIM = 5
+CONDITION_HIDDEN    = 64
+CONDITION_DIM       = 128   # output dim fed into FiLM scale/shift projection
 BUFFER_TYPES    = {"PBS": 0, "HEPES": 1, "Tris": 2, "other": 3}
 
+# Physiological defaults for Continuity's in-body sensing context
+# Used as imputation when condition fields are missing in training data
+DEFAULT_PH       = 7.4    # blood/interstitial fluid pH
+DEFAULT_SALT_MM  = 150.0  # ~150 mM Na+ (physiological)
+DEFAULT_TEMP_C   = 37.0   # body temperature
+DEFAULT_BUFFER   = 0      # PBS (closest to physiological)
+DEFAULT_MG_MM    = 2.0    # 2 mM Mg2+ (physiological divalent cation)
+
 # ── Cross-Attention (Fusion) ──────────────────────────────────────────────────
-FUSION_DIM      = 128
-CROSS_ATTN_HEADS  = 8
+FUSION_DIM         = 256   # both encoder dims projected to this before attention
+CROSS_ATTN_HEADS   = 8
 CROSS_ATTN_DROPOUT = 0.1
 
 # ── CNN Interaction Head ─────────────────────────────────────────────────────
@@ -80,6 +90,13 @@ VALID_BASES     = set("ATGC")
 # ── Evaluation ───────────────────────────────────────────────────────────────
 # Primary metric is MCC; list determines logging order
 EVAL_METRICS    = ["mcc", "auroc", "auprc", "sensitivity", "specificity", "pearson_r_kd"]
+
+# ── Target Lists ─────────────────────────────────────────────────────────────
+# Tier 2: validation benchmarks only — NOT deployment targets
+VALIDATION_TARGETS  = ["insulin", "myoglobin", "NT-proBNP",
+                        "troponin_I", "troponin_T", "albumin"]
+# Tier 3: update when Continuity confirms real device targets
+DEPLOYMENT_TARGETS  = []
 
 # ── Reproducibility ──────────────────────────────────────────────────────────
 RANDOM_SEED     = 42

@@ -8,136 +8,132 @@ A novel deep learning architecture for predicting DNA aptamer binding to arbitra
 
 ## Overview
 
-CondAptNet is a general-purpose DNA aptamer-protein interaction prediction model that generalizes across arbitrary protein targets and is fine-tunable for specific biosensing applications. It is the first aptamer interaction model to combine native DNA encoding, a large pretrained protein language model (ESM-2), symmetric bidirectional cross-attention, and explicit physiological condition conditioning into a single unified architecture.
+CondAptNet is a **general-purpose** DNA aptamer-protein interaction prediction model. Given any protein's amino acid sequence and a DNA aptamer sequence, it predicts whether the aptamer will bind that protein and how strongly.
 
-Traditional aptamer discovery uses SELEX — a wet lab process costing weeks and thousands of dollars per target protein. CondAptNet computationally predicts which DNA sequences will bind to a given protein, dramatically accelerating candidate discovery before synthesis begins.
+It is designed in three tiers:
+
+```
+TIER 1 — GENERAL MODEL
+Trained on hundreds of diverse protein families.
+Generalizes to any protein. This is the core product.
+
+TIER 2 — VALIDATION BENCHMARK
+Fine-tuned on insulin, myoglobin, NT-proBNP, troponin I/T, albumin.
+These are well-studied proteins with published aptamers and known Kd values.
+Used to verify the model works before trusting it on real device targets.
+These are NOT the actual deployment targets for Continuity's device.
+
+TIER 3 — DEPLOYMENT TARGETS (TBD)
+The real Continuity biomarker set, not yet confirmed.
+Plug-and-play: update config.py and run finetune.py when targets are known.
+No architectural changes required.
+```
 
 ---
 
 ## Why a New Model
 
-Every existing aptamer prediction model has critical limitations:
-
 | Model | Year | Key Limitation |
 |---|---|---|
-| Apta-MCTS | 2021 | Shallow Random Forest, no generalization beyond training proteins |
-| AptaTrans | 2023 | Converts DNA→RNA (lossy), trained on only 164 proteins from 2012 |
-| AptaBERT | 2023 | Proprietary training data, not reproducible |
-| AptaBLE | 2026 | Best existing model, still RNA-focused, no condition encoding |
+| Apta-MCTS | 2021 | Shallow Random Forest, no generalization |
+| AptaTrans | 2023 | Converts DNA→RNA (lossy), 164 proteins from 2012 |
+| AptaBERT | 2023 | Proprietary data, not reproducible |
+| AptaBLE | 2026 | RNA-focused, no physiological condition encoding |
 
 **CondAptNet's novel contributions:**
-
 - **Native DNA encoding** — no T→U substitution used by all prior models
-- **ESM-2 protein encoder** — Meta's language model pretrained on 250M protein sequences; no prior aptamer model uses this
-- **Physiological condition injection** — pH, salt, temperature, and buffer encoded via FiLM conditioning; first aptamer model to do this
-- **Dual output head** — binary binding classification AND continuous Kd regression
-- **Broadest training distribution** — hundreds of diverse protein families, not just 164 proteins from 2012
-- **Two-stage training** — broad pretraining then target-specific fine-tuning
+- **ESM-2 protein encoder** — Meta's LLM pretrained on 250M protein sequences
+- **Physiological condition injection** — pH, salt, temperature, buffer via FiLM
+- **Dual output** — binding probability AND Kd affinity regression
+- **Broadest training distribution** — hundreds of diverse protein families
+- **Plug-and-play fine-tuning** — swap deployment targets without architecture changes
 
 ---
 
 ## Architecture
 
 ```
-DNA Aptamer Sequence          Protein Sequence           Condition Vector
-[A,T,G,C — native DNA]        [amino acids]              [pH, salt, temp, buffer]
-        │                           │                            │
-        ▼                           ▼                            ▼
-  DNA Encoder                Protein Encoder             Condition Encoder
-  6-layer Transformer        ESM-2 (35M params)          Linear MLP
-  3-mer tokenization         Fine-tuned via LoRA         128-dim output
-  + ViennaRNA features       480-dim embeddings
-        │                           │                            │
-        └───────────────┬───────────┘                            │
-                        ▼                                        │
-            Symmetric Bidirectional                              │
-              Cross-Attention          ◄────────────────────────┘
-            (aptamer ↔ protein)        FiLM condition injection
-                        │
-                        ▼
-               Interaction Matrix
-               17-block CNN
-               channels: 64 → 128 → 256
-                        │
-                        ▼
-                 Dual Output Head
-          ┌──────────────────────────┐
-          │  Binding probability     │  → P(aptamer binds protein)
-          │  Kd regression           │  → predicted affinity (nM)
-          └──────────────────────────┘
+DNA Aptamer Sequence     Protein Sequence       Condition Vector
+[A, T, G, C — native]   [amino acids]          [pH, salt, temp, buffer]
+        │                      │                        │
+        ▼                      ▼                        ▼
+  DNA Encoder            Protein Encoder          Condition Encoder
+  6-layer Transformer    ESM-2 (35M params)       Linear MLP
+  3-mer tokenization     Fine-tuned via LoRA      128-dim output
+  + ViennaRNA features   480-dim per residue
+        │                      │                        │
+        └──────────┬───────────┘                        │
+                   ▼                                    │
+       Symmetric Bidirectional                          │
+         Cross-Attention          ◄─────────────────────┘
+       (aptamer ↔ protein)        FiLM condition injection
+                   │
+                   ▼
+          Interaction Matrix
+          17-block CNN
+          channels: 64 → 128 → 256
+                   │
+                   ▼
+    ┌──────────────────────────────┐
+    │  Binding probability         │  → P(aptamer binds) ∈ [0,1]
+    │  Kd regression               │  → predicted affinity (nM)
+    └──────────────────────────────┘
 ```
 
 ### Component Rationale
 
-**DNA Encoder:** Transformer with native 3-mer tokenization. Preserves DNA chemistry without the T→U conversion used by all prior models. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count).
+**DNA Encoder:** Transformer with native 3-mer tokenization. No T→U conversion. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count, base pair probabilities).
 
-**Protein Encoder (ESM-2):** Meta AI's protein language model pretrained on 250 million protein sequences. Provides rich representations of effectively any protein — including targets with zero aptamer training data. Fine-tuned with LoRA (rank=8) to remain computationally tractable on consumer hardware.
+**Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. This is what makes the general model possible. Fine-tuned with LoRA (rank=8) to run on Apple M-series chips.
 
-**Symmetric Bidirectional Cross-Attention:** Both molecules attend to each other simultaneously, capturing mutual binding geometry. Validated by AptaBLE (2026) as superior to unidirectional approaches.
+**Symmetric Bidirectional Cross-Attention:** Both molecules attend to each other simultaneously. Validated by AptaBLE (2026) as superior to unidirectional approaches.
 
-**FiLM Condition Injection:** Experimental conditions (pH, salt, temperature, buffer type) modulate cross-attention feature maps via scale and shift parameters. Critical for Continuity's physiological sensing context where conditions vary and directly affect binding behavior.
+**FiLM Condition Injection:** pH, salt, temperature, and buffer modulate cross-attention feature maps via learned scale and shift parameters. First aptamer model to encode physiological context.
 
-**17-block CNN:** Extracts local and hierarchical interaction features from the 2D aptamer-protein interface map. Architecture from AptaTrans (2023), validated to outperform simpler pooling approaches.
+**17-block CNN:** Extracts hierarchical features from the 2D aptamer-protein interaction map. From AptaTrans (2023).
 
-**Dual Output Head:** Binding classification head (sigmoid) for binder/non-binder prediction. Kd regression head (ReLU, log-scale) for affinity estimation when training labels include dissociation constants.
-
----
-
-## Target Proteins (Continuity Application)
-
-The model is general-purpose but fine-tuned for Continuity's biosensor targets:
-
-| Protein | Role | Biosensor Purpose |
-|---|---|---|
-| Insulin | Metabolic hormone | Blood glucose regulation monitoring |
-| Myoglobin | Muscle protein | Muscle stress detection |
-| NT-proBNP | Cardiac peptide | Cardiovascular stress monitoring |
-| Troponin I | Cardiac protein | Heart attack biomarker |
-| Troponin T | Cardiac protein | Heart attack biomarker |
-| Albumin | Abundant serum protein | **Anti-target** — filter non-specific binders |
+**Dual Output Head:** Binary binding classification + Kd regression for affinity-ranked candidate generation.
 
 ---
 
-## Training Strategy
+## Training Pipeline
 
-### Two-Stage Pipeline
+### Stage 1 — Broad Pretraining
+- Data: UTexas Aptamer DB + PubMed SELEX literature 2000–2025, hundreds of protein families
+- ESM-2 frozen, all other layers trained
+- Split: by protein family (never randomly)
+- Output: general aptamer interaction model
 
-**Stage 1 — Broad Pretraining**
-Train on all collected aptamer-protein pairs spanning hundreds of diverse protein families (AptamerBase + PubMed SELEX literature 2000–2025). ESM-2 frozen, all other components trained. Goal: learn general aptamer-protein interaction priors.
+### Stage 2 — Validation Fine-Tuning
+- Data: insulin, myoglobin, NT-proBNP, troponin I/T, albumin
+- Purpose: benchmark model against published Kd values, verify generalization
+- Identical script to Stage 3 — just a different protein set in config
 
-**Stage 2 — Target-Specific Fine-Tuning**
-Unfreeze ESM-2 LoRA layers. Fine-tune on Continuity's 5 target proteins + albumin anti-target. Lower learning rates. Smaller batches if data-limited.
+### Stage 3 — Deployment Fine-Tuning (TBD)
+- Data: actual Continuity device targets (not yet confirmed)
+- Update `DEPLOYMENT_TARGETS` in config.py and run `finetune.py`
+- No other changes required
 
-**Stage 3 — Active Learning Loop**
-Experimental validation results from Continuity's lab feed back into Stage 2 retraining. Every confirmed binder/non-binder improves predictions over time.
-
-### Data Split
-Always split by protein family, never randomly. Random splitting leaks information — a model that has seen 8 of 10 insulin aptamers in training will appear to generalize to insulin but hasn't actually learned to generalize. Family-held-out splits test true generalization.
-
-### Evaluation Metrics (priority order)
-1. MCC (Matthews Correlation Coefficient) — best single metric for imbalanced binary classification
-2. AUC-ROC — discriminative ability
-3. AUC-PR — precision-recall for imbalanced data
-4. Sensitivity — false negatives = missed candidates
-5. Pearson r on Kd — regression head quality
+### Stage 4 — Active Learning (ongoing)
+- Lab validation results → retrain Stage 2/3 continuously
 
 ---
 
 ## Data Sources
 
-| Source | Type | Estimated Size |
+| Source | Type | Size |
 |---|---|---|
-| AptamerBase | Curated DNA/RNA aptamer pairs | ~800 pairs |
-| PubMed SELEX 2000–2025 | Literature extraction | ~500–1000 new pairs |
-| Li et al. 2014 benchmark | Standard benchmark | 725 pairs, 164 proteins |
-| Therapeutic aptamer literature | Clinical-stage aptamers | ~50–100 pairs |
-| Target-specific searches | Insulin, troponin, etc. | ~50–200 pairs |
+| UTexas Aptamer Database (Zenodo: doi.org/10.5281/zenodo.8264921) | Primary curated DB — bulk download | ~896 ssDNA rows (filtered from 1,495) |
+| PubMed SELEX 2000–2025 | Literature extraction | ~500–1000 pairs |
+| Li et al. 2014 benchmark (doi:10.1371/journal.pone.0086729) | Standard benchmark — labels + targets | 2,320 entries, 164 proteins (sequences need enrichment) |
+| GitHub AptamerBase dump (github.com/micheldumontier/aptamerbase) | Pre-2016 entries, supplementary | Supplementary (original site shut down 2016) |
+| Therapeutic literature | Clinical-stage aptamers | ~50–100 pairs |
 
-### Data Augmentation
-- **Reverse complement** — flip every positive sequence (validated by AptaTrans, doubles data)
-- **Truncations** — systematically shorten known aptamers to generate length variants
-- **Cross-target negatives** — known binders for protein A labeled as non-binders for protein B
-- **Scrambled sequences** — shuffle nucleotides, preserve composition, label as non-binders
+### Augmentation
+- Reverse complement of all positive sequences (doubles data — AptaTrans validated)
+- Systematic truncations (length variants)
+- Cross-target negatives (hard negatives — binder for A = non-binder for B)
+- Scrambled sequences (composition preserved, order destroyed → non-binders)
 
 ---
 
@@ -145,37 +141,37 @@ Always split by protein family, never randomly. Random splitting leaks informati
 
 ```
 continuitybioML/
-├── CLAUDE.md                    # Full project context for Claude Code
+├── CLAUDE.md                    # Full context for Claude Code
 ├── README.md                    # This file
-├── config.py                    # All hyperparameters (single source of truth)
-│
+├── config.py                    # All hyperparameters
 ├── data/
-│   ├── raw/                     # Downloaded data, never modified
-│   ├── processed/               # Cleaned, validated, unified format
-│   └── augmented/               # Post-augmentation training splits
-│
+│   ├── raw/                     # Source data, never modified
+│   ├── processed/               # Cleaned, unified format
+│   └── augmented/               # Training splits by tier
 ├── models/
 │   ├── encoders/
-│   │   ├── dna_encoder.py       # Native DNA transformer
-│   │   ├── protein_encoder.py   # ESM-2 + LoRA wrapper
-│   │   └── condition_encoder.py # FiLM condition MLP
+│   │   ├── dna_encoder.py
+│   │   ├── protein_encoder.py
+│   │   └── condition_encoder.py
 │   ├── attention/
-│   │   └── cross_attention.py   # Symmetric bidirectional cross-attention
+│   │   └── cross_attention.py
 │   ├── interaction/
-│   │   └── cnn_head.py          # 17-block CNN interaction head
+│   │   └── cnn_head.py
 │   ├── output/
-│   │   └── dual_head.py         # Binding + Kd output heads
-│   └── condaptnet.py            # Full model assembly
-│
+│   │   └── dual_head.py
+│   ├── condaptnet.py
+│   └── checkpoints/
+│       ├── pretrain/
+│       ├── validation/
+│       └── deployment/          # Empty until Tier 3 targets confirmed
 ├── scripts/
 │   ├── data/                    # Collection, validation, augmentation
 │   ├── model/                   # Tokenizer
-│   ├── training/                # Train, fine-tune, loss functions
-│   └── evaluation/              # Metrics and evaluation suite
-│
+│   ├── training/                # Train, finetune, losses
+│   └── evaluation/              # Metrics, evaluate
 └── outputs/
-    ├── candidates/              # Generated aptamer candidates
-    └── motifs/                  # MEME motif analysis
+    ├── candidates/
+    └── motifs/
 ```
 
 ---
@@ -184,45 +180,37 @@ continuitybioML/
 
 - Python 3.11 (virtual environment: `condaptnet_env`)
 - PyTorch 2.11.0
-- Apple MPS (M-series GPU acceleration)
-- ESM-2: `esm2_t12_35M_UR50D` (35M parameters, 480-dim embeddings)
-- ViennaRNA for secondary structure prediction
+- Apple MPS — M-series GPU acceleration confirmed working
+- ESM-2: `esm2_t12_35M_UR50D` (35M params, 480-dim)
+- ViennaRNA — secondary structure prediction
 
 ### Setup
 
 ```bash
-# Clone repository
 git clone https://github.com/shivanshbansal/continuitybioML
 cd continuitybioML
-
-# Create virtual environment with Python 3.11
 python3.11 -m venv condaptnet_env
 source condaptnet_env/bin/activate
-
-# Install dependencies
 pip install torch torchvision torchaudio
 pip install fair-esm pandas numpy scikit-learn biopython ViennaRNA requests tqdm
-
-# Verify environment
 python scripts/verify_env.py
 ```
 
-### Training
+### Usage
 
 ```bash
-# Activate environment first
 source condaptnet_env/bin/activate
 
-# Collect data (run once, takes ~20 min)
+# Collect data
 python scripts/data/collect_aptamers.py
 
-# Precompute ViennaRNA features
+# Precompute structure features
 python scripts/data/vienna_features.py
 
-# Stage 1: Broad pretraining
+# Stage 1: broad pretraining
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
 
-# Stage 2: Fine-tuning on Continuity targets
+# Stage 2 or 3: fine-tuning
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py
 
 # Evaluate
@@ -231,37 +219,53 @@ python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/b
 
 ---
 
+## Evaluation Metrics
+
+| Metric | Why |
+|---|---|
+| MCC | Best single metric for imbalanced binary classification |
+| AUC-ROC | Discriminative ability across thresholds |
+| AUC-PR | More informative than ROC when positives are rare |
+| Sensitivity | False negatives = missed candidates |
+| Pearson r (Kd) | Regression head quality |
+
+Accuracy is not reported as a primary metric — data is inherently imbalanced and accuracy is misleading.
+
+---
+
 ## Reference Papers
 
-| Paper | Contribution |
+| Paper | Key Contribution |
 |---|---|
-| Li et al., PLOS ONE (2014) | Standard benchmark dataset — 725 pairs, 164 proteins |
-| Lee et al., PLOS ONE (2021) — Apta-MCTS | MCTS generation algorithm; baseline Random Forest classifier |
-| Shin et al., BMC Bioinformatics (2023) — AptaTrans | Interaction matrix + CNN architecture; pretraining strategy; reverse-complement augmentation |
-| Morsch et al., bioRxiv (2023) — AptaBERT | BERT-style aptamer pretraining; 96% ROC-AUC shows transformers work well |
+| Li et al., PLOS ONE (2014) | Standard benchmark — 725 pairs, 164 proteins |
+| Lee et al., PLOS ONE (2021) — Apta-MCTS | MCTS generation; RF baseline |
+| Shin et al., BMC Bioinformatics (2023) — AptaTrans | Interaction matrix + CNN; pretraining; augmentation |
+| Morsch et al., bioRxiv (2023) — AptaBERT | BERT-style aptamer pretraining |
 | Atom Bioworks, bioRxiv (2026) — AptaBLE | Symmetric bidirectional cross-attention; current SOTA |
 
 ---
 
-## Current Status
+## Build Status
 
-- [x] Environment setup and verified (Python 3.11, PyTorch, ESM-2, ViennaRNA, MPS)
-- [x] Project structure initialized
-- [x] Configuration file (`config.py`)
-- [x] PubMed data collection script (`collect_aptamers.py`)
-- [ ] Sequence validation pipeline
-- [ ] ViennaRNA feature precomputation
-- [ ] DNA tokenizer
-- [ ] DNA encoder
-- [ ] ESM-2 + LoRA protein encoder
-- [ ] Condition encoder
-- [ ] Symmetric cross-attention module
-- [ ] CNN interaction head
-- [ ] Dual output head
-- [ ] Full model assembly
-- [ ] Training loop
-- [ ] Evaluation suite
-- [ ] Stage 2 fine-tuning
+- [x] Environment setup (Python 3.11, PyTorch, ESM-2, ViennaRNA, MPS)
+- [x] Project structure
+- [x] config.py — all hyperparams + physiological defaults (37°C, 150mM Na, 2mM Mg)
+- [x] collect_aptamers.py
+- [x] validate_sequences.py
+- [x] vienna_features.py
+- [x] tokenizer.py
+- [x] dna_encoder.py — 6-layer Transformer [B, L, 128], MPS verified
+- [x] protein_encoder.py — ESM-2 + LoRA, 0.55% trainable [B, L, 480], MPS verified
+- [x] condition_encoder.py — FiLM MLP [B, 128], MPS verified
+- [x] cross_attention.py — symmetric bidirectional [B, L, 256], MPS verified
+- [x] cnn_head.py — 17-block CNN [B, 256], MPS verified
+- [x] dual_head.py — binding + Kd heads, MPS verified
+- [x] build_dataset.py — UTexas (896 rows) + Li2014 (2320 rows) → master_dataset.csv
+- [ ] condaptnet.py (full assembly)
+- [ ] losses.py
+- [ ] train.py
+- [ ] evaluate.py
+- [ ] finetune.py
 
 ---
 

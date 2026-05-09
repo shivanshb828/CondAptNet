@@ -1,6 +1,10 @@
 """
 PubMed literature collection for aptamer-protein binding data (2012–2025).
 
+Primary curated source is the UTexas Aptamer Database (Zenodo:
+doi.org/10.5281/zenodo.8264921), parsed by build_dataset.py.
+This script supplements it with PubMed SELEX literature not yet in that DB.
+
 Searches PubMed via Entrez API for SELEX studies and extracts metadata.
 Output: data/raw/pubmed_results.csv
 
