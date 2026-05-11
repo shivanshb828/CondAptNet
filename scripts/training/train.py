@@ -379,7 +379,16 @@ def main() -> None:
     args = parser.parse_args()
 
     os.makedirs(args.checkpoint_dir, exist_ok=True)
-    device = torch.device(DEVICE)
+
+    # Runtime device check overrides config.py (catches late CUDA init on Colab)
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+    log.info("Device confirmed at runtime: %s", device)
+
     torch.manual_seed(RANDOM_SEED)
 
     # ── Load data ─────────────────────────────────────────────────────────────

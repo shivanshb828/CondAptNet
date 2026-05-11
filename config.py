@@ -7,7 +7,13 @@ import torch
 import os
 
 # ── Device ──────────────────────────────────────────────────────────────────
-DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
+if torch.cuda.is_available():
+    DEVICE = "cuda"
+elif torch.backends.mps.is_available():
+    DEVICE = "mps"
+else:
+    DEVICE = "cpu"
+print(f"[CondAptNet] Device: {DEVICE}")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
