@@ -11,14 +11,16 @@ Usage:
     source condaptnet_env/bin/activate
     PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
     PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --max-epochs 3
-    PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --batch-size 16
+    PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --batch-size 8
 
 Checkpoints saved to: models/checkpoints/pretrain/
 """
 
+import os
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
+
 import argparse
 import logging
-import os
 import pickle
 import sys
 import time
@@ -517,6 +519,11 @@ def main() -> None:
             log.warning("--resume set but no epoch_*.pt found in %s — starting fresh",
                         args.checkpoint_dir)
 
+    if torch.cuda.is_available():
+        free, total = torch.cuda.mem_get_info()
+        log.info("GPU memory: %.1fGB free / %.1fGB total before training",
+                 free / 1e9, total / 1e9)
+
     log.info("=" * 65)
     log.info("Training for up to %d epochs on device=%s", args.max_epochs, DEVICE)
     log.info("=" * 65)
@@ -596,6 +603,8 @@ def main() -> None:
                 break
 
         scheduler.step()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     log.info("Training complete. Best val MCC=%.3f", best_val_mcc)
     log.info("Best checkpoint: %s", best_ckpt_path)
