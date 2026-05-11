@@ -14,7 +14,7 @@ It is designed in three tiers:
 
 ```
 TIER 1 — GENERAL MODEL
-Trained on hundreds of diverse protein families.
+Trained on 2,364 aptamer-protein pairs across 252 protein families.
 Generalizes to any protein. This is the core product.
 
 TIER 2 — VALIDATION BENCHMARK
@@ -45,7 +45,7 @@ No architectural changes required.
 - **ESM-2 protein encoder** — Meta's LLM pretrained on 250M protein sequences
 - **Physiological condition injection** — pH, salt, temperature, buffer via FiLM
 - **Dual output** — binding probability AND Kd affinity regression
-- **Broadest training distribution** — hundreds of diverse protein families
+- **Broadest training distribution** — 252 diverse protein families
 - **Plug-and-play fine-tuning** — swap deployment targets without architecture changes
 
 ---
@@ -54,7 +54,7 @@ No architectural changes required.
 
 ```
 DNA Aptamer Sequence     Protein Sequence       Condition Vector
-[A, T, G, C — native]   [amino acids]          [pH, salt, temp, buffer]
+[A, T, G, C — native]   [amino acids]          [pH, salt, temp, buffer, Mg]
         │                      │                        │
         ▼                      ▼                        ▼
   DNA Encoder            Protein Encoder          Condition Encoder
@@ -70,13 +70,13 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
                    │
                    ▼
           Interaction Matrix
-          17-block CNN
+          17-block CNN (GroupNorm, GELU, residual)
           channels: 64 → 128 → 256
                    │
                    ▼
     ┌──────────────────────────────┐
     │  Binding probability         │  → P(aptamer binds) ∈ [0,1]
-    │  Kd regression               │  → predicted affinity (nM)
+    │  Kd regression               │  → predicted affinity (nM, log scale)
     └──────────────────────────────┘
 ```
 
@@ -84,30 +84,32 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 
 **DNA Encoder:** Transformer with native 3-mer tokenization. No T→U conversion. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count, base pair probabilities).
 
-**Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. This is what makes the general model possible. Fine-tuned with LoRA (rank=8) to run on Apple M-series chips.
+**Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. Fine-tuned with LoRA (rank=8, α=16) to run on Apple M-series and T4 GPUs. ESM-2 embeddings are pre-cached to disk; the frozen backbone runs only once per protein.
 
 **Symmetric Bidirectional Cross-Attention:** Both molecules attend to each other simultaneously. Validated by AptaBLE (2026) as superior to unidirectional approaches.
 
-**FiLM Condition Injection:** pH, salt, temperature, and buffer modulate cross-attention feature maps via learned scale and shift parameters. First aptamer model to encode physiological context.
+**FiLM Condition Injection:** pH, salt, temperature, Mg²⁺, and buffer modulate cross-attention feature maps via learned scale and shift parameters. First aptamer model to encode physiological context. Physiological defaults: pH 7.4, 150 mM Na⁺, 37°C, 2 mM Mg²⁺, PBS.
 
-**17-block CNN:** Extracts hierarchical features from the 2D aptamer-protein interaction map. From AptaTrans (2023).
+**17-block CNN (GroupNorm):** Extracts hierarchical features from the 2D aptamer-protein interaction map. GroupNorm replaces BatchNorm2d for full MPS/CUDA native execution. From AptaTrans (2023).
 
-**Dual Output Head:** Binary binding classification + Kd regression for affinity-ranked candidate generation.
+**Dual Output Head:** Binary binding classification + Kd regression for affinity-ranked candidate generation. Kd head is skippable at inference when no affinity label is available.
 
 ---
 
 ## Training Pipeline
 
 ### Stage 1 — Broad Pretraining
-- Data: UTexas Aptamer DB + PubMed SELEX literature 2000–2025, hundreds of protein families
-- ESM-2 frozen, all other layers trained
-- Split: by protein family (never randomly)
+- Data: 6,914 training rows (augmented) across 252 protein families
+- ESM-2 frozen (only LoRA adapters + all other layers train)
+- Split: by protein family (never randomly) — 70 / 15 / 15
+- Loss: BCE (binding) + MSE (Kd where available)
+- Gradient checkpointing on CNN head for T4 memory efficiency
 - Output: general aptamer interaction model
 
 ### Stage 2 — Validation Fine-Tuning
 - Data: insulin, myoglobin, NT-proBNP, troponin I/T, albumin
-- Purpose: benchmark model against published Kd values, verify generalization
-- Identical script to Stage 3 — just a different protein set in config
+- Purpose: benchmark against published Kd values, verify generalization
+- ESM-2 LoRA unfrozen at lower learning rate
 
 ### Stage 3 — Deployment Fine-Tuning (TBD)
 - Data: actual Continuity device targets (not yet confirmed)
@@ -115,25 +117,53 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 - No other changes required
 
 ### Stage 4 — Active Learning (ongoing)
-- Lab validation results → retrain Stage 2/3 continuously
+- Lab validation results → new labeled data → retrain Stage 2/3
 
 ---
 
-## Data Sources
+## Data
+
+### Sources
 
 | Source | Type | Size |
 |---|---|---|
-| UTexas Aptamer Database (Zenodo: doi.org/10.5281/zenodo.8264921) | Primary curated DB — bulk download | ~896 ssDNA rows (filtered from 1,495) |
+| UTexas Aptamer Database ([Zenodo](https://doi.org/10.5281/zenodo.8264921)) | Primary curated DB | ~896 ssDNA rows |
 | PubMed SELEX 2000–2025 | Literature extraction | ~500–1000 pairs |
-| Li et al. 2014 benchmark (doi:10.1371/journal.pone.0086729) | Standard benchmark — labels + targets | 2,320 entries, 164 proteins (sequences need enrichment) |
-| GitHub AptamerBase dump (github.com/micheldumontier/aptamerbase) | Pre-2016 entries, supplementary | Supplementary (original site shut down 2016) |
+| Li et al. 2014 ([PLOS ONE](https://doi.org/10.1371/journal.pone.0086729)) | Standard benchmark | 2,320 entries, 164 proteins |
 | Therapeutic literature | Clinical-stage aptamers | ~50–100 pairs |
 
+### Dataset Stats (current)
+
+| Split | Rows |
+|---|---|
+| master_dataset.csv (training-ready) | 2,364 rows, 252 proteins |
+| tier1_train.csv (post-augmentation) | 6,914 rows |
+| val.csv | 297 rows |
+| test.csv | 282 rows |
+| ViennaRNA structure cache | 6,330 sequences |
+
 ### Augmentation
-- Reverse complement of all positive sequences (doubles data — AptaTrans validated)
-- Systematic truncations (length variants)
-- Cross-target negatives (hard negatives — binder for A = non-binder for B)
-- Scrambled sequences (composition preserved, order destroyed → non-binders)
+
+- **Reverse complement** — doubles positive data (AptaTrans validated)
+- **Systematic truncations** — 2–3 nt from each end
+- **Cross-target negatives** — binder for protein A is a hard negative for protein B
+- **Scrambled sequences** — composition preserved, order destroyed → non-binder label
+
+---
+
+## Training on Google Colab (T4)
+
+A ready-to-run notebook is provided at `notebooks/train_colab.ipynb`.
+
+**6-cell flow:**
+1. GPU check (asserts T4 with ≥12 GB VRAM)
+2. Clone repo and install dependencies
+3. Download data from Google Drive (master_dataset.csv, vienna_cache.pkl, protein_embeddings/)
+4. Resume detection — finds latest `epoch_*.pt` checkpoint automatically
+5. Train with T4-tuned settings (batch_size=16, max_prot_len=128, PYTORCH_ALLOC_CONF=expandable_segments:True)
+6. Evaluate best checkpoint on val and test splits
+
+Training supports `--resume` to recover after Colab disconnects.
 
 ---
 
@@ -145,9 +175,10 @@ continuitybioML/
 ├── README.md                    # This file
 ├── config.py                    # All hyperparameters
 ├── data/
-│   ├── raw/                     # Source data, never modified
-│   ├── processed/               # Cleaned, unified format
-│   └── augmented/               # Training splits by tier
+│   ├── raw/
+│   │   └── protein_name_overrides.csv   # Manual UniProt accession overrides (tracked)
+│   ├── processed/               # master_dataset.csv, vienna_cache.pkl, protein_embeddings/
+│   └── augmented/               # tier1_train.csv, val.csv, test.csv
 ├── models/
 │   ├── encoders/
 │   │   ├── dna_encoder.py
@@ -159,16 +190,30 @@ continuitybioML/
 │   │   └── cnn_head.py
 │   ├── output/
 │   │   └── dual_head.py
-│   ├── condaptnet.py
+│   ├── condaptnet.py            # Full model assembly
 │   └── checkpoints/
 │       ├── pretrain/
 │       ├── validation/
 │       └── deployment/          # Empty until Tier 3 targets confirmed
+├── notebooks/
+│   └── train_colab.ipynb        # T4 GPU training notebook
 ├── scripts/
-│   ├── data/                    # Collection, validation, augmentation
-│   ├── model/                   # Tokenizer
-│   ├── training/                # Train, finetune, losses
-│   └── evaluation/              # Metrics, evaluate
+│   ├── data/
+│   │   ├── collect_aptamers.py  # PubMed SELEX collection
+│   │   ├── build_dataset.py     # Unify sources → master_dataset.csv
+│   │   ├── enrich_proteins.py   # UniProt sequence lookup + non-protein filtering
+│   │   ├── augment.py           # Rev-comp, truncations, negatives, scrambles
+│   │   ├── vienna_features.py   # ViennaRNA structure features (incremental cache)
+│   │   └── validate_sequences.py
+│   ├── model/
+│   │   └── tokenizer.py         # DNA 3-mer tokenizer
+│   ├── training/
+│   │   ├── train.py             # Stage 1 (--resume, --max-batches, CUDA/MPS/CPU)
+│   │   ├── finetune.py          # Stage 2 and 3
+│   │   └── losses.py            # Combined BCE + MSE loss
+│   └── evaluation/
+│       ├── evaluate.py
+│       └── metrics.py
 └── outputs/
     ├── candidates/
     └── motifs/
@@ -181,14 +226,15 @@ continuitybioML/
 - Python 3.11 (virtual environment: `condaptnet_env`)
 - PyTorch 2.11.0
 - Apple MPS — M-series GPU acceleration confirmed working
+- CUDA — T4 Google Colab confirmed working
 - ESM-2: `esm2_t12_35M_UR50D` (35M params, 480-dim)
 - ViennaRNA — secondary structure prediction
 
-### Setup
+### Setup (local)
 
 ```bash
-git clone https://github.com/shivanshbansal/continuitybioML
-cd continuitybioML
+git clone https://github.com/shivanshb828/CondAptNet.git
+cd CondAptNet
 python3.11 -m venv condaptnet_env
 source condaptnet_env/bin/activate
 pip install torch torchvision torchaudio
@@ -201,14 +247,18 @@ python scripts/verify_env.py
 ```bash
 source condaptnet_env/bin/activate
 
-# Collect data
+# Collect and process data
 python scripts/data/collect_aptamers.py
-
-# Precompute structure features
+python scripts/data/build_dataset.py
+python scripts/data/enrich_proteins.py
 python scripts/data/vienna_features.py
+python scripts/data/augment.py
 
-# Stage 1: broad pretraining
+# Stage 1: broad pretraining (local MPS)
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
+
+# Resume after interruption
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --resume
 
 # Stage 2 or 3: fine-tuning
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py
@@ -247,25 +297,28 @@ Accuracy is not reported as a primary metric — data is inherently imbalanced a
 
 ## Build Status
 
-- [x] Environment setup (Python 3.11, PyTorch, ESM-2, ViennaRNA, MPS)
-- [x] Project structure
+- [x] Environment setup (Python 3.11, PyTorch, ESM-2, ViennaRNA, MPS + CUDA)
 - [x] config.py — all hyperparams + physiological defaults (37°C, 150mM Na, 2mM Mg)
-- [x] collect_aptamers.py
-- [x] validate_sequences.py
-- [x] vienna_features.py
-- [x] tokenizer.py
+- [x] collect_aptamers.py — PubMed SELEX collection
+- [x] build_dataset.py — UTexas + Li2014 → master_dataset.csv
+- [x] enrich_proteins.py — UniProt lookup, fuzzy matching, non-protein filtering, manual overrides
+- [x] validate_sequences.py — length, GC%, homopolymer, alphabet QC
+- [x] vienna_features.py — ViennaRNA features, incremental pickle cache (6,330 sequences)
+- [x] augment.py — rev-comp, truncations, cross-target negatives, scrambles → 6,914 train rows
+- [x] tokenizer.py — DNA 3-mer tokenizer (66-token vocab)
 - [x] dna_encoder.py — 6-layer Transformer [B, L, 128], MPS verified
-- [x] protein_encoder.py — ESM-2 + LoRA, 0.55% trainable [B, L, 480], MPS verified
+- [x] protein_encoder.py — ESM-2 + LoRA (0.55% trainable) [B, L, 480], MPS verified
 - [x] condition_encoder.py — FiLM MLP [B, 128], MPS verified
 - [x] cross_attention.py — symmetric bidirectional [B, L, 256], MPS verified
-- [x] cnn_head.py — 17-block CNN [B, 256], MPS verified
-- [x] dual_head.py — binding + Kd heads, MPS verified
-- [x] build_dataset.py — UTexas (896 rows) + Li2014 (2320 rows) → master_dataset.csv
-- [ ] condaptnet.py (full assembly)
-- [ ] losses.py
-- [ ] train.py
-- [ ] evaluate.py
-- [ ] finetune.py
+- [x] cnn_head.py — 17-block CNN with GroupNorm [B, 256], MPS + CUDA verified
+- [x] dual_head.py — binding sigmoid + Kd ReLU, MPS verified
+- [x] condaptnet.py — full assembly + gradient checkpointing, end-to-end verified
+- [x] losses.py — combined BCE + MSE loss
+- [x] train.py — Stage 1 loop (--resume, --max-batches, CUDA/MPS/CPU auto-detect)
+- [x] evaluate.py — MCC, AUC-ROC, AUC-PR, sensitivity, Pearson r
+- [x] notebooks/train_colab.ipynb — T4 Colab training notebook
+- [ ] finetune.py — Stage 2/3 fine-tuning loop
+- [ ] Tier 3 deployment targets (pending Continuity confirmation)
 
 ---
 
