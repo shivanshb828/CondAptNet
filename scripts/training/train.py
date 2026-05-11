@@ -372,6 +372,10 @@ def main() -> None:
                              "(can be smaller than prot-max-tokens; reduces cross-attn memory)")
     parser.add_argument("--max-batches", type=int, default=None,
                         help="Limit batches per epoch (for smoke-testing)")
+    parser.add_argument("--resume", action="store_true",
+                        help="Resume from the latest epoch_*.pt checkpoint in "
+                             "--checkpoint-dir, restoring optimizer, scheduler, "
+                             "and best val MCC so early stopping continues correctly")
     args = parser.parse_args()
 
     os.makedirs(args.checkpoint_dir, exist_ok=True)
@@ -481,13 +485,34 @@ def main() -> None:
     # ── Training loop ─────────────────────────────────────────────────────────
     best_val_mcc   = -1.0
     patience_count = 0
+    start_epoch    = 1
     best_ckpt_path = os.path.join(args.checkpoint_dir, "best.pt")
+
+    if args.resume:
+        import glob as _glob
+        ckpts = sorted(_glob.glob(os.path.join(args.checkpoint_dir, "epoch_*.pt")))
+        if ckpts:
+            resume_path = ckpts[-1]
+            log.info("Resuming from %s", resume_path)
+            ckpt = torch.load(resume_path, map_location=device)
+            model.load_state_dict(ckpt["model"])
+            optimizer.load_state_dict(ckpt["optimizer"])
+            if "scheduler" in ckpt:
+                scheduler.load_state_dict(ckpt["scheduler"])
+            best_val_mcc   = ckpt.get("best_val_mcc",  ckpt.get("val_mcc", -1.0))
+            patience_count = ckpt.get("patience_count", 0)
+            start_epoch    = ckpt.get("epoch", 0) + 1
+            log.info("Resumed at epoch %d  best_val_mcc=%.4f  patience=%d",
+                     start_epoch - 1, best_val_mcc, patience_count)
+        else:
+            log.warning("--resume set but no epoch_*.pt found in %s — starting fresh",
+                        args.checkpoint_dir)
 
     log.info("=" * 65)
     log.info("Training for up to %d epochs on device=%s", args.max_epochs, DEVICE)
     log.info("=" * 65)
 
-    for epoch in range(1, args.max_epochs + 1):
+    for epoch in range(start_epoch, args.max_epochs + 1):
         t0 = time.time()
 
         (tr_loss, tr_bce, tr_kd,
@@ -537,11 +562,14 @@ def main() -> None:
 
         # Save every epoch
         ckpt = {
-            "epoch":      epoch,
-            "model":      model.state_dict(),
-            "optimizer":  optimizer.state_dict(),
-            "val_mcc":    val_mcc,
-            "train_loss": tr_loss,
+            "epoch":         epoch,
+            "model":         model.state_dict(),
+            "optimizer":     optimizer.state_dict(),
+            "scheduler":     scheduler.state_dict(),
+            "val_mcc":       val_mcc,
+            "best_val_mcc":  best_val_mcc,
+            "patience_count": patience_count,
+            "train_loss":    tr_loss,
         }
         torch.save(ckpt, os.path.join(args.checkpoint_dir, f"epoch_{epoch:03d}.pt"))
 

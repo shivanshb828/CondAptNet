@@ -6,16 +6,20 @@ __pycache__/
 *.py[cod]
 *.pyo
 
-# Data (raw/processed data not tracked in git)
+# Data — raw and processed files not tracked (too large / machine-generated)
 data/raw/
 data/processed/
 data/augmented/
+
+# Exception: manual override table is small and should be tracked
+!data/raw/protein_name_overrides.csv
 
 # Model checkpoints (large binary files)
 models/checkpoints/
 
 # Cached embeddings and features
 *.pkl
+*.npy
 
 # Jupyter
 .ipynb_checkpoints/
