@@ -6,11 +6,6 @@ __pycache__/
 *.py[cod]
 *.pyo
 
-# Data — raw and processed files not tracked (too large / machine-generated)
-data/raw/
-data/processed/
-data/augmented/
-
 # Exception: manual override table is small and should be tracked
 !data/raw/protein_name_overrides.csv
 
