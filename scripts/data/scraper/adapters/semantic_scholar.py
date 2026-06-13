@@ -66,8 +66,7 @@ class SemanticScholarAdapter(BaseAdapter):
         queries: Optional[list[str]] = None,
     ) -> None:
         super().__init__(prov_logger)
-        if queries is not None:
-            self.queries = queries
+        self.queries = queries if queries is not None else _QUERIES
         if cfg.SEMANTIC_SCHOLAR_KEY:
             self._session.headers["x-api-key"] = cfg.SEMANTIC_SCHOLAR_KEY
 
@@ -110,9 +109,9 @@ class SemanticScholarAdapter(BaseAdapter):
         all_records: list[dict] = []
         seen_ids: set[str] = set()
 
-        per_query = max(50, max_results // max(len(_QUERIES), 1))
+        per_query = max(50, max_results // max(len(self.queries), 1))
 
-        for query in _QUERIES:
+        for query in self.queries:
             for paper in self._iter_papers(query, max_papers=per_query):
                 pid = paper.get("paperId", "")
                 if pid in seen_ids:
