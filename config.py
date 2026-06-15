@@ -73,6 +73,21 @@ CNN_NUM_BLOCKS  = 17
 KD_OUTPUT_DIM   = 1   # log-scale nM
 BINDING_OUTPUT_DIM = 1  # sigmoid probability
 
+# ── Qualitative Binding Label ─────────────────────────────────────────────────
+# Integer encoding: 0 = low, 1 = medium, 2 = high
+BIND_LABEL_LOW    = 0
+BIND_LABEL_MEDIUM = 1
+BIND_LABEL_HIGH   = 2
+BIND_LABEL_NAMES  = {0: "low", 1: "medium", 2: "high"}
+
+# Primary: Kd thresholds in raw nM (converted to log10(nM+1) internally)
+BIND_LABEL_KD_HIGH_NM   = 10.0    # < 10 nM    → high
+BIND_LABEL_KD_MEDIUM_NM = 1000.0  # < 1000 nM  → medium  (≥ 1000 nM → low)
+
+# Fallback: binding_prob thresholds when kd_pred is unavailable
+BIND_LABEL_PROB_HIGH   = 0.66   # > 0.66 → high
+BIND_LABEL_PROB_MEDIUM = 0.33   # > 0.33 → medium  (≤ 0.33 → low)
+
 # ── Training ─────────────────────────────────────────────────────────────────
 BATCH_SIZE              = 32
 LEARNING_RATE_BASE      = 1e-4
