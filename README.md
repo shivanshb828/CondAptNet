@@ -14,18 +14,19 @@ It is designed in three tiers:
 
 ```
 TIER 1 — GENERAL MODEL
-Trained on 2,364 aptamer-protein pairs across 252 protein families.
-Generalizes to any protein. This is the core product.
+Trained on aptamer-protein pairs across hundreds of diverse protein families.
+Generalizes to any protein given only its amino acid sequence.
+This is the core scientific contribution.
 
 TIER 2 — VALIDATION BENCHMARK
 Fine-tuned on insulin, myoglobin, NT-proBNP, troponin I/T, albumin.
-These are well-studied proteins with published aptamers and known Kd values.
-Used to verify the model works before trusting it on real device targets.
-These are NOT the actual deployment targets for Continuity's device.
+Well-studied proteins with published aptamers and known Kd values.
+Used to verify model performance before trusting it on real device targets.
+These are NOT the deployment targets for Continuity's device.
 
 TIER 3 — DEPLOYMENT TARGETS (TBD)
 The real Continuity biomarker set, not yet confirmed.
-Plug-and-play: update config.py and run finetune.py when targets are known.
+Plug-and-play: update DEPLOYMENT_TARGETS in config.py and run finetune.py.
 No architectural changes required.
 ```
 
@@ -45,7 +46,7 @@ No architectural changes required.
 - **ESM-2 protein encoder** — Meta's LLM pretrained on 250M protein sequences
 - **Physiological condition injection** — pH, salt, temperature, buffer via FiLM
 - **Dual output** — binding probability AND Kd affinity regression
-- **Broadest training distribution** — 252 diverse protein families
+- **Broadest training distribution** — hundreds of diverse protein families
 - **Plug-and-play fine-tuning** — swap deployment targets without architecture changes
 
 ---
@@ -84,13 +85,13 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 
 **DNA Encoder:** Transformer with native 3-mer tokenization. No T→U conversion. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count, base pair probabilities).
 
-**Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. Fine-tuned with LoRA (rank=8, α=16) to run on Apple M-series and T4 GPUs. ESM-2 embeddings are pre-cached to disk; the frozen backbone runs only once per protein.
+**Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. Fine-tuned with LoRA (rank=8, α=16). ESM-2 embeddings are pre-cached to disk; the frozen backbone runs only once per unique protein.
 
 **Symmetric Bidirectional Cross-Attention:** Both molecules attend to each other simultaneously. Validated by AptaBLE (2026) as superior to unidirectional approaches.
 
 **FiLM Condition Injection:** pH, salt, temperature, Mg²⁺, and buffer modulate cross-attention feature maps via learned scale and shift parameters. First aptamer model to encode physiological context. Physiological defaults: pH 7.4, 150 mM Na⁺, 37°C, 2 mM Mg²⁺, PBS.
 
-**17-block CNN (GroupNorm):** Extracts hierarchical features from the 2D aptamer-protein interaction map. GroupNorm replaces BatchNorm2d for full MPS/CUDA native execution. From AptaTrans (2023).
+**17-block CNN (GroupNorm):** Extracts hierarchical features from the 2D aptamer-protein interaction map. GroupNorm replaces BatchNorm2d for full MPS/CUDA native execution.
 
 **Dual Output Head:** Binary binding classification + Kd regression for affinity-ranked candidate generation. Kd head is skippable at inference when no affinity label is available.
 
@@ -99,7 +100,7 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 ## Training Pipeline
 
 ### Stage 1 — Broad Pretraining
-- Data: 6,914 training rows (augmented) across 252 protein families
+- Data: all curated + harvested aptamer-protein pairs across diverse protein families
 - ESM-2 frozen (only LoRA adapters + all other layers train)
 - Split: by protein family (never randomly) — 70 / 15 / 15
 - Loss: BCE (binding) + MSE (Kd where available)
@@ -109,11 +110,11 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 ### Stage 2 — Validation Fine-Tuning
 - Data: insulin, myoglobin, NT-proBNP, troponin I/T, albumin
 - Purpose: benchmark against published Kd values, verify generalization
-- ESM-2 LoRA unfrozen at lower learning rate
+- ESM-2 LoRA unfrozen at 10× lower learning rate
 
 ### Stage 3 — Deployment Fine-Tuning (TBD)
 - Data: actual Continuity device targets (not yet confirmed)
-- Update `DEPLOYMENT_TARGETS` in config.py and run `finetune.py`
+- Update `DEPLOYMENT_TARGETS` in config.py and run `finetune.py --stage deployment`
 - No other changes required
 
 ### Stage 4 — Active Learning (ongoing)
@@ -125,22 +126,45 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 
 ### Sources
 
-| Source | Type | Size |
+| Source | Type | Notes |
 |---|---|---|
-| UTexas Aptamer Database ([Zenodo](https://doi.org/10.5281/zenodo.8264921)) | Primary curated DB | ~896 ssDNA rows |
-| PubMed SELEX 2000–2025 | Literature extraction | ~500–1000 pairs |
-| Li et al. 2014 ([PLOS ONE](https://doi.org/10.1371/journal.pone.0086729)) | Standard benchmark | 2,320 entries, 164 proteins |
-| Therapeutic literature | Clinical-stage aptamers | ~50–100 pairs |
+| UTexas Aptamer Database ([Zenodo](https://doi.org/10.5281/zenodo.8264921)) | Curated DB | ~896 ssDNA rows after DNA-only filter |
+| Li et al. 2014 ([PLOS ONE](https://doi.org/10.1371/journal.pone.0086729)) | Benchmark | 2,320 entries, 164 proteins; sequences need enrichment pass |
+| PubMed / PMC | Literature | Full-text XML + supplementary files via Entrez |
+| Semantic Scholar | Literature | Open academic index |
+| OpenAlex | Literature | Open access full-text index |
+| bioRxiv / medRxiv | Preprints | Content API |
+| PatentsView (US) | Patents | REST API, no auth required |
+| EPO OPS | Patents | Requires OAuth2 credentials |
+| WIPO PatentScope | Patents | Web scraping |
+| Lens.org | Patents | Requires Bearer token |
+| Google Patents | Patents | Conservative XHR scraping |
 
-### Dataset Stats (current)
+### Scraper Architecture
 
-| Split | Rows |
-|---|---|
-| master_dataset.csv (training-ready) | 2,364 rows, 252 proteins |
-| tier1_train.csv (post-augmentation) | 6,914 rows |
-| val.csv | 297 rows |
-| test.csv | 282 rows |
-| ViennaRNA structure cache | 6,330 sequences |
+All literature and patent sources are harvested by a unified scraper pipeline (`scripts/data/scraper/`):
+
+- **4 parsers** — PDF, Excel/CSV, XML (PMC NXML), plain text/HTML
+- **10 source adapters** — each rate-limited, with per-adapter failure isolation
+- **Supplementary file fetcher** — PMC supplementary Excel/CSV/PDF files auto-downloaded and parsed (this is where most aptamer sequence tables live)
+- **merge.py** — deduplicates against master_dataset.csv by exact (sequence, target) key; writes only new unique rows to `scraped_dataset.csv`; never overwrites master
+- **Append-only provenance log** — byte offset, source URL, file hash, extraction timestamp for every record
+
+Scraped records follow a 20-column schema distinct from master_dataset.csv and are merged after manual or automated review.
+
+### Dataset (current)
+
+| File | Rows | Notes |
+|---|---|---|
+| master_dataset.csv | 3,821 total | Built from UTexas + Li2014 |
+| master_dataset.csv (training-ready) | 2,364 | Has protein_sequence + DNA sequence |
+| scraped_dataset.csv | grows with scraper runs | New unique rows only |
+| tier1_train.csv | 6,914 (post-augmentation) | After augment.py |
+| val.csv | ~297 | Split by protein family |
+| test.csv | ~282 | Held out by protein family |
+| vienna_cache.pkl | ~6,330 sequences | Pre-computed structure features |
+
+~1,457 master rows have `needs_sequence_enrichment=True` (Li2014 rows awaiting PubMed sequence lookup).
 
 ### Augmentation
 
@@ -149,21 +173,11 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 - **Cross-target negatives** — binder for protein A is a hard negative for protein B
 - **Scrambled sequences** — composition preserved, order destroyed → non-binder label
 
----
+### Sequence Safety Rules
 
-## Training on Google Colab (T4)
-
-A ready-to-run notebook is provided at `notebooks/train_colab.ipynb`.
-
-**6-cell flow:**
-1. GPU check (asserts T4 with ≥12 GB VRAM)
-2. Clone repo and install dependencies
-3. Download data from Google Drive (master_dataset.csv, vienna_cache.pkl, protein_embeddings/)
-4. Resume detection — finds latest `epoch_*.pt` checkpoint automatically
-5. Train with T4-tuned settings (batch_size=16, max_prot_len=128, PYTORCH_ALLOC_CONF=expandable_segments:True)
-6. Evaluate best checkpoint on val and test splits
-
-Training supports `--resume` to recover after Colab disconnects.
+- **LLMs never generate sequences.** All sequences are regex-extracted and validated against source documents.
+- **Original Kd unit always stored** before nM conversion.
+- **DNA only** — RNA sequences (containing U) are filtered out at ingestion.
 
 ---
 
@@ -174,11 +188,23 @@ continuitybioML/
 ├── CLAUDE.md                    # Full context for Claude Code
 ├── README.md                    # This file
 ├── config.py                    # All hyperparameters
+├── .env                         # API credentials (not tracked)
 ├── data/
 │   ├── raw/
-│   │   └── protein_name_overrides.csv   # Manual UniProt accession overrides (tracked)
-│   ├── processed/               # master_dataset.csv, vienna_cache.pkl, protein_embeddings/
-│   └── augmented/               # tier1_train.csv, val.csv, test.csv
+│   │   ├── utexas_aptamer_db/   # aptamer_database.xlsx (source)
+│   │   ├── li2014_benchmark/    # pone.0086729.s001.xlsx, s003.xlsx
+│   │   ├── scraped_dataset.csv  # Output from scraper (never master)
+│   │   ├── scraper_provenance.jsonl
+│   │   ├── scraper_coverage_report.txt
+│   │   └── protein_name_overrides.csv
+│   ├── processed/
+│   │   ├── master_dataset.csv
+│   │   ├── vienna_cache.pkl
+│   │   └── protein_embeddings/  # Pre-cached ESM-2 .npy files
+│   └── augmented/
+│       ├── tier1_train.csv
+│       ├── val.csv
+│       └── test.csv
 ├── models/
 │   ├── encoders/
 │   │   ├── dna_encoder.py
@@ -199,18 +225,45 @@ continuitybioML/
 │   └── train_colab.ipynb        # T4 GPU training notebook
 ├── scripts/
 │   ├── data/
-│   │   ├── collect_aptamers.py  # PubMed SELEX collection
-│   │   ├── build_dataset.py     # Unify sources → master_dataset.csv
-│   │   ├── enrich_proteins.py   # UniProt sequence lookup + non-protein filtering
-│   │   ├── augment.py           # Rev-comp, truncations, negatives, scrambles
-│   │   ├── vienna_features.py   # ViennaRNA structure features (incremental cache)
-│   │   └── validate_sequences.py
+│   │   ├── collect_aptamers.py
+│   │   ├── build_dataset.py
+│   │   ├── enrich_proteins.py
+│   │   ├── augment.py
+│   │   ├── vienna_features.py
+│   │   ├── validate_sequences.py
+│   │   └── scraper/             # Automated data harvesting pipeline
+│   │       ├── main.py          # CLI: run all/selected sources
+│   │       ├── merge.py         # Dedup + append to scraped_dataset.csv
+│   │       ├── config.py        # Rate limits, API keys, paths
+│   │       ├── schema.py        # 20-column schema + validation
+│   │       ├── parsers/
+│   │       │   ├── pdf_parser.py
+│   │       │   ├── excel_parser.py
+│   │       │   ├── xml_parser.py    # PMC NXML
+│   │       │   └── text_parser.py   # HTML + plain text
+│   │       ├── adapters/
+│   │       │   ├── base.py          # Rate-limited session, provenance logging
+│   │       │   ├── pubmed_pmc.py    # PubMed + PMC full text + supplementary files
+│   │       │   ├── semantic_scholar.py
+│   │       │   ├── openalex.py
+│   │       │   ├── biorxiv.py
+│   │       │   ├── patents_us.py
+│   │       │   ├── patents_epo.py
+│   │       │   ├── patents_wipo.py
+│   │       │   ├── lens.py
+│   │       │   ├── google_patents.py
+│   │       │   ├── databases.py     # Local UTexas / Li2014
+│   │       │   └── supp_fetcher.py  # PMC supplementary file downloader
+│   │       └── utils/
+│   │           ├── provenance.py
+│   │           ├── rate_limiter.py
+│   │           └── deduplication.py
 │   ├── model/
-│   │   └── tokenizer.py         # DNA 3-mer tokenizer
+│   │   └── tokenizer.py
 │   ├── training/
 │   │   ├── train.py             # Stage 1 (--resume, --max-batches, CUDA/MPS/CPU)
-│   │   ├── finetune.py          # Stage 2 and 3
-│   │   └── losses.py            # Combined BCE + MSE loss
+│   │   ├── finetune.py          # Stage 2 and 3 (--stage validation|deployment)
+│   │   └── losses.py
 │   └── evaluation/
 │       ├── evaluate.py
 │       └── metrics.py
@@ -221,51 +274,110 @@ continuitybioML/
 
 ---
 
-## Environment
+## Environment Setup
 
-- Python 3.11 (virtual environment: `condaptnet_env`)
-- PyTorch 2.11.0
-- Apple MPS — M-series GPU acceleration confirmed working
-- CUDA — T4 Google Colab confirmed working
-- ESM-2: `esm2_t12_35M_UR50D` (35M params, 480-dim)
-- ViennaRNA — secondary structure prediction
-
-### Setup (local)
+### Local (Apple Silicon)
 
 ```bash
-git clone https://github.com/shivanshb828/CondAptNet.git
-cd CondAptNet
+git clone <repo>
+cd continuitybioML
 python3.11 -m venv condaptnet_env
 source condaptnet_env/bin/activate
 pip install torch torchvision torchaudio
-pip install fair-esm pandas numpy scikit-learn biopython ViennaRNA requests tqdm
+pip install fair-esm pandas numpy scikit-learn biopython ViennaRNA requests tqdm openpyxl pdfplumber lxml beautifulsoup4
 python scripts/verify_env.py
 ```
 
-### Usage
+### Credentials (.env)
+
+Copy `.env` and fill in what you have. Everything except EPO and Lens works without credentials:
+
+```bash
+# Optional — speeds PubMed from 3 req/s to 10 req/s
+NCBI_API_KEY=
+
+# Optional — higher Semantic Scholar rate limit
+SEMANTIC_SCHOLAR_API_KEY=
+
+# Required for Lens patent adapter (free at access.lens.org)
+LENS_API_TOKEN=
+
+# Required for EPO patent adapter (register at developers.epo.org)
+EPO_CLIENT_KEY=
+EPO_CLIENT_SECRET=
+```
+
+`ENTREZ_EMAIL` is already set in the scraper config.
+
+---
+
+## Usage
+
+### Data harvesting (scraper)
 
 ```bash
 source condaptnet_env/bin/activate
 
-# Collect and process data
-python scripts/data/collect_aptamers.py
-python scripts/data/build_dataset.py
-python scripts/data/enrich_proteins.py
-python scripts/data/vienna_features.py
-python scripts/data/augment.py
+# Dry run — validate without writing to disk
+python -m scripts.data.scraper.main --sources pubmed,semantic_scholar --dry-run
 
+# Real run — literature sources only (no credentials needed)
+python -m scripts.data.scraper.main \
+    --sources pubmed,semantic_scholar,openalex,biorxiv \
+    --max-per-source 500
+
+# Full run including patents (needs Lens/EPO credentials)
+python -m scripts.data.scraper.main --max-per-source 1000
+```
+
+Output: `data/raw/scraped_dataset.csv` (new unique rows only — master_dataset.csv is never modified).
+
+### Data processing
+
+```bash
+# Build master_dataset.csv from raw sources
+python scripts/data/build_dataset.py
+
+# Enrich protein sequences via UniProt
+python scripts/data/enrich_proteins.py
+
+# Precompute ViennaRNA structure features
+python scripts/data/vienna_features.py
+
+# Generate augmented training splits
+python scripts/data/augment.py
+```
+
+### Training
+
+```bash
 # Stage 1: broad pretraining (local MPS)
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
 
 # Resume after interruption
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --resume
 
-# Stage 2 or 3: fine-tuning
-PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py
+# Smoke test (2 batches per epoch)
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --max-batches 2
+
+# Stage 2: validation fine-tuning
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py --stage validation
+
+# Stage 3: deployment fine-tuning (after updating DEPLOYMENT_TARGETS in config.py)
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py --stage deployment
+
+# Include scraped data in fine-tuning
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/finetune.py \
+    --stage validation \
+    --extra-data data/raw/scraped_dataset.csv
 
 # Evaluate
 python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt
 ```
+
+### Google Colab (T4)
+
+Open `notebooks/train_colab.ipynb`. It auto-detects the latest checkpoint and resumes. T4-tuned defaults: `batch_size=16`, `max_prot_len=128`, `PYTORCH_ALLOC_CONF=expandable_segments:True`.
 
 ---
 
@@ -273,13 +385,13 @@ python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/b
 
 | Metric | Why |
 |---|---|
-| MCC | Best single metric for imbalanced binary classification |
+| MCC | Best single metric for imbalanced binary classification (primary) |
 | AUC-ROC | Discriminative ability across thresholds |
 | AUC-PR | More informative than ROC when positives are rare |
 | Sensitivity | False negatives = missed candidates |
 | Pearson r (Kd) | Regression head quality |
 
-Accuracy is not reported as a primary metric — data is inherently imbalanced and accuracy is misleading.
+Accuracy is not reported as a primary metric — class imbalance makes it misleading.
 
 ---
 
@@ -289,7 +401,7 @@ Accuracy is not reported as a primary metric — data is inherently imbalanced a
 |---|---|
 | Li et al., PLOS ONE (2014) | Standard benchmark — 725 pairs, 164 proteins |
 | Lee et al., PLOS ONE (2021) — Apta-MCTS | MCTS generation; RF baseline |
-| Shin et al., BMC Bioinformatics (2023) — AptaTrans | Interaction matrix + CNN; pretraining; augmentation |
+| Shin et al., BMC Bioinformatics (2023) — AptaTrans | Interaction matrix + CNN; pretraining; augmentation strategy |
 | Morsch et al., bioRxiv (2023) — AptaBERT | BERT-style aptamer pretraining |
 | Atom Bioworks, bioRxiv (2026) — AptaBLE | Symmetric bidirectional cross-attention; current SOTA |
 
@@ -297,27 +409,44 @@ Accuracy is not reported as a primary metric — data is inherently imbalanced a
 
 ## Build Status
 
+### Model Pipeline
 - [x] Environment setup (Python 3.11, PyTorch, ESM-2, ViennaRNA, MPS + CUDA)
 - [x] config.py — all hyperparams + physiological defaults (37°C, 150mM Na, 2mM Mg)
-- [x] collect_aptamers.py — PubMed SELEX collection
-- [x] build_dataset.py — UTexas + Li2014 → master_dataset.csv
-- [x] enrich_proteins.py — UniProt lookup, fuzzy matching, non-protein filtering, manual overrides
-- [x] validate_sequences.py — length, GC%, homopolymer, alphabet QC
-- [x] vienna_features.py — ViennaRNA features, incremental pickle cache (6,330 sequences)
-- [x] augment.py — rev-comp, truncations, cross-target negatives, scrambles → 6,914 train rows
 - [x] tokenizer.py — DNA 3-mer tokenizer (66-token vocab)
 - [x] dna_encoder.py — 6-layer Transformer [B, L, 128], MPS verified
 - [x] protein_encoder.py — ESM-2 + LoRA (0.55% trainable) [B, L, 480], MPS verified
 - [x] condition_encoder.py — FiLM MLP [B, 128], MPS verified
 - [x] cross_attention.py — symmetric bidirectional [B, L, 256], MPS verified
 - [x] cnn_head.py — 17-block CNN with GroupNorm [B, 256], MPS + CUDA verified
-- [x] dual_head.py — binding sigmoid + Kd ReLU, MPS verified
+- [x] dual_head.py — binding sigmoid + Kd ReLU
 - [x] condaptnet.py — full assembly + gradient checkpointing, end-to-end verified
 - [x] losses.py — combined BCE + MSE loss
 - [x] train.py — Stage 1 loop (--resume, --max-batches, CUDA/MPS/CPU auto-detect)
+- [x] finetune.py — Stage 2/3 fine-tuning (--stage validation|deployment, --extra-data)
 - [x] evaluate.py — MCC, AUC-ROC, AUC-PR, sensitivity, Pearson r
 - [x] notebooks/train_colab.ipynb — T4 Colab training notebook
-- [ ] finetune.py — Stage 2/3 fine-tuning loop
+
+### Data Pipeline
+- [x] collect_aptamers.py — PubMed SELEX collection
+- [x] build_dataset.py — UTexas + Li2014 → master_dataset.csv (3,821 rows)
+- [x] enrich_proteins.py — UniProt lookup, fuzzy matching, non-protein filtering
+- [x] validate_sequences.py — length, GC%, homopolymer, alphabet QC
+- [x] vienna_features.py — ViennaRNA features, incremental pickle cache
+- [x] augment.py — rev-comp, truncations, cross-target negatives, scrambles
+
+### Scraper Pipeline
+- [x] 4 document parsers — PDF, Excel/CSV/TSV, PMC XML, HTML/text
+- [x] supp_fetcher.py — PMC supplementary file downloader (Excel/CSV/PDF)
+- [x] 10 source adapters — PubMed+PMC, Semantic Scholar, OpenAlex, bioRxiv, PatentsView, EPO, WIPO, Lens, Google Patents, local databases
+- [x] merge.py — deduplication against master + append-safe output
+- [x] main.py — CLI orchestrator with per-adapter failure isolation
+- [x] Provenance logging — byte-level JSONL audit trail
+
+### Pending
+- [ ] Sequence enrichment pass — PubMed lookup for Li2014 rows (needs_sequence_enrichment=True)
+- [ ] UniProt enrichment — protein_sequence for rows missing it
+- [ ] Stage 1 training run
+- [ ] Stage 2 validation fine-tuning
 - [ ] Tier 3 deployment targets (pending Continuity confirmation)
 
 ---

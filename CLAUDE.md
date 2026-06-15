@@ -515,14 +515,18 @@ MPS rules:
 - [x] dual_head.py — binding sigmoid + Kd ReLU, skippable Kd head
 - [x] build_dataset.py — parses UTexas (896 ssDNA rows) + Li2014 (2320 rows); master_dataset.csv produced
 - [x] Data sources updated: UTexas Aptamer DB replaces defunct AptamerBase
+- [x] condaptnet.py — full model assembly, set_stage1/2 helpers, end-to-end forward pass verified
+- [x] losses.py — combined BCE + MSE (CondAptNetLoss)
+- [x] train.py — Stage 1 training loop (MPS/CUDA/CPU, protein-family splits, early stopping)
+- [x] evaluate.py — MCC, AUC-ROC, AUC-PR, Pearson r(Kd)
+- [x] Scraper pipeline — 4 parsers + 10 source adapters + merge.py + main.py (178 tests passing)
+- [x] finetune.py — Stage 2 (validation) + Stage 3 (deployment) fine-tuning; 24 tests passing
 
 ### Next Up (in order)
-1. condaptnet.py — full model assembly + end-to-end forward pass test (Step 5)
-2. losses.py — combined BCE + MSE loss
-3. train.py — Stage 1 training loop with MPS support
-4. evaluate.py — MCC, AUC-PR, AUC-ROC metrics
-5. Sequence enrichment pass — fetch sequences for Li2014 rows via PubMed PMIDs
-6. UniProt enrichment — fetch uniprot_id + protein_sequence for all rows
+1. Sequence enrichment pass — fetch sequences for Li2014 rows via PubMed PMIDs (needs_sequence_enrichment=True)
+2. UniProt enrichment — fetch uniprot_id + protein_sequence for all rows missing them
+3. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
+4. Run Stage 2 fine-tuning after training: `python scripts/training/finetune.py --stage validation`
 
 ### Open Decisions
 - esm2_t12_35M confirmed (480-dim, LoRA rank-8 working on MPS)
