@@ -13,7 +13,8 @@ Forward pass inputs:
 
 Forward pass outputs (CondAptNetOutput named tuple):
     binding_prob    : [batch, 1]   float32  ∈ [0,1]
-    kd_pred         : [batch, 1]   float32  ≥ 0 (log-nM), or None
+    kd_pred         : [batch, 1]   float32  ≥ 0 (log10(nM+1)), or None
+    binding_label   : [batch, 1]   int64    0=low | 1=medium | 2=high
 
 Shapes at each stage (batch=4, apt_len=50 tokens, prot_len=200 aa):
     DNA encoder   → [4, 50, 128]
@@ -21,7 +22,7 @@ Shapes at each stage (batch=4, apt_len=50 tokens, prot_len=200 aa):
     Condition enc.→ [4, 128]
     Cross-attn    → apt [4, 50, 256], prot [4, 202, 256]
     CNN head      → [4, 256]
-    Dual head     → binding [4, 1], kd [4, 1]
+    Dual head     → binding [4, 1], kd [4, 1], label [4, 1]
 
 Usage:
     python models/condaptnet.py
@@ -50,8 +51,9 @@ from models.output.dual_head           import DualHead, DualHeadOutput
 
 
 class CondAptNetOutput(NamedTuple):
-    binding_prob : torch.Tensor            # [batch, 1]
-    kd_pred      : Optional[torch.Tensor]  # [batch, 1] or None
+    binding_prob  : torch.Tensor           # [batch, 1]  float32 ∈ [0,1]
+    kd_pred       : Optional[torch.Tensor] # [batch, 1]  float32 ≥ 0 (log10(nM+1)), or None
+    binding_label : torch.Tensor           # [batch, 1]  int64   0=low|1=medium|2=high
 
 
 class CondAptNet(nn.Module):
@@ -142,7 +144,11 @@ class CondAptNet(nn.Module):
         # ── Dual output ───────────────────────────────────────────────────────
         out = self.dual_head(features, predict_kd=use_kd)
 
-        return CondAptNetOutput(binding_prob=out.binding_prob, kd_pred=out.kd_pred)
+        return CondAptNetOutput(
+            binding_prob=out.binding_prob,
+            kd_pred=out.kd_pred,
+            binding_label=out.binding_label,
+        )
 
 
 if __name__ == "__main__":
@@ -196,24 +202,30 @@ if __name__ == "__main__":
     with torch.no_grad():
         out = model(aptamer_tokens, vienna_feats, protein_tokens, condition)
 
+    from config import BIND_LABEL_NAMES
     print()
-    print(f"binding_prob shape: {out.binding_prob.shape}")
-    print(f"binding_prob values: {out.binding_prob.squeeze().tolist()}")
-    print(f"kd_pred shape:      {out.kd_pred.shape}")
-    print(f"kd_pred values:     {out.kd_pred.squeeze().tolist()}")
+    print(f"binding_prob  shape: {out.binding_prob.shape}   values: {out.binding_prob.squeeze().tolist()}")
+    print(f"kd_pred       shape: {out.kd_pred.shape}        values: {out.kd_pred.squeeze().tolist()}")
+    labels_str = [BIND_LABEL_NAMES[v.item()] for v in out.binding_label.squeeze(1)]
+    print(f"binding_label shape: {out.binding_label.shape}  values: {out.binding_label.squeeze().tolist()} → {labels_str}")
     print()
 
-    assert out.binding_prob.shape == (batch_size, 1)
-    assert out.kd_pred.shape      == (batch_size, 1)
-    assert out.binding_prob.min() >= 0.0 and out.binding_prob.max() <= 1.0
-    assert out.kd_pred.min()      >= 0.0
+    assert out.binding_prob.shape  == (batch_size, 1)
+    assert out.kd_pred.shape       == (batch_size, 1)
+    assert out.binding_label.shape == (batch_size, 1)
+    assert out.binding_prob.min()  >= 0.0 and out.binding_prob.max() <= 1.0
+    assert out.kd_pred.min()       >= 0.0
+    assert out.binding_label.dtype == torch.long
+    assert out.binding_label.min() >= 0 and out.binding_label.max() <= 2
 
     # ── Test predict_kd=False ─────────────────────────────────────────────────
     with torch.no_grad():
         out_no_kd = model(aptamer_tokens, vienna_feats, protein_tokens,
                           condition, predict_kd=False)
-    assert out_no_kd.kd_pred is None, "kd_pred should be None when predict_kd=False"
-    print("predict_kd=False → kd_pred is None  ✓")
+    assert out_no_kd.kd_pred             is None, "kd_pred should be None when predict_kd=False"
+    assert out_no_kd.binding_label.shape == (batch_size, 1), "binding_label missing when kd_pred=None"
+    assert out_no_kd.binding_label.dtype == torch.long
+    print("predict_kd=False → kd_pred is None, binding_label (prob fallback) present  ✓")
 
     # ── Test set_stage2 (unfreeze LoRA) ──────────────────────────────────────
     model.set_stage2()
