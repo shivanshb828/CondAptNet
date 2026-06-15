@@ -25,6 +25,7 @@ from Bio import Entrez
 
 from scripts.data.scraper import config as cfg
 from scripts.data.scraper.adapters.base import BaseAdapter
+from scripts.data.scraper.adapters.supp_fetcher import fetch_supplementary_texts
 from scripts.data.scraper.parsers.xml_parser import parse_nxml
 from scripts.data.scraper.utils.provenance import ProvenanceLogger
 
@@ -176,7 +177,7 @@ class PubMedPMCAdapter(BaseAdapter):
                     )
                     all_records.extend(recs)
 
-            # Phase 2: full PMC XML for first 20 new PMIDs per query
+            # Phase 2: full PMC XML + supplementary files for first 20 new PMIDs
             pmc_map = self._pmids_to_pmcids(new_pmids[:20])
             for pmid, pmcid in pmc_map.items():
                 xml_bytes = self._entrez_fetch_pmc_xml(pmcid)
@@ -185,15 +186,43 @@ class PubMedPMCAdapter(BaseAdapter):
                 doc = parse_nxml(xml_bytes)
                 if not doc.parse_ok:
                     continue
-                url = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/"
+
+                pmc_url  = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/"
+                base_url = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/bin/"
+                target   = _guess_target_from_abstract(doc.abstract or doc.full_text)
+
+                # Phase 2a: main body text + inline tables
                 recs = self._extract_records_from_text(
                     text=doc.full_text,
-                    target_name=_guess_target_from_abstract(doc.abstract or doc.full_text),
-                    source_url=url,
+                    target_name=target,
+                    source_url=pmc_url,
                     doi="",
                     confidence="extracted",
                 )
                 all_records.extend(recs)
+
+                # Phase 2b: supplementary files (Excel/CSV/PDF most useful)
+                if doc.supplementary_urls:
+                    supp_texts = fetch_supplementary_texts(
+                        supp_urls=doc.supplementary_urls,
+                        base_url=base_url,
+                        session=self._session,
+                        limiter=self._limiter,
+                    )
+                    for supp_text in supp_texts:
+                        supp_recs = self._extract_records_from_text(
+                            text=supp_text,
+                            target_name=target,
+                            source_url=pmc_url,
+                            doi="",
+                            confidence="extracted",
+                        )
+                        all_records.extend(supp_recs)
+                    if supp_texts:
+                        log.info(
+                            "PMC %s: %d supplementary file(s), %d total records so far",
+                            pmcid, len(supp_texts), len(all_records),
+                        )
 
             if len(all_records) >= max_results:
                 break
