@@ -27,6 +27,8 @@ from scripts.data.scraper import config as cfg
 from scripts.data.scraper.adapters.base import BaseAdapter
 from scripts.data.scraper.adapters.supp_fetcher import fetch_supplementary_texts
 from scripts.data.scraper.parsers.xml_parser import parse_nxml
+from scripts.data.scraper.extractors.table_extractor import extract_from_all_tables
+from scripts.data.scraper.schema import make_empty_record, validate_record, BLANK
 from scripts.data.scraper.utils.provenance import ProvenanceLogger
 
 log = logging.getLogger(__name__)
@@ -140,6 +142,58 @@ class PubMedPMCAdapter(BaseAdapter):
                         break
         return mapping
 
+    # ── Table-structured extraction ───────────────────────────────────────────
+
+    def _extract_from_tables(
+        self,
+        tables: list,
+        fallback_target: str,
+        source_url: str,
+        doi: str,
+    ) -> list[dict]:
+        """
+        Row-level extraction: each table row with a sequence becomes its own record
+        with its own Kd — not the document-level best Kd assigned to every sequence.
+        """
+        from scripts.data.scraper.extractors.assay_extractor import extract_assay_type
+        from scripts.data.scraper.extractors.target_resolver import classify_target_type
+
+        table_records = extract_from_all_tables(tables, fallback_target=fallback_target)
+        if not table_records:
+            return []
+
+        records: list[dict] = []
+        for tr in table_records:
+            target = tr.target_name or fallback_target
+            rec = make_empty_record()
+            rec.update({
+                "aptamer_sequence":  tr.sequence,
+                "nucleic_acid_type": "ssDNA",
+                "modifications":     "none",
+                "target_name":       target.strip(),
+                "target_type":       classify_target_type(target),
+                "kd_value":          tr.kd_nM if tr.kd_nM is not None else BLANK,
+                "kd_unit":           tr.kd_unit_orig or ("nM" if tr.kd_nM is not None else BLANK),
+                "source_doi":        doi,
+                "source_type":       self.source_type,
+                "confidence_score":  "extracted",
+                "split":             "train",
+            })
+            ok, _ = validate_record(rec)
+            if ok:
+                records.append(rec)
+                if self._prov:
+                    self._prov.record(
+                        aptamer_sequence  = tr.sequence,
+                        target_name       = target,
+                        source_url        = source_url,
+                        source_type       = self.source_type,
+                        extraction_method = f"table:{tr.table_label}:row{tr.row_index}",
+                        raw_text_context  = "",
+                        byte_offset       = 0,
+                    )
+        return records
+
     # ── Main run ──────────────────────────────────────────────────────────────
 
     def run(self, max_results: int = 500) -> list[dict]:
@@ -177,8 +231,8 @@ class PubMedPMCAdapter(BaseAdapter):
                     )
                     all_records.extend(recs)
 
-            # Phase 2: full PMC XML + supplementary files for first 20 new PMIDs
-            pmc_map = self._pmids_to_pmcids(new_pmids[:20])
+            # Phase 2: full PMC XML + supplementary files — no cap on PMIDs
+            pmc_map = self._pmids_to_pmcids(new_pmids)
             for pmid, pmcid in pmc_map.items():
                 xml_bytes = self._entrez_fetch_pmc_xml(pmcid)
                 if not xml_bytes:
@@ -189,19 +243,35 @@ class PubMedPMCAdapter(BaseAdapter):
 
                 pmc_url  = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/"
                 base_url = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/bin/"
+                doi      = doc.doi  # extracted from <article-id pub-id-type="doi">
                 target   = _guess_target_from_abstract(doc.abstract or doc.full_text)
 
-                # Phase 2a: main body text + inline tables
-                recs = self._extract_records_from_text(
+                # Phase 2a: structured table extraction (sequence+Kd per row)
+                table_recs = self._extract_from_tables(
+                    tables=doc.tables,
+                    fallback_target=target,
+                    source_url=pmc_url,
+                    doi=doi,
+                )
+                all_records.extend(table_recs)
+                if table_recs:
+                    log.info("PMC %s: %d records from tables", pmcid, len(table_recs))
+
+                # Phase 2b: full-text fallback for sequences not in tables
+                text_recs = self._extract_records_from_text(
                     text=doc.full_text,
                     target_name=target,
                     source_url=pmc_url,
-                    doi="",
+                    doi=doi,
                     confidence="extracted",
                 )
-                all_records.extend(recs)
+                # Deduplicate against table records: skip sequences already captured
+                table_seqs = {r["aptamer_sequence"] for r in table_recs}
+                for rec in text_recs:
+                    if rec["aptamer_sequence"] not in table_seqs:
+                        all_records.append(rec)
 
-                # Phase 2b: supplementary files (Excel/CSV/PDF most useful)
+                # Phase 2c: supplementary files (Excel/CSV/PDF)
                 if doc.supplementary_urls:
                     supp_texts = fetch_supplementary_texts(
                         supp_urls=doc.supplementary_urls,
@@ -214,7 +284,7 @@ class PubMedPMCAdapter(BaseAdapter):
                             text=supp_text,
                             target_name=target,
                             source_url=pmc_url,
-                            doi="",
+                            doi=doi,
                             confidence="extracted",
                         )
                         all_records.extend(supp_recs)

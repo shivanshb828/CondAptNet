@@ -73,6 +73,7 @@ class ParsedXML:
     figure_captions:    list[str]         = field(default_factory=list)
     supplementary_urls: list[str]         = field(default_factory=list)
     full_text:          str               = ""
+    doi:                str               = ""
     parse_ok:           bool              = True
     error:              str               = ""
 
@@ -91,6 +92,16 @@ def _text(elem) -> str:
         if child.tail:
             parts.append(child.tail)
     return " ".join(p.strip() for p in parts if p.strip())
+
+
+def _extract_doi(root) -> str:
+    """Extract DOI from <article-id pub-id-type='doi'>."""
+    for el in root.findall(".//article-id"):
+        if el.get("pub-id-type", "").lower() == "doi":
+            doi = _text(el).strip()
+            if doi:
+                return doi
+    return ""
 
 
 def _extract_title(root) -> str:
@@ -216,6 +227,7 @@ def parse_nxml(
     tables   = _extract_tables(root)
     captions = _extract_figure_captions(root)
     sup_urls = _extract_supplementary_urls(root)
+    doi      = _extract_doi(root)
 
     table_text   = _tables_to_text(tables)
     caption_text = "\n".join(captions)
@@ -233,6 +245,7 @@ def parse_nxml(
         figure_captions=captions,
         supplementary_urls=sup_urls,
         full_text=full_text,
+        doi=doi,
         parse_ok=True,
     )
 

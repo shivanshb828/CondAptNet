@@ -31,6 +31,7 @@ from scripts.data.scraper.extractors.sequence_extractor  import extract_sequence
 from scripts.data.scraper.extractors.kd_extractor        import extract_kd_from_text, best_kd
 from scripts.data.scraper.extractors.condition_extractor import extract_conditions
 from scripts.data.scraper.extractors.target_resolver     import classify_target_type
+from scripts.data.scraper.extractors.assay_extractor     import extract_assay_type
 
 log = logging.getLogger(__name__)
 
@@ -134,6 +135,7 @@ class BaseAdapter:
         kd_best    = best_kd(kd_list)
         conditions = extract_conditions(text)
         tgt_type   = classify_target_type(target_name)
+        assay_type = extract_assay_type(text)
 
         records: list[dict] = []
 
@@ -147,6 +149,7 @@ class BaseAdapter:
                 "target_type":         tgt_type,
                 "kd_value":            kd_best.value_nM       if kd_best else BLANK,
                 "kd_unit":             kd_best.original_unit  if kd_best else BLANK,
+                "assay_type":          assay_type             or BLANK,
                 "selection_buffer":    conditions.selection_buffer    or BLANK,
                 "binding_buffer":      conditions.binding_buffer      or BLANK,
                 "ph":                  conditions.ph                  if conditions.ph is not None else BLANK,
