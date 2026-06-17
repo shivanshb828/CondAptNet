@@ -193,3 +193,822 @@ ATTGAGTTCCTAGGATCCGTACTGTATGTACATACAGTACATCTCGGTCTATTCTTTTGA,ssDNA,none,albumin,
 CAAAAGAATAGACCGAGATGTACTGTACATATGTACAGTACGGATCTGGTACCTTGTATTA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
 TAATACAAGGTACCAGATCCGTACTGTACATATGTACAGTACATCTCGGTCTATTCTTT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
 TAATACAAGGTACCAGATCCGTACTGTACATATGTACAGTACATCTCGGTCTATTCTTTTG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCCTGTTGTGAGCCTCCTAAC,ssDNA,none,Kinetics,protein,,,0.7,nM,,,SELEX,2.0,150.0,,,,paper,extracted,train
+AACCCAAGCAAACTACCTCTATACCCTTCGACCTTCATCA,ssDNA,none,unknown,protein,,,,,,,,,,,,010-117-376-350-714,patent,extracted,train
+TCCCAGCGCCCGGAGAACACGAGGAACGCACCTATCACAC,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+CACCACCACGACACACAACCTTCCCGTGCGGACCCAGCGA,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+CCGACATCTTTGTACTAGTACGCCTCCACGAAAACACACT,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+CCTGAGTAACTGCTCGTACTAGTTCGCCTCCTCGAATTAC,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+ACTTCGCAGTCTGACTAGTACGCCTCCACGAAGGGTTTCT,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+CCGGATGCTCTACCGTACTAGTACGACTCCACGAAATTAT,ssDNA,none,detecting Aspergillus niger,protein,,,,,,,,,,,,085-308-415-369-390,patent,extracted,train
+AGGCGGGTTCCTAGACTTGTACTCAGCCT,ssDNA,none,block binding to the hACE2 receptor,protein,,,,,,,,,,,,196-053-623-957-51X,patent,extracted,train
+CGGGACGACGACGGACATCGTGAGAAATGGTCGACCTTGTGTCTGTCGTCCCG,ssDNA,none,block binding to the hACE2 receptor,protein,,,,,,,,,,,,196-053-623-957-51X,patent,extracted,train
+CGCAGCACCCAAGAACAAGGACTGCTTAGGATTGCGATAGGTTCGG,ssDNA,none,block binding to the hACE2 receptor,protein,,,,,,,,,,,,196-053-623-957-51X,patent,extracted,train
+AAACTGCAGCGATTCATTAGTACGGCCTTT,ssDNA,none,the surface material,protein,,,,,,,,,,,,067-083-395-600-710,patent,extracted,train
+CGAGGCTCTCGGGACGACAAACTGCAGCGATTCATTAGTACGGCCTTTGTCGTCCCG,ssDNA,none,the surface material,protein,,,,,,,,,,,,067-083-395-600-710,patent,extracted,train
+CGAGGCTCTCGGGACGACAAACTGCAGCGATTCATTAGTACGGCCTTTGTCGTCCCGCCTTTAGGATTTACAG,ssDNA,none,the surface material,protein,,,,,,,,,,,,067-083-395-600-710,patent,extracted,train
+CACGACGCAAGGGACCACAGGGAGGGA,ssDNA,none,use according to claim 6,protein,,,,,,,,,,,,039-687-630-334-62X,patent,extracted,train
+GGGTGGGCAAAGGGCCCTAAGTCCGTAACAAAAACACAGCACGACACCGC,ssDNA,none,use according to claim 6,protein,,,,,,,,,,,,039-687-630-334-62X,patent,extracted,train
+CACGACGCAAGGGACCACAGGGAGGGAGGGTGGGCAAAGGGCCCTAAGTCCGTAACAAAAACACAGCACGACACCGCAGAGGCA,ssDNA,none,use according to claim 6,protein,,,,,,,,,,,,039-687-630-334-62X,patent,extracted,train
+TAGGGAAGAGAAGGACATATGATGGGCCAGGGGCGTGTTATATTCCGTAGGGCTTGACTAGTACATGACCACTTGA,ssDNA,none,unknown,protein,,,,,,,,,,,,161-408-424-482-945,patent,extracted,train
+GGGAGACAAGAAUAAACGCUCAA,ssRNA,none,unknown,protein,,,,,,,,,,,,157-057-601-391-037,patent,extracted,train
+ACUUCAGCUCUAUUAACAGCUC,ssRNA,none,unknown,protein,,,,,,,,,,,,157-057-601-391-037,patent,extracted,train
+CCTAGGTTGGGTAGGGTGGTGG,ssDNA,none,THROMBIN,protein,,,,,,,,,,,,026-029-261-824-52X,patent,extracted,train
+ACTGCCTAGGTTGGGTAGGGTGGTGGCAGT,ssDNA,none,THROMBIN,protein,,,,,,,,,,,,026-029-261-824-52X,patent,extracted,train
+GCTGCCTAGGTTGGGTAGGGTGGTGGCAGC,ssDNA,none,THROMBIN,protein,,,,,,,,,,,,026-029-261-824-52X,patent,extracted,train
+CTGCCTAGGTTGGGTAGGGTGGTGGCAG,ssDNA,none,THROMBIN,protein,,,,,,,,,,,,026-029-261-824-52X,patent,extracted,train
+CGCCTAGGTTGGGTAGGGTGGTGGCG,ssDNA,none,THROMBIN,protein,,,,,,,,,,,,026-029-261-824-52X,patent,extracted,train
+TTTAAGAAGGAGATATACAT,ssDNA,none,induce a conformational change,protein,,,,,,,,,,,37.0,184-832-289-619-888,patent,extracted,train
+TCTAGAGAAAGAGGAGAAATACTAG,ssDNA,none,induce a conformational change,protein,,,,,,,,,,,37.0,184-832-289-619-888,patent,extracted,train
+CCAGUGGGUUGAAGGAAAGUAACAG,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+GAAGGAUCCAGUGGGUUGAAGGAAAGUAACAGAUCCUCCAGGAUGCGACCCGGUUAUCGAAUUAAGGAGGUAAAAAAUGCAAGUCGACCUGCUGGAUCCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+GAAGGAUCCAGUGGGUUGAAGGAAAGUAACAGAUCCUUUAGGAUGCGACCCGGUUAUCGAAUUAAGGAGGUAAAAAAUGCAAGUCGACCUGCUGGAUCCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+GAAGGAUCCAGUGGGUUGAAGGAAAGUAACAGAUCCUCCAGGAUGCGACCCGGUUAUCGAAUUAAGGAGGUAAAAAAUGCAAGUCGACCUGCUCGAUCCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+GAGGAUCCAGUGGGUUGAAGGAAAGUAACAGAUCCUUCAGGAUGCGACCCGGUUAUCGAAUUAAGGAGGUAAAAAAUGCAAGUCGACCUGCUGGAUCCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+GACGAUCCAGUGGGUUGAAGGAAAGUAACAGAUCGUUCAGGAUGCGACGCGCUUGGAAUUAAGGAGGUAAAAAAUGCAAGUCGACCUGCUGGAUCCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,018-654-236-396-862,patent,extracted,train
+CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGG,ssDNA,none,4-1BB comprised of the sequences selected from the group consisting of SEQ,protein,,,,,,,,,,,,090-276-132-919-53X,patent,extracted,train
+CGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,4-1BB comprised of the sequences selected from the group consisting of SEQ,protein,,,,,,,,,,,,090-276-132-919-53X,patent,extracted,train
+CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGGCGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,4-1BB comprised of the sequences selected from the group consisting of SEQ,protein,,,,,,,,,,,,090-276-132-919-53X,patent,extracted,train
+CUGAGCUCAUGGCGAGGCUUCU,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+UGGGCUGAGCUCAUGGCGAGGCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+CUGAGGCCUAACGAAGGCUUCU,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+CUGAGGUAAUGGCGAGGCUUCU,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+AGGUAAUGGCGAGGCUUCUUAUCUG,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+UUACUGGGCUGAGGUAAUGGCGAGG,ssRNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+CTGAGGTAATGGCGAGGCTTCT,ssDNA,none,unknown,protein,,,,,,,,,,,,187-638-550-065-269,patent,extracted,train
+GGGAGGACGAUGCGGCUGGAACCGUAAGGCUACCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUAGAGAUGAUGAUCUGGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAACACAUGACAACAUUGGACAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAAACUUUCCCGAUUUGCUGCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUGGAACCGUAAGGCAACCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUGGAACAGUAAGGCUACCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUCCAGUCUGCGGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUACACUUCCGCCCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGAAUCCUUCUGCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUGAGGGGUUGCUGGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUGGAACCUCACGGCUACCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUGGAACCGUAAGGCUACCCCCAGACGACUC,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUCAAGUUCUCCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUCUCCAUUGCCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAACGUUCUCUACUGCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGUCUGGCCUUCCUGUCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGGUACAGUGCCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGUCCCUUCUUCCUGUCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGAUCGUUCCUUUGUCUGGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUACUGUGUUUGGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCACACACGCUUUCCCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGACCCUUAUGUUGUGCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGGUAAUCCCUGUGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGAUUCCUUCCUGUGGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGUUCGGGUUUGUGUGCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCCGCAUUUCCUUCCGCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGGCCUUUCGUUCUGCCCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCUUCCUAGUUCUGGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGGCUGUGUUACCCUACUGCGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUCACUAUACCCCUGUGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGUGUGUGUUACCCUACUGCGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGGUCGAGGUUCCGUGCCGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCUAAUACGACUCACACUGGCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGAUCCACCACCUGCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUAGUCUUCCACUUCUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUCGUACAGUUGUGGUCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCGUCGUAUUUCCUGCCCCCCCAGACGACUCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAUAGAGAUGAUGAUCUGGCCAGACGACUCGCCCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGGAGGACGAUGCGGCAACACAUGACAACAUUGGACAGACGACUCGCCCG,ssRNA,none,unknown,protein,,,,,,,,,,,,175-434-680-155-342,patent,extracted,train
+GGAATGAATAAGCTGGTATCTCCC,ssDNA,none,said at least one metastatic cancer cell marker target,protein,,,,,,,,,,,,133-607-185-126-607,patent,extracted,train
+GGGATACTATGCGTCCGACCGCTCGGACGGA,ssDNA,none,a second aptamer,protein,,,,,,,,,,,,087-431-294-265-283,patent,extracted,train
+TGCAACGCACCTTATTCGGCTTGAATGT,ssDNA,none,a second aptamer,protein,,,,,,,,,,,,087-431-294-265-283,patent,extracted,train
+GGCGGCACATGGCACTTCATATCGAGCG,ssDNA,none,a second aptamer,protein,,,,,,,,,,,,087-431-294-265-283,patent,extracted,train
+GGACGGACAGAGAGUGCAACCUGCCGUGCC,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+GGAGUACGCACACUUGGUGUUAGCGUCCCC,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+GCCUUCACUGCGGACGGACAGAGAGUGCAACCUGCCGUGCCGCA,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+GGUUACCAGCCUUCACUGCGGACGGACAGAGAGUGCAACCUGCC,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+GUGCCGCACCACGGUCGGUCACAC,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+GGUUACCAGCCUUCACUGCGGAGUACGCACACUUGGUGUUAGCG,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+UCCCCGCACCACGGUCGGUCACAC,ssRNA,none,unknown,protein,,,,,,,,,,,,041-633-309-207-390,patent,extracted,train
+CAUAACCCAGAGGUCGAUAGUACUGGAUCCCCCC,ssRNA,none,a nucleol,protein,,,,,,,,,,,,081-861-135-213-971,patent,extracted,train
+AUAUGAUCGUGAUAGCUGUGGCAGUUAAGAAUAGAUC,ssRNA,none,the sample,protein,,,,,,,,,,,,116-332-324-775-96X,patent,extracted,train
+AGUUAAGAAUAGAUCUUCGCUGCGA,ssRNA,none,the sample,protein,,,,,,,,,,,,116-332-324-775-96X,patent,extracted,train
+UGGCGGCUCGUUGAAGGUCGUCUCACGGGCUAGGAAUGCG,ssRNA,none,the sample,protein,,,,,,,,,,,,116-332-324-775-96X,patent,extracted,train
+ACGGCUGUUGCUUCGAAUGAACCAAGGUUCCUCGGCGCAA,ssRNA,none,the sample,protein,,,,,,,,,,,,116-332-324-775-96X,patent,extracted,train
+CCGAGTCGAGCAATCTCGAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,148-506-028-221-434,patent,extracted,train
+GAGTCGAGCAATCTCGAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,148-506-028-221-434,patent,extracted,train
+GCACCAACCTGCTGTGTCAGCT,ssDNA,none,unknown,protein,,,,,,,,,,,,148-506-028-221-434,patent,extracted,train
+CTCTCAGTAGGTGCATAAGCG,ssDNA,none,unknown,protein,,,,,,,,,,,,013-903-852-137-867,patent,extracted,train
+TATTGTGCTACTCTCCTCGT,ssDNA,none,unknown,protein,,,,,,,,,,,,081-688-790-142-050,patent,extracted,train
+GATGGTGAAAATGGGCCTAGGGTGGACGGT,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+GATGACTGGATGCAAAAATGCTGTGGGGTA,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+GTCCACACTCAGAAAACAGAATAGGGGGTA,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+CGATCGAAAATGTCCAGGGAGTTGTCTGTA,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGATGGTGAAAATGGGCCTAGGGTGGACGGTG,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGATGACTGGATGCAAAAATGCTGTGGGGTAGC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGTCCACACTCAGAAAACAGAATAGGGGGTAG,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACCGATCGAAAATGTCCAGGGAGTTGTCTGTAGC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGATGGTGAAAATGGGCCTAGGGTGGACGGTGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGATGACTGGATGCAAAAATGCTGTGGGGTAGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACGTCCACACTCAGAAAACAGAATAGGGGGTAGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+TCCCTACGGCGCTAACCGATCGAAAATGTCCAGGGAGTTGTCTGTAGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,199-184-051-480-515,patent,extracted,train
+CAGCGAAAGUUGCGUAUGGGUCACAUCGCAG,ssRNA,none,EPIDERMAL GROWTH FACTOR,protein,,,,,,,,,,,,058-217-906-863-593,patent,extracted,train
+CGCGCCCACATTTAGACCCCAACCTTCGCGGCTTG,ssDNA,none,unknown,protein,,,,,,,,,,,,084-177-251-187-975,patent,extracted,train
+CGCGCCAACAACACCACCAATCTTCGCAGCCCG,ssDNA,none,unknown,protein,,,,,,,,,,,,084-177-251-187-975,patent,extracted,train
+CGCGCGCAACAATACACACAACCTTCGCGTTCGG,ssDNA,none,unknown,protein,,,,,,,,,,,,084-177-251-187-975,patent,extracted,train
+GCTCTAATACGACTCACTATAGGGAGGACGATGCGG,ssDNA,none,unknown,protein,,,,,,,,,,,,199-675-435-634-655,patent,extracted,train
+GCTCTAATACGACTCACTATAGGGAGACAAGAATAAACGCTCAA,ssDNA,none,unknown,protein,,,,,,,,,,,,199-675-435-634-655,patent,extracted,train
+AUGAUGGAGAGGCGCAAGGUUAACCGCCUCAGGUUCC,ssRNA,none,influenza,protein,,,,,,,,,,,,119-707-759-779-967,patent,extracted,train
+GUGAUGGAGAGGCGCAAGGUUAACCGCCUCAGGUUCC,ssRNA,none,influenza,protein,,,,,,,,,,,,119-707-759-779-967,patent,extracted,train
+UCCGAAGUGGUUGGGCUGGGGCGUGUGAAAACGGA,ssRNA,none,unknown,protein,,,,,,,,,,,,063-963-921-056-605,patent,extracted,train
+CTTCCATCTCCCATGCTTAGTCAAACATAC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TGATCACAAGAATAACTATCCCATCTCCCT,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACCTTCCATCTCCCATGCTTAGTCAAACATACGCC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACTGATCACAAGAATAACTATCCCATCTCCCTGC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACCCTCCCCTAGTATATATTGTCCTCGTCTATGCC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACCTTCCATCTCCCATGCTTAGTCAAACATACGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACTGATCACAAGAATAACTATCCCATCTCCCTGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+TCCCTACGGCGCTAACCCTCCCCTAGTATATATTGTCCTCGTCTATGCCACCGTGCTACAAC,ssDNA,none,HIV,protein,,,,,,,,,,,,160-990-037-869-007,patent,extracted,train
+UUUUUGAUUUUGAUCGUAUGAUCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-596-692-703-503,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACCCCCTTGAGTCACAGGTGTGTGAGCGCCGA,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+CGGCTTGGTACAGCAGACAAGACCGGACAAGAAGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACCCGCTTCACCGCTGTGTAACTGCGACGACG,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GACGTCAGATCAGCAGACAAGACCGGACAAGAAGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACTCGAAAATGCTGGAGTAACTTCTTAGAGTA,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAGAGACGACGCGACACTCGAAAATGCTGGAGTAACTTCTTAGAGTACTTG,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGCGACGCGACACTCGAAAATGCTGGAGTAACTTCTTAGAGTACTTGGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+CGACGCGACACTCGAAAATGCTGGAGTAACTTCTTAGAGTACTTGGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACCCCCTTGAGTCACAGGTGTGTGAGCGCCGACGGCTTGGTACAGCAGACAAGACCGGACAAGAAGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACCCGCTTCACCGCTGTGTAACTGCGACGACGGACGTCAGATCAGCAGACAAGACCGGACAAGAAGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+GGGAAGGAGAGACGACGCGACACTCGAAAATGCTGGAGTAACTTCTTAGAGTACTTGGC,ssDNA,none,unknown,protein,,,,,,Tris,Tris,8.3,,25.0,,025-140-147-776-754,patent,extracted,train
+UGCCAACCUUCGAUGCAAGAUAAUACUUUUGAUGGUGUAGUCGUAUUGUU,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+UCAUGUGCCAGUGUUUGAAAAAACGCGUUGAUUGCUGGUGUGGUGAGCUAG,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+CUUCGAACGGCCCUGGUUGUUGGUUUUAAUUCAUUUAUCCGCGUGGUACG,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+UAGCUCACCACACCAGCAAUCAACGCGUUUUUUCAAACACUGGCACAUG,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+AACAAUACGACUACACCAUCAAAAGUAUUAUCUUGCAUCGAAGGUUGGCA,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+GUGACCACGCGGAUAAAUGAAUCAAAAACAACAACCAGGGCCGUUCGAC,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+GACUGAUUACGCCAGCUUGG,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+CUUCGAACGGCCCUGGUUGUUGGUUUUAAUUCAUUUAUCCGCGUGGUCACG,ssRNA,none,unknown,protein,,,,,,,,,,,,112-678-466-819-051,patent,extracted,train
+ATTCATTACTCGACAACAAT,ssDNA,none,the detection of IgG,protein,,,,,,,,,,,,075-495-352-826-470,patent,extracted,train
+AAGCCATTCATTACTCGACAACAAT,ssDNA,none,the detection of IgG,protein,,,,,,,,,,,,075-495-352-826-470,patent,extracted,train
+AAAGTATACGGTGGCGATTC,ssDNA,none,unknown,protein,,,,,,,,,,,,046-910-019-112-603,patent,extracted,train
+GGGAGGACGAUGCGGUCGUAUUAUCCGCUGC,ssRNA,none,unknown,protein,,,,,,,,,,,,170-090-897-423-258,patent,extracted,train
+ACGCCAGACGACUCGCCCGA,ssRNA,none,unknown,protein,,,,,,,,,,,,170-090-897-423-258,patent,extracted,train
+AGACTTAGGTGGATGTAGGATCCTT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+GAACTTAGGTGGATGTAGGATCCTT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AGACTTAGGTGGATGTAGGATCCAA,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+GGACTTAGGTGGATGTAGGATCCTT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+CTCCGATCCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+GACCGATCCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AGCCGATCCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AACCGATCCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+TACCGATCCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+GACCGATCCACTAGAAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+GACCGTACCACTAGTAACGGCCGCC,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AAGGGATGACAGGATACGCCAAGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AACGCAGTACAGGATACGCCAAGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+AACCCATGACAGGATACGCCAAGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+TGCGGATGACAGGATACGCCAAGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+TAGGCTAGACAGGATACGCCAAGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,109-386-001-966-470,patent,extracted,train
+ACGUAUCCCUUUUCGCGUAAAAUGUAGAGAUGCGGUGGUCCUU,ssRNA,none,unknown,protein,,,,,,,,,,,,032-133-983-258-934,patent,extracted,train
+AGAGAUUUUGGGAAGGCUCAGGACUGCCUACUAACCCGAUAAGAAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GAGUGCGUCGCCACUACUCCUCUCAUUACCUCUUGCAUUUCACUAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAGGUCCCACCGCCCCGCUCCCUUAUCAGCUUGGAAUACGUUUUCAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AAACCCCAACUCUGGCGCACAUUUCCCCGCCACCACCGUAGAAUACUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGACUGAUCCAAAUACGACACAAAUACCCGGCACUAGACGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGCAUCAAUCUAGACUAGACUCAGAUUACCAGCGAACUAGUGUAUCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UAAUUCCAGCAUAAAAAAGAUAGGUACUAUUAAUACACGACCAGAAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUCUACGCGACCACAAAAUUAUCCGCGAUUUGAAUAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCCCUUGCGGUUCCCACAUUAUCUCUCUGCUAUCCCGAUGGCCCGAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGACAUUCUCUCCGCCCUCAACUCCGCCCGCUCCAUCCAGUUCCCUGUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GCCGAUCCAUCCUCCCCACGACCAUCAUGAAUCCCAACAGGAACUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGAUAGUUCUGCGUAGCUUAAGAGAUGUUAAAUCACACCCACGCCAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGACCGUACACCUCGCUCGCCAUCCGACUUUGAAUAAGCAUAGACCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGCGCCAAUAUGACCGCGACAUCGUUUGAAUAGUUCCUGGGGAUCUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCGGAUAAGGUCGUCCGUAGUACCGGUUAACGUACCAGCCUUACUCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUCUAAAGACAGAUUUAAUACUACCCGUCGUAUCCAACUCGGAACGGUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UACGUAGACAAGAGAUUUCCAGACCCUGUUACUAAUACAUUUCCCGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CUCUGACAAUCCUGCAACAAUUACAUUCAUUAACGGGCUAAUUCAUAUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUAUGUAGUAACCCCAAUGAUAAAUAACUAAGACCGCAAGUCAGUUCC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCACUCCCACACUUCCUUAAUCCGCGCUAACACACCAUAUGUACUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGUUAGCAGAUACAUCGAGAUUGCAAAGUCCAAUACAGUUAAUAAGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCCCACCCCACUAUUAGCCGAACCCGAACCCCAUCUUACCCGGACCC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUCUCUGCGGUCUAGGUCACGAUAUACCCGUUACAUAUCAUUCCUGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UACAAAUCCGCAUAUACACCCAACCACACCCAAUCCUCUCAGUCCAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCCUAGCAACAUUCUAUGCGCAAACCAUAGUUAUGACUAUUGACUCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACACCGGCUGAGUAUCUGCCUGUGUAAUCGAAACAACUGCGACAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCGCACCCGUACCUCCUUCCUCUCAGGUAUUCACUCACAUCAUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACGGAUGACAGCAGAAUAACUCCUACAGUCCAUAUAUAAACGAUUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGCCCCACAUCCUACGCCACUCACCCACGCAUCCCGAUUGAUCAAAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGUGCGCCUAUGAUGAGUCUGGUUCACAUAAUUUGCGUUAGUUAGUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGCAGCGAUAGACUGUUAACUACAGACGGGAGUCCGCGUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAUCCCCAGGCUCUUCCAUCAAGCAAUUAAUACAAUCACAACCCCCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUAGCUCCGUCAGGUAUCCACAGAUCAUUGUUCAAUACAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCAUGAUAUACCGAUAUUAACUUCCGCGUUGCACAAGAAUACACUGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGUCCCACACCCUCCGAUUCCGACCAGGACUGGAUACUUACACUUUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCCCCUUCGCCCAAAACAUAUCGCUUCGACCUUCCACACCCUAUCAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUUGAGCCCUCCGCCCAAACUCACUCUCAACAAACCGCUGGAACGCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACCGUGCUCUGUGACAGGACUUUACUUAGGGAUAAGGGUUGAAACUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CUGGCAAUAAACGGCUAUAAGUAAAGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAAAAUAUACAAAUAACAGACAGAAUACUUUGCAUCAAUAGUUGGAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGCGCAUAAACCUAACGCGCUUUUCUCUAGGUUGAUUAAACUGGGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCUCAUUAACCCCGCUGUGCCCUGCAUCACUUCUCAUAGUCCGACACUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UCAUCUCACCGCCAUAAUCCUCAACAUUCUCCCCACCCGAUUCCCGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUCGACAGGAGGCUCACAACAGG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGACCCCAACUAGCGUGUCAUUGUUCGAAUCGACUGAGAUUUCGGGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCCUUCCCUAGAACGCAGGCAGCAGUUACUCGGAGAACCCUACCCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GCUAUCAUACCCGAGACCGCUAUCCCCCACCUUAAUGUUCCUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAAUUUAUCGAGACCCAGAUAACCGAUUUAUACGCAGACGAUAAGUUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAUAGCCGCACUUCUCACAGGAGUCGAG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGAAAUCAUAGCCCACGGUUGCAUCACCCG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUCCUGGAGACGCCUAUAGUACCUUGCCCCG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUACCUACAAAAAAGAAAAAGAAUUAAACGGAUUAAGAAGGGGAAAAA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGCAGAUGUUGUGAUUAGUUGAACAAGGUCCCCAAACAUUGGAGGAUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGAGAUUUUGGGAAGGCUCAGGACUGCCUACUAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCGAUAAGAAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGGACCCCAACUAGCGUGUCAUUGUUCGAAUCGACU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GAGAUUUCGGGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGAGUGCGUCGCCACUACUCCUCUCAUUACCUCUUG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAUUUCACUAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCAGGUCCCACCGCCCCGCUCCCUUAUCAGCUUGGA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUACGUUUUCAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAAACCCCAACUCUGGCGCACAUUUCCCCGCCACCAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGUAGAAUACUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCCUUCCCUAGAACGCAGGCAGCAGUUACUCGGAG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AACCCUACCCUUCGACAGGAGGCUCACAACAG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGACUGAUCCAAAUACGACACAAAUACCCGGCACUA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GACGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGCAUCAAUCUAGACUAGACUCAGAUUACCAGCGAA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CUAGUGUAUCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUAAUUCCAGCAUAAAAAAGAUAGGUACUAUUAAUAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACGACCAGAAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAUCUACGCGACCACAAAAUUAUCCGCGAUUUGAAUA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCCCUUGCGGUUCCCACAUUAUCUCUCUGCUAUCC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGAUGGCCCGAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGACAUUCUCUCCGCCCUCAACUCCGCCCGCUCCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UCCAGUUCCCUGUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGCCGAUCCAUCCUCCCCACGACCAUCAUGAAUCCCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACAGGAACUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGGAUAGUUCUGCGUAGCUUAAGAGAUGUUAAAUCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACCCACGCCAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGCUAUCAUACCCGAGACCGCUAUCCCCCACCUUAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GUUCCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGACCGUACACCUCGCUCGCCAUCCGACUUUGAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AAGCAUAGACCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGCGCCAAUAUGACCGCGACAUCGUUUGAAUAGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CUGGGGAUCUUUCGACAGGAGGCUCACAACAGG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCGGAUAAGGUCGUCCGUAGUACCGGUUAACGUAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAGCCUUACUCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAUCUAAAGACAGAUUUAAUACUACCCGUCGUAUCCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACUCGGAACGGUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUACGUAGACAAGAGAUUUCCAGACCCUGUUACUAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACAUUUCCCGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCUCUGACAAUCCUGCAACAAUUACAUUCAUUAACGG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GCUAAUUCAUAUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAUAUGUAGUAACCCCAAUGAUAAAUAACUAAGACCG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CAAGUCAGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCACUCCCACACUUCCUUAAUCCGCGCUAACACACC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUAUGUACUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCGUUAGCAGAUACAUCGAGAUUGCAAAGUCCAAUAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AGUUAAUAAGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCCCACCCCACUAUUAGCCGAACCCGAACCCCAUCU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UACCCGGACCCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUUCUCUGCGGUCUAGGUCACGAUAUACCCGUUACA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UAUCAUUCCUGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUACAAAUCCGCAUAUACACCCAACCACACCCAAUCC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+UCUCAGUCCAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCCUAGCAACAUUCUAUGCGCAAACCAUAGUUAUGA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CUAUUGACUCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCACACCGGCUGAGUAUCUGCCUGUGUAAUCGAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AACUGCGACAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCGCACCCGUACCUCCUUCCUCUCAGGUAUUCACU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACAUCAUUUCGACAGGAGGCUCACAACAGG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCACGGAUGACAGCAGAAUAACUCCUACAGUCCAUAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUAAACGAUUUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCAAUUUAUCGAGACCCAGAUAACCGAUUUAUACGCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GACGAUAAGUUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGCCCCACAUCCUACGCCACUCACCCACGCAUCCCG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUUGAUCAAAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGGGAUAGCCGCACUUCUCACAGGAGUCGAGUCUUU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCGUGCGCCUAUGAUGAGUCUGGUUCACAUAAUUUG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CGUUAGUUAGUUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGGGCAGCGAUAGACUGUUAACUACAGACGGGAGUCC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GCGUUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCAUCCCCAGGCUCUUCCAUCAAGCAAUUAAUACAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACAACCCCCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUUAGCUCCGUCAGGUAUCCACAGAUCAUUGUUCAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCAUGAUAUACCGAUAUUAACUUCCGCGUUGCACAA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GAAUACACUGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCGAAAUCAUAGCCCACGGUUGCAUCACCCGUUCUG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUCAUAUACUUAAAGUUAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCGUCCCACACCCUCCGAUUCCGACCAGGACUGGAU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+ACUUACACUUUUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCCCCUUCGCCCAAAACAUAUCGCUUCGACCUUCCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CACCCUAUCAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUUCCUGGAGACGCCUAUAGUACCUUGCCCCGUAGU,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUCUGAUCAAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUUACCUACAAAAAAGAAAAAGAAUUAAACGGAUUAAG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AAGGGGAAAAAGUAGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAUUGAGCCCUCCGCCCAAACUCACUCUCAACAAACC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GCUGGAACGCUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGACCGUGCUCUGUGACAGGACUUUACUUAGGGAUAA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGUUGAAACUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCUGGCAAUAAACGGCUAUAAGUAAAGUUCGACAGG,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCAAAAUAUACAAAUAACAGACAGAAUACUUUGCAUCA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUAGUUGGAUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCGCGCAUAAACCUAACGCGCUUUUCUCUAGGUUGA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGAGCAGAUGUUGUGAUUAGUUGAACAAGGUCCCCAAA,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGCCUCAUUAACCCCGCUGUGCCCUGCAUCACUUCUC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+AUAGUCCGACACUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGGAGACAAGAAUAAGCAUGUCAUCUCACCGCCAUAAUCCUCAACAUUCUCCCCAC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+CCGAUUCCCGUUCGACAGGAGGCUCACAACAGGC,ssRNA,none,unknown,protein,,,,,,,,,,,,178-689-758-379-199,patent,extracted,train
+GGAAAGAGCACGGCCAAGTCAGGGGGAATCGACTACGTCGGGG,ssDNA,none,use according to claim 4,protein,,,,,,,,,,,,055-805-980-791-147,patent,extracted,train
+GCTGTGTGACTCCTGCAAGGAAAGAGCACGGCCAAGTCAGGGGGAATCGACTAC,ssDNA,none,use according to claim 4,protein,,,,,,,,,,,,055-805-980-791-147,patent,extracted,train
+GTCGGGGGGAGACAAGATACAGCTGC,ssDNA,none,use according to claim 4,protein,,,,,,,,,,,,055-805-980-791-147,patent,extracted,train
+GCTGTGTGACTCCTGCAAGGAAAGAGCACGGCCAAGTCAGGGGGAATCGACTACGTCGGGGGGAGACAAGATACAGCTGC,ssDNA,none,use according to claim 4,protein,,,,,,,,,,,,055-805-980-791-147,patent,extracted,train
+CCGGACTGCAGAGACCGTCTGTCGGTGAACACTATTAGACGCG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CGTTGTTTGTTCGCTCCGGGCTGTAGAGCCTCGAAGATGAGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CAGGCCGGAGGGACTGGGGAGGTGCGACGTTTACGTGTTCTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CCAGACCGTAGGGGCTGTCTGTAGAGGACGCTGACGCGCACGA,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CCTGTTCGGGCGCTAGCCTGATAGAAGTGTGCGTTCAATGGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CAGGTTGGGCTGATGGTGGGCAGACCGTAGGGTCCGTAATCCG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GGCGGTACGCGTGTGGACAGAAGTGACCGCCAAATAGCGCCTG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GGGGTACACGCGCATGCTCATCTGGACCGGAGGGTTCCGGGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CAAAGGGTCGGCGGACTGTTGAGACCACCGGCAGCGGGGCATT,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GGGTACGGCATTGATTTGCTGCCTTATTGGTGTTGGTGGGGGG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CATGCTTTATGTAACAGGCGGAGGCCGTCCGTGGTACAGGTTC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GGAGGGGATCACACCGTATAGACTGCAGAGTTCTGTCGGTGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GCTGTGTGACTCCTGCAACAGGCCGGAGGGACTGGGGAGGTGCGACGTTTACG,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+TGTTCTCCGCAGCTGTATCTTGTCTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GCTGTGTGACTCCTGCAACGTTGTTTGTTCGCTCCGGGCTGTAGAGCCTCGAA,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GATGAGTTGCAGCTGTATCTTGTCTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GCTGTGTGACTCCTGCAACCGGACTGCAGAGACCGTCTGTCGGTGAACACTAT,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+TAGACGCGGCAGCTGTATCTTGTCTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GCTGTGTGACTCCTGCAAGGCGGTACGCGTGTGGACAGAAGTGACCGCCAAATA,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+GCGCCTGGCAGCTGTATCTTGTCTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,021-010-279-721-13X,patent,extracted,train
+CTAGCATGACTGCAGTACGT,ssDNA,none,unknown,protein,,,,,,,,,,,,163-098-765-756-862,patent,extracted,train
+CTGTCTCTTATACACATCTGACGCTGCCGACGA,ssDNA,none,unknown,protein,,,,,,,,,,,,163-098-765-756-862,patent,extracted,train
+CTAGCATGACTGCAGTACGT,ssDNA,none,lysozyme,protein,,,,,,,,,,,2.0,160-275-096-475-654,patent,extracted,train
+AAGGGATGCCGTTTGGGCCCAAGTTCGGCATAGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,051-908-494-839-287,patent,extracted,train
+CTAGCATGACTGCAGTACGT,ssDNA,none,HIV,protein,,,,,,,SELEX,,,,,092-669-490-235-023,patent,extracted,train
+CTGTCTCTTATACACATCTGACGCTGCCGACGA,ssDNA,none,HIV,protein,,,,,,,SELEX,,,,,092-669-490-235-023,patent,extracted,train
+GCAUGCAUGAAAAAGUGAUAGAUGUUAAGCAUGC,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+GCAUGCAUAAAAUAAAAAAACACUAAAAUGCAUGC,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+GCATGCATGAAAAAGAGAAAGATGAAAAGCATGC,ssDNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+GCATGCTCAACGTAAAACAACACCAAAAATGCATGC,ssDNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUAAGGACUGCUUAGGAUUGCGAUGAUUCAGGGUGAUG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUAAGGACUGCUUAGGAUUGCGAUGAU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+UCAGGGUGAUGCGAUGGAGAUGU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+ACAUCUCAGCACCGUCAACUGAAUAAGGACUGCUUAGGAUUGCGAUGAUUCAGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+ACAUCUCAGCACCGUCAACUGAAUAAGGACUGCUUAGGAUUGCGAUGAUU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGGGUGAUGCGAUGGAGAUGU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGGGAGAGUGGUGGGGCGGGGGCCGGAUCCGUGA,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGGGAGAGUGGUGGGGCGGGGGCCGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+AUCCGUGAUGCGAUGGAGAUGU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+ACAUCAGCACCGUCAACUGAAUGGGGAGAGUGGUGGGGCGGGGGCCGGAUC,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+ACAUCAGCACCGUCAACUGAAUGGGGAGAGUGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGGUUGGCCGGGCAGCGGGGGGUAGGCUUGGUGAUG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGGUUGGCCGGGCAGCGGGGGGUAGGCUUGGUGA,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+AACACAUCAGCACCGUCAACUGAAUGGGUUGGCCGGGCAGCGGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+GGGUAGGCUUGGUGAUGCGAUGGAGAUGUGUU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+AACACAUCAGCACCGUCAACUGAA,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+UGGGUUGGCCGGGCAGCGGGGGGUAGGCUUGGUGAUGCGAUGGAGAUGUGUU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGCGGGGGGUCAGGUCGGGGUAAGGUGAGCGUG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CAGCACCGUCAACUGAAUGGCGGGGGGUCAGGUCGGGGUA,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+AGGUGAGCGUGAUGCGAUGGAGAUGU,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CCACAUCAGCACCGUCAACUGAAUGGCGGGGGGUCAGGUCGGGGUAAGGUG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+AGCGUUUAUGCGAUGGAGAUGUGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CCACAUCAGCACCGUCAACUGAAUGGCGGGGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+GUCAGGUCGGGGUAAGGUGAGCGUUUAUGCGAUGGAGAUGUGG,ssRNA,none,the target polypeptide,protein,,,,,,,,,215.0,,,039-631-015-647-816,patent,extracted,train
+CTGTCTCTTATACACATCTGACGCTGCCGACGA,ssDNA,none,lysozyme,protein,,,,,,,,,,,2.0,181-908-762-057-438,patent,extracted,train
+ACGGTTGCAAGTGGGACTCTGGTAGGCTGGGTAATTTGG,ssDNA,none,unknown,protein,,,,,,other,other,2.0,,,,079-395-781-409-314,patent,extracted,train
+GGGCACGGGCAGCUUGCCGG,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+GUUUUAGAGCUAGAAAUAGC,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+GGUACAUCCAGCUGAUGAGUCCCAAAUAGGACGAAAUACAUACCAGCC,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+GAAAGGCCCUUGGCAGGUGUCCUGGAUUCCAC,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+GUACAUCCAGCUGAUGAGUCCCAAAUAGGACGAAAUACUAUAAUCGCG,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+UGGAUAUGGCACGCAAGUUUCUACCGGGCACCGUAAAUGUCCGACUAG,ssRNA,none,unknown,protein,,,,,,,,,,,,074-396-519-860-049,patent,extracted,train
+UUACCACGCGCUCUUAACUGCUAGCGCCAUGGC,ssRNA,none,unknown,protein,,,,,,,,,,,45.0,029-527-101-805-419,patent,extracted,train
+AGTTTTGGCCATGGCGCTAGCAGTTAAGAGCGCGTGGTAAG,ssDNA,none,unknown,protein,,,,,,,,,,,45.0,029-527-101-805-419,patent,extracted,train
+CGGAAUCAGUGAAUGCUUAUACAUCCG,ssRNA,none,VEGF,protein,,,,,,,,,,,,056-028-794-393-340,patent,extracted,train
+GGGAGACAAGACUAGACGCUCAAUGUGGGCCACGCCCGAUUUUACGCU,ssRNA,none,HIV,protein,,,,,,,,,,,,127-561-280-203-772,patent,extracted,train
+UUUACCCGCACGCGAUUGGUUUGUUUCCC,ssRNA,none,HIV,protein,,,,,,,,,,,,127-561-280-203-772,patent,extracted,train
+CCGCGCCCAACGUGGCGCCA,ssRNA,none,HIV,protein,,,,,,,,,,,,127-561-280-203-772,patent,extracted,train
+CGCGCCGAUUUUACGCUUUU,ssRNA,none,HIV,protein,,,,,,,,,,,,127-561-280-203-772,patent,extracted,train
+TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG,ssDNA,none,a microvesicle,protein,,,,,,,,,,,,103-784-941-474-367,patent,extracted,train
+AGCCGTTCTGGGGGGTCGACGTTGCATCGTCA,ssDNA,none,unknown,protein,,,,,,,,,,,,083-935-822-734-201,patent,extracted,train
+ACGGGCCACATCAACTCATTGATAGACAATGCGTCCACTGCCCGT,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+CACTCAATAATTCCACTGCTACATACGTTT,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+AAACTAGGGTCCATTTGTGTACCTGCGA,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+ACATCAACTTGATAGACAACTGCGTCCACT,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+CATCTGGTACCTTACGACGCTTCATCTCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+CATGTTTTCGAAAGACAATCCGCTGCCCTG,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+CATGTTCCTTTCGTTCTGCCTTTTCCTTCC,ssDNA,none,unknown,protein,,,,,,,,,,,,075-683-271-851-234,patent,extracted,train
+CTAGCATGACTGCAGTACGT,ssDNA,none,Nucleolin,protein,,,,,,,SELEX,,,,,058-437-817-706-312,patent,extracted,train
+CTGTCTCTTATACACATCTGACGCTGCCGACGA,ssDNA,none,Nucleolin,protein,,,,,,,SELEX,,,,,058-437-817-706-312,patent,extracted,train
+CGCGCGCCGCACGUAUACUAUGCGGCGCGCG,ssRNA,none,unknown,protein,,,,,,,,,,,,193-188-016-212-857,patent,extracted,train
+CTAGCATGACTGCAGTACGT,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,195-001-649-762-699,patent,extracted,train
+GCUGUCACAGAGGGGCUACUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GUAGCCCCUCUGUGACAGCUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UCUCAGUAGUGGGCCUGCUG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GACUGUAUCGGGGCUCUGUG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+AUGUAUGUUGGGAGCCACGC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CUGUAUGUUGGUAGCCACGC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UCUGUUGUGCUUGAUAUGCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UGGUGUGUCAAGGUACGCGC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UCUGCUGUGCUUGAUAUGCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CUGUCUACCUUCUACUGCCG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CCAGUUUACCUUACACUCGC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CGAUGCUUACGUGCACGCGC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CUGUCUACCUUCUACUGCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UUGUCUACCUUCUACUGCCG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UCCUGUCGUCUGUUCGUCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CCGUGUCGUCUGUACUGCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUCUGUUGUGCUUGAUAUGCCC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGAUGUAUGUUGGGAGCCACGCCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAAUGCGGGACUGUACGGGGCUCUGUGCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CUCGCCCGAGCUGUCACAGAGGGGCUACUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGGACUGUAUGGGGCUCUGUGCAGACGAC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+UCGCCCGAGCUGUCACAGAGGGGCUACUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGGACUGUACGGGCUCUGUGCAGACGACU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+CGCCCGAGCUGUCACAGAGGGGCUACUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUCUGUUGUGCUUGAUAUGCCCCAGACG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+ACUCGCCCGAGCUGUCACAGAGGGGCUACUU,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUGGUGUGUCAAGGUACGCGCCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUCUGCUGUGCUUGAUAUGCCCCAGACG,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGCUGUCUACCUUCUACUGCCGCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGCGAUGCUUACGUGCACGCGCCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGCUGUAUGUUGGUAGCCACGCCAGACGA,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUCUGUGUGGGAUGUGGCCCCAGACGAC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GGGAGGACGAUGCGGUCCUGUCGUCUGUUCGUCCCAGACGAC,ssRNA,none,HER2,protein,,,,,,,,,,,,099-702-963-138-837,patent,extracted,train
+GCGCCACTACAGGGGAGCTGCCATTCGAATAGGTGGGCCGC,ssDNA,none,TNFoc,protein,,,,,,,,,,,,152-288-439-250-522,patent,extracted,train
+ACTATAGAACAATCCACCGCTTTAAATCAACTATCTTA,ssDNA,none,HIV,protein,,,,,,,SELEX,,,,,052-184-016-421-842,patent,extracted,train
+AACCCAATTCACATACACTCTCACCCCCACTAAACA,ssDNA,none,HIV,protein,,,,,,,SELEX,,,,,052-184-016-421-842,patent,extracted,train
+GATCTCCTGTCATCTCACCT,ssDNA,none,HIV,protein,,,,,,other,other,,,,,178-979-211-381-215,patent,extracted,train
+TGTAGAACCATGTCGTCAGTGT,ssDNA,none,HIV,protein,,,,,,other,other,,,,,178-979-211-381-215,patent,extracted,train
+GGGCGCGTAGATGACGAGCAGTCCTAACATCGTTTAGGAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+ATGAAGACTGGTGTGTTGGCTCTGGGGGGTGTGGAGGGGGTGTGTGGTGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGTTGGCTCTGGGGGGTGTGGAGGGGGTGTGTGGTGGGTTGGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGTTGGCTCTGGGGGGTGTGGAGGGGGTGTGTGGTGGGTTGGCCCT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+AGACTGGTGTGTTGGCTCTGGGGGGTGTGGAGGGGGT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+TGGCTCTGGGGGGTGTGGAGGGGGTGTGTGGTGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+TGGGGTCGGTGTGTCGGGTGGGGGTTGGGT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGGGTGGGGTCGGTGTGTCGGGTGGGGGTTGGGTTGTGTGTGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGGGTGTGGTTAGTGTTTCCCGTTCTGTTGTTTTCTTGGTTGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCGGAGGGGCGGGGGAGGAGGTGGCGGGAATGTCCATTGTCTACACCAGTCTTC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+TTGGGGCGGGAGTTTTGTTTGGGTGGGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+ACGCAAGGGACCACAGGGTTTTTCAATATAAAGATCGGATTCTTTATTAT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+CACGACGCAAGGGACCACAGGGTTTTTCAATATAAAGATCGGATTCTTTATTATCTATAGACTACAGCACGACACCGCAGAGG,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTTTTCAATATAAAGATCGGATTCTTTATTATCTATAGACTA,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGTGTGGCGCTGTTTCTGTTGGGTGGTGAGTGGGTCTGCCCGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTCGTGCAGCGTTAAGCGGTGAGGTGTACTGAGGGTTACGGGGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTAGAGGGCCGTGGAGGGGCTTGGCGTGTTGAATGAGTGAGGGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTGGGCAAGTGTGTTTAGTGATGGACGCCCATGTGTAGTCGTGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTAATATTTGTGTGTGTTTGTTGTTGTTTTTGGTTTGTTTGTGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCTGCGTGGGCGGGGGTTTTTTGTGTGTGGCGGCGAGTTTGTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCTGCGTGGGCGGGGGT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCTGCGTGGGCGGGGGTTTTTTGTGTGTGGCGGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+TGTGTGTGGCGGCGAGTTTGTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTCGGGAGGGAGTCCGTGAGGAGGGGGGCTGCGGAATGGTATGCCCTAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCGGGTGGGCGGGGGATCGTTGTGCTGTTGCTTGTTGTGTGTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCGGGTGGGTGGGGTGTATGTTTCGTGCCGTGTGCTCTGTGTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCGGCAAGGGTGGGAGGGTGGGTGTTGTTGCGGCGTGTCTGTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCCGAGGGGGACGCTGGTATTGGGTGGGTGGGAGGGCGTTGGACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+AGGGGGACGCTGGTATTGGGTGGGTGGGAGGGCGTTGGACACCAGTCT,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+AGGGGGACGCTGGTATTGGGTGGGTGGGAGGGCGTTGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCTGAGCTGGGTGCGTTCCTGGGGCTGCATTCCTGGGGCCCGACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GCGGATGAAGACTGGTGTAGGGGTGAGGGCGAGGGGTGGGTGGAGGCAGGTCGAGGGCGCCCTAAATACGAGCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+GTTGCTCGTATTTAGGGCGGAGGGGCGGGGGAGGAGGTGGCGGGAATGTCCATTGTCTACACCAGTCTTCATCCGC,ssDNA,none,unknown,protein,,,,,,,,,,,,020-211-642-872-093,patent,extracted,train
+AGGAGGGACGGGGCAGGAGGAG,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+GGAGGGACGGGGCAGGAGGAG,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+AGGAGGGACGGGGCAGGAGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+GAGGGACGGGGCAGGAGGAG,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+GGAGGGACGGGGCAGGAGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+AGGAGGGACGGGGCAGGAGG,ssDNA,none,unknown,protein,,,,,,,,,,,,173-603-983-329-065,patent,extracted,train
+GCAGGTGCAGGTTCACACTGGCAAG,ssDNA,none,HIV,protein,,,,,,,,,,,,193-570-890-033-836,patent,extracted,train
+ACTCCTCGGCGCAAGGATGTGGG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AACTAGAACCATACTCGCCGGCGCCAATGTCGTAG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TGCGACTGTTATAACCTAACAGCGACGTAAAG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TACCGACTAGCAAAACCTGCTGGCGACGTTTAG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AATAACCTTAATGCGACGTTGGTTTGTCAACAACG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AATAACCTTAATGCGACGTTGGTTCGTCAACATGG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+ACAACCTAAATGCGACGTTGGGTCAAAAACGTGAA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GATAACCTCGATGCGACGTTCGGCC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TTAATGCGACGTTGGTAAAGCATATCAAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+CTCCGCTATCTAACGTATGATA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TGCGCATGAAATGACTGCATGTCTCCGGATTGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+ATGACAGGATGCAGAGCTCCACTGTCTAGTGTTTA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+CCGCGACAGTCGTAAGTTTTGACTGACTGAACGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TCGCTAATTATAGGCGGAGTGCGACGTTATAAATA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TGCATATTTGTCGTCGACGTACGAA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TATCTGTTTGTCGTGGACATCAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TGGATATCTGTCGTTATCATGGGAC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TTGCGTAACCCGCAATTTCCGTTGGTATATAC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TAATGGCCGGTTTAACCGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+TCCGTTTGCAGGTTTTGACCTGCCGGAGTTGTTTG,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGCAGAAGTTGATTCCAACTTCATTTGCGTTTAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+ATATTTGTCTCATCCCACGACAATTATGATGCGAC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+ATCTTAGCGACGTGACACACGACTAGGGATTAATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTAGTGATTCGCCATAACCTGGCTGTTTCAGGCTGTTGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTAATGGCCGGTTTAACCGTTTGCGCATTAAGTCGAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTATCTTAGCGACGTGACACACGACTAGGGATTAATCGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTGCGACTGTTATAACCTAACAGCGACGTAAAGATAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTACCATTTACCACAACCTGGTTATCTGGTTTAAACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTAGTACGACCTACTTATTTGACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTCCGTTTGCAGGTTTTGACCTGCCGGAGTTGTTTGGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTTGCGTAACCCGCAATTTCCGTTGGTATATACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTAATAACCTTAATGCGACGTTGGTTTGTCAACAACGGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTCCGCGACAGTCGTAAGTTTTGACTGACTGAACGTTGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTGATAACCTCGATGCGACGTTCGGCCTCAAAATCAAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTCTCCGCTATCTAACGTATGATAGAATGGATGACTAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTTGTCGTCTTCTCCAGTTAGTCAACGAACTTGTGTGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTACAACCTAAATGCGACGTTGGGTCAAAAACGTGAAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTACTCCTCGGCGCAAGGATGTGGGATCGATGCAATCGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTAACTAGAACCATACTCGCCGGCGCCAATGTCGTAGGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTGCTATGACCTAGACATTTGACGGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTATGACAGGATGCAGAGCTCCACTGTCTAGTGTTTAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTACCTGACTTGCGATAACCTCGACATTTACGGTATTGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTAATAACCTTAATGCGACGTTGGTTCGTCAACATGGGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTTGCACAACCTGCATATTTGTCGTCGACGTACGAAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTCGCATTCGTTATAACCTAACAGTTTGCGGAGTTAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTACAACTTAATGCGACGTTGGTAAAGCATATCAAACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTGAAACGACTCGACAACCTCGAGCGACGTGAATCATGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTATATTTGTCTCATCCCACGACAATTATGATGCGACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTGGCAGAAGTTGATTCCAACTTCATTTGCGTTTAATGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTCGATACAACCTATCTGTTTGTCGTGGACATCAAATGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTGCGCATGAAATGACTGCATGTCTCCGGATTGATCGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTACCGACTAGCAAAACCTGCTGGCGACGTTTAGATGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTACCATAACCTGGATATCTGTCGTTATCATGGGACGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCCACCAACGACATTTCGCTAATTATAGGCGGAGTGCGACGTTATAAATAGTTGATATAAATAGTGCCCATGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UGCGACUGUUAUAACCUAACAGCGACGUAAAG,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UACCGACUAGCAAAACCUGCUGGCGACGUUUAG,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AAUAACCUUAAUGCGACGUUGGUUUGUCAACAACG,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AAUAACCUUAAUGCGACGUUGGUUCGUCAACAUGG,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+ACAACCUAAAUGCGACGUUGGGUCAAAAACGUGAA,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GAUAACCUCGAUGCGACGUUCGGCC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UUAAUGCGACGUUGGUAAAGCAUAUCAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+CUCCGCUAUCUAACGUAUGAUA,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UGCGCAUGAAAUGACUGCAUGUCUCCGGAUUGAUC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AUGACAGGAUGCAGAGCUCCACUGUCUAGUGUUUA,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+CCGCGACAGUCGUAAGUUUUGACUGACUGAACGUU,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UCGCUAAUUAUAGGCGGAGUGCGACGUUAUAAAUA,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UGCAUAUUUGUCGUCGACGUACGAA,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UAUCUGUUUGUCGUGGACAUCAAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UGGAUAUCUGUCGUUAUCAUGGGAC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UUGCGUAACCCGCAAUUUCCGUUGGUAUAUAC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UAAUGGCCGGUUUAACCGUU,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+UCCGUUUGCAGGUUUUGACCUGCCGGAGUUGUUUG,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGCAGAAGUUGAUUCCAACUUCAUUUGCGUUUAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AUAUUUGUCUCAUCCCACGACAAUUAUGAUGCGAC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+AUCUUAGCGACGUGACACACGACUAGGGAUUAAUC,ssRNA,none,unknown,protein,,,,,,,,,,,,139-901-765-094-15X,patent,extracted,train
+GGGGCACGTACTCGCTATTCCAATCCAGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTACCAGAAGACTCTTCACCCGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTCTCAGCCGAGGAACACACAGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTACGGGCATCATAACAACAGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTACCTGGTTTACCGTCACCCGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTAGTTCGAAGTCCATTCCAGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTACTTCACACAGAATAACGGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTATCCTCTTTTTTTCTTGCGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTCCTTCTTTGTCTCCCTCCAGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTCCCTAAGTCCGCCTACAGAGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTGCTTTCCGTTGTCTCCCTGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTTTTCCTTTCCACCATTCAGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTTCTTTTTCTTTCCATATCGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTCACGACTAATACATCCTTAGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTGTGTTTTTCTAGTCGTCCTGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTGGACTTTATTTATCTCTCTGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+GGGGCACGTATCCCTCTCTCTTTTCTCGGCGTGCCCC,ssDNA,none,unknown,protein,,,,,,,,,,,,014-794-202-710-517,patent,extracted,train
+ATACGAGCTTGTTCAATACGAAGGGATGCCGTTTGGGCCCAAGTTCGGCATAGT,ssDNA,none,provide an NP- aptamer conjugate,protein,,,,,,,,,,,,064-479-589-031-087,patent,extracted,train
+GTGGTGATAGTAAGAGCAATC,ssDNA,none,provide an NP- aptamer conjugate,protein,,,,,,,,,,,,064-479-589-031-087,patent,extracted,train
+ATACGAGCTTGTTCAATACGAAGGGATGCCGTTTGGGCCCAAGTTCGGCATAGTGTGGTGATAGTAAGAGCAATC,ssDNA,none,provide an NP- aptamer conjugate,protein,,,,,,,,,,,,064-479-589-031-087,patent,extracted,train
+UUCUGCAUAGAUGCCAGUCAACC,ssRNA,none,an myeloid leukemic cell,protein,,,,,,,,,,,,146-255-336-433-870,patent,extracted,train
+GGGCAGGACUAGGAAUAUGGACC,ssRNA,none,an myeloid leukemic cell,protein,,,,,,,,,,,,146-255-336-433-870,patent,extracted,train
+AUGAUCAAUCGCCUCAAUUCGACAGGAGGCUCAC,ssRNA,none,the sample,protein,,,,,,,,,,,,195-468-254-331-922,patent,extracted,train
+GGGCCCUCUGACAGUUAAUGAAAAAAGGAGAUUAAAAUUAAUUAUGCC,ssRNA,none,unknown,protein,,,,,,,,,,,,184-135-027-961-794,patent,extracted,train
+GGCUGGCAUUCUAUAUAAGAGAGAAACUACACGC,ssRNA,none,unknown,protein,,,,,,,,,,,,184-135-027-961-794,patent,extracted,train
+CUGGGAGGAGUUGGGGGAGGAGAUUAGGUUAAAGGUCUUUGUACUAGGAGGCUGU,ssRNA,none,unknown,protein,,,,,,,,,,,,184-135-027-961-794,patent,extracted,train
+GCCUUAGUAACGUGCUUUGAUGUCGAUUCGACAGGAGGC,ssRNA,none,the sample,protein,,,,,,,,,,,,013-735-232-660-091,patent,extracted,train
+CCCATGGTAGGTATTGCTTGGTAGGGATAGTGGG,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+ACGCCAAGGTGTCACTCCGTAGGGTTTGGCTCCGGGCCTGGCGTCGGTCGCGAAGC,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+GGCAGGAAGACAAACAGCCAGCGTGACAGCGACGCGTAGGGACCGGCATCCGCGG,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+GTGGTCTGTGGTGCTGTGCA,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+ACGCCAAGGTGTCACTCCGTAGGGTTTGGCTCCGGGCCTGGCGTCGGTCGCGAAGCATCTCCTTGGCGT,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+GGCAGGAAGACAAACAGCCAGCGTGACAGCGACGCGTAGGGACCGGCATCCGCGGGTGGTCTGTGGTGCTGTGCA,ssDNA,none,influenza,protein,,,,,,,,,,,,159-870-864-929-438,patent,extracted,train
+GGCCCACCTTCCAAGAAATTA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-509-098-062-106,patent,extracted,train
+CGTTCGTTTCTCGTTGCCTAA,ssDNA,none,unknown,protein,,,,,,,,,,,,139-509-098-062-106,patent,extracted,train
+GCACGATGTATACAGCTTTGC,ssDNA,none,unknown,protein,,,,,,,,,,,,139-509-098-062-106,patent,extracted,train
+GCAUGGAAGGCAUCAGAAGUGUAUA,ssRNA,none,unknown,protein,,,,,,,,,,,,015-489-158-017-154,patent,extracted,train
+CAAGGTAACCAGTACAAGGTGCTAAACGTAATGGCTTCG,ssDNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+CATTCACCATGGCCCCTTCCTACGTATGTTCTGCGGGTG,ssDNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+TGGCGGTACGGGCCGTGCACCCACTTACCTGGGAAGTGA,ssDNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+UAAUGUGUGAAGCUGAGCGCCCGAAUAGAUUAGACAAAAU,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+CGCGUAUGUGUGAAAGCGUGUGCACGGAGGCGUCUACAAU,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+UUGAGAUGUGUGAGUACAGCUCAAAAUCCCGUUGGAGG,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+AUGUGUGAUAGAGCAUCCCCCAGGCGACGUAC,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+UAGAGGUAGUAUGUGUGGGAGAUGAAAAUACUGUGGAAAG,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+GUAAAGAGAUCCUAAUGGCUCGCUAGAUGUGAUGUGAAAC,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+CACGAAAAACCCGAAUUGGGUCGCCCAUAAGGAUGUGUGA,ssRNA,none,unknown,protein,,,,,,,,,,,40.0,174-551-303-057-92X,patent,extracted,train
+CGATCATCTCAGAACATTCTTAGCGTTTTGTTCTTGTGTATGATCG,ssDNA,none,the DNA polymerase,protein,,,,,,,,,,,,128-104-408-814-904,patent,extracted,train
+ATAGTCTATCGATCAATTGGGTCTGGGTCCGTGCCGGCGTGGTCTTGTAGATAGCAA,ssDNA,none,the DNA polymerase,protein,,,,,,,,,,,,128-104-408-814-904,patent,extracted,train
+ATAGTCTATCGATCAATTGGGTCTGGGTCCGTGCCGGCGTGGTCTTGTAGATAGCAAGTGTATTCA,ssDNA,none,the DNA polymerase,protein,,,,,,,,,,,,128-104-408-814-904,patent,extracted,train
+ATTATACCTGGGGGAGTATTGCGGAGGAAGGTATAAT,ssDNA,none,the target by measuring an optical signal,protein,,,,,,,,,,,,115-183-555-914-936,patent,extracted,train
+CGAATGGGCCCGTCCTCGCTGTAAG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GCAACAGGGTATCCAAAGGATCAAA,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GTTCGACAGGAGGCTCACAACAGGC,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+TGTTGGTCAGGCGGCGGCTCTACAT,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+CTCTGTTCTTATTTGCGAGTT,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+CCCTCTGTTCTTATTTGCGAGTTCA,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+CTCTGTTCTTATTTGCGAGTTGGTG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+TAAGAACAGGGCGTCGTGTTACGAG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GTGGCTTACTGCGAGGACGGGCCCA,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GCAGTTGATCCTTTGGATACCCTGG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+AACCCTATCCACTTTTCGGCTCGGG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+CGATTTAGTCTCTGTCTCTAGGGGT,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+CGACAGGAGGCTCACAACAGGCAAC,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+AGAACGAAGCGTTCGACAGGAGGCT,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+AGAAACACTTGGTATATCGCAGATA,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GGGAGACAAGAATAAACACTCAACG,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GGGAGACAAGAATAAACGCTCAA,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+TTCGACAGGAGGCTCACAACAGGC,ssDNA,none,MUC1,protein,,,,,,,,,,,,164-046-861-332-754,patent,extracted,train
+GCCTCATGTCGAACCTACTGGA,ssDNA,none,unknown,protein,,,,,,,,,,,10.0,044-233-810-643-424,patent,extracted,train
+TCATGTCGAAGGGGCGTATGGGCTTTG,ssDNA,none,unknown,protein,,,,,,,,,,,10.0,044-233-810-643-424,patent,extracted,train
+TGCTTGGAGCAATGGCGATGACGGATC,ssDNA,none,unknown,protein,,,,,,,,,,,10.0,044-233-810-643-424,patent,extracted,train
+TTGCGCGTTAATTGGGGGGGTGGGTGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+GGGGGGGGTGGGGTGGGTCAATATTCTCGTC,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+CCCTCCAAAGCGGGGGGGGTGGGTGGGCAG,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+GTTTCCAAAGCCGGGGGGGTGGGATGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+TGCCTTGTTATTGTGGTGGGCGGGTGGGAC,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+AAAGCCGGGGGGGTGGGATGGGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+TGCCTTGTTATTGTGGTGGGCGGGTGGG,ssDNA,none,unknown,protein,,,,,,,,,,,,109-252-256-022-54X,patent,extracted,train
+CCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGCC,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+CCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTGATG,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+CCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTGATG,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+CCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGTTTGATG,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+AGGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGCCGATT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+AAGGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGCCGATT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+AAGGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGCCGAT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+AGGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGTCGATT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+AAGGAGGGTAGGTAGTGCTTGGTAGGGAAACTCCGTCGAT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GATATCAACCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTGATGTT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+ATCAACCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTGAT,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+CAACCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTG,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+CCCATGGTAGGTATTGCTTGGTAGGGATAGTGGG,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GGGAGAGGAGGGAGATAGATATCAACCCATGGTAGGTATTGCTTGGTAGGGATA,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GTGGGCTTGATGTTTCGTGGATGCCACAGGAC,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GGGAGAGGAGGGAGATAGATATCAACCCATGGTAGGTATTGCTTGGTAGGGATAGTGGGCTTGATGTTTCGTGGATGCCACAGGAC,ssDNA,none,to SARS-CoV-2 spike glycoprote,protein,,,,,,,,,,,,050-099-381-908-14X,patent,extracted,train
+GGGGGAUCAAUCCAAGGGACCCGGAAACGCUCCCUUACACCCC,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,126-964-460-859-891,patent,extracted,train
+GGGUUCUACGAUAAACGGUUAAUGAUCAGCUUAUGGCUGGCAGUUCCC,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,126-964-460-859-891,patent,extracted,train
+GAAGTGAAAATGACAGAACACAACA,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+GGCTATAGCACATGGGTAAAACGAC,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+CAAACAATCAAACAGCAGTGGGGTG,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+TACTGCATGCACACCACTTCAACTA,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+GGGTTATATTACTCGGCCGGTGTAA,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+GGCGTACGGTAGGCGGGGTCAACTG,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+GCTGGGTAAATAGATGATTCCCGGC,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+AGTGGTGGTTTTATAAGACTGATAC,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+TAGCCTTAATGCCTTTGTAAGGCGA,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+CGGTCTACGGAGCCGCGTTAAACTT,ssDNA,none,MUC1,protein,,,,,,,,,,,,197-887-663-798-354,patent,extracted,train
+AUUAUGCUUAAACAGUGCUUUAACUAAU,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+GCUGCUUCAACAGUGCUUGGACGC,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+GCUGGUUCAACAGUGCUUGGACGC,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+GCUACUUCAACAGUGCUUGGACGC,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+UUGUUGAGUAGAGUGUGAGCUCCGUAACUAGUCGCGUCUUCGGACGCAACUGAAUGAAAUGGUG,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+GUCGAGUAGAGUGUGGGCUCUUCGGAGACGGUCGGGUCC,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+CUACAAGGUGAGCCCAAUAAUACGGUUUGGGUUAGGAUAGGAAGUAGAGCCGUAAACUCUCUAA,ssRNA,none,unknown,protein,,,,,,,,,,,,106-458-061-774-519,patent,extracted,train
+TTTGTGTCCCCGTTTTGGTTGGTAAAC,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTCCGTATCTGGAAGGGGCATCTTGG,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTCCTTAGGACCGGAAGGATTACAGC,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTGCCTAAAAGGCACTATGTCAAATG,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTGGAGCTGTTGGCATCATGTTCCTG,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTGATTCTTTTCTATCTCAGGACAGA,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTATAGACATCCCACACTGTAGTTCT,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTATTAATTTGAGAACCAACATAAGG,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTATTTTCTTTTTGGTAAGAAGGAAC,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTCACACACACACACACACACACACA,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTATCCAAACCTCCTAAATGATAC,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTACACCCGATCCACTGGGGAGCA,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+TTTTTGATTCTTTTCTATCTCAGGACA,ssDNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+UAAUUUCUACUCUUGUAGAUUUCGGACCCGUGCUACAACUU,ssRNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+UAAUUUCUACUCUUGUAGAUAUAGAAUAGCCUCAUAUUUUA,ssRNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+UAAUUUCUACUCUUGUAGAUGAGCUGUUGGCAUCAUGUUCCUG,ssRNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+UAAUUUCUACUCUUGUAGAUUCCAAACCUCCUAAAUGAUAC,ssRNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+UAAUUUCUACUCUUGUAGAUCACCCGAUCCACUGGGGAGCA,ssRNA,none,VEGF,protein,,,,,,Tris,Tris,5.5,,,1.0,005-336-869-935-787,patent,extracted,train
+CGGACUUACGUAGAAAGGUAACGAUCAUUGUGUCCG,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,074-361-793-562-52X,patent,extracted,train
+CGCGGACUUACGUAGAAAGGUAACGAUCAUUGUGUCCGCG,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,074-361-793-562-52X,patent,extracted,train
+GCAACCCGGAGGGAUAGGAAUUAUCGGUUGC,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,074-361-793-562-52X,patent,extracted,train
+CGCGGUGUGGAAAUGUAAAGAUCGUUGCCGCG,ssRNA,none,TRANSFERRIN,protein,,,,,,,,,,,,074-361-793-562-52X,patent,extracted,train
+TTTCCATGAGCTTCCTGACCTT,ssDNA,none,unknown,protein,,,,,,,,,,,,056-521-005-630-112,patent,extracted,train
+TTTCGTCGTTGTCGTTTTGTCGTT,ssDNA,none,unknown,protein,,,,,,,,,,,,056-521-005-630-112,patent,extracted,train
+TTTGCTGCTGTGCTTTTGTGCTT,ssDNA,none,unknown,protein,,,,,,,,,,,,056-521-005-630-112,patent,extracted,train
+GAAGAGACAGGTACGTTAATAGTTAATAGCGT,ssDNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+ACGTTAACAATATTGCAGCAGTACGCACACA,ssDNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+ACAAGGAACTGATTACAAACATTGGCCGCAAA,ssDNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+TTCCATGCCAATGCGCGACATTCCGAAGAA,ssDNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+UAAUUUCUACUAAGUGUAGAUCCCCCAGCGCUUCAGCGUUC,ssRNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+UAAUUUCUACUAAGUGUAGAUUUGCUUUCGUGGUAUUCUUG,ssRNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+UAAUUUCUACUAAGUGUAGAUGUGGUAUUCUUGCUAGUUAC,ssRNA,none,unknown,protein,,,,,,,,,,,42.0,005-097-165-731-879,patent,extracted,train
+TGGGGGGGGTTAGTTCAATACATGCGGGCG,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+AGAGGGGGGGGTTAGCTGCTTTAACTCATG,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+TGGGGGGGGTTAGTTCAATACATG,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+TCCCTACGGCGCTAACTGGGGGGGGTTAGTTCAATACATGCGGGCGGCCACCGTGCTACAAC,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+ACGGCGCTAACTGGGGGGGGTTAGTTCAATACATG,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+GCTAACTGGGGGGGGTTAGTTCAATACATGCGGGC,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+CTGGGGGGGGTTAGTTCAATACATGCGGGCGGCCA,ssDNA,none,a subject,protein,,,,,,,,,,,,138-423-658-613-68X,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGTAGAGCTTGACGGGGAAATCAAAA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGATAGGAACCCATGTACAAACAGTT,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGTCTAAAGTTTTGTCGTGAATT,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGTAGAGCTTGACGGGGAAATCA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCGAGAAAGGAAGGGAACAAA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGATAGGAACCCATGTACAAACA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCACCACCCTCATTTTCCTATTA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCT,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGTCTAAAGTTTTGTCGTGAATTGCG,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCGAGAAAGGAAGGGAACAAAC,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCACCACCCTCATTTTCCTATTATT,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGGTGGTGGCTACATTTTGACGCTCACCTGAAA,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+GGTGGTGGTGGTTGTGGTGG,ssDNA,none,nucleolin,protein,,,,,,,,,,,,079-721-351-759-526,patent,extracted,train
+ATGCTTCCACGAGCCTTTCGGGGTTGGTGT,ssDNA,none,HIV,protein,,,,,,,,,,,,053-304-810-024-756,patent,extracted,train
+CCGACGCTCCGCCATCAGATAAG,ssDNA,none,HIV,protein,,,,,,,,,,,,053-304-810-024-756,patent,extracted,train
+CACCCCTTCCTGCATGGATTTTATAA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GCAGCAGTCCTGCCTAAGATTCACAC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AGTTGTTAACCAGATCAAAACCCGTC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AGGATTCAGGAACTGCACTGTCAGCC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AACCAAAGCTGACCAGGAAAAAATGG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CCCCCTGTCCCATCTGTTTAATCCCA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGCTTCCTTGCTGATTTTCACATTGG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AGCACCTCCCTCCTACTTTCACTCAG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGACTCCTGACAACTGATCAGAGAGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TTCTGTCAGTGGAGAGGGTGAAGGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+ATGCATGAATCTTGATCCCTGCTGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGTGTTGTGGGACCTTCTAACGGGTA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CCTCTATCCAGGCTCACTACAAGAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GTTCCATGGCCAACACTTGTCACTAC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CGTGCTGAAGTCAAGTTTGAAGGTGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CATTACCTGTCCACACAATCTGCCCT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGAAGATGGAAGCGTTCAACTAGCAG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGACTTTTTCAAGAGTGCCATGCCCG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GTAATCTCCATCGCAGTTGAACCGAA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TCTGGTATGGCTAAGCAGTATGAGCC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AAAGGTGGTGTAATCCCTGGCGAATA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GAATGGCACCAGAACCTGATCGAATC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CTTGAGCCGATCATGAAGGTTGAAGT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CGTCAGCGCGTTCTGAACAACGAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TCTGAAAGACGTAACCACTGGTGACA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CGTCTGCACTTCGGTTCTTACCATGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CAACGTTGAAGCGAACGTAGGTAAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GTTACTGGCGTTAAGATCCACGCTGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AGTACCGCTGTCTGAAATGTTCGGAT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TATCCTGGACGACGGTAAAGACACTC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CACCAAGAAAGCTACCATGCACTTGC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CGTTGACTCCTCTGAACTGGCGTTTA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GCAGCAGTCCTGCCTAAGATTCACACCACCCCTTCCTGCATGGATTTTATAA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AACCAAAGCTGACCAGGAAAAAATGGCCCCCTGTCCCATCTGTTTAATCCCA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGCTTCCTTGCTGATTTTCACATTGGAGCACCTCCCTCCTACTTTCACTCAG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGACTCCTGACAACTGATCAGAGAGATTCTGTCAGTGGAGAGGGTGAAGGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+ATGCATGAATCTTGATCCCTGCTGGATGTGTTGTGGGACCTTCTAACGGGTA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CCTCTATCCAGGCTCACTACAAGAATGTTCCATGGCCAACACTTGTCACTAC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CGTGCTGAAGTCAAGTTTGAAGGTGACATTACCTGTCCACACAATCTGCCCT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TGAAGATGGAAGCGTTCAACTAGCAGTGACTTTTTCAAGAGTGCCATGCCCG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+GTAATCTCCATCGCAGTTGAACCGAATCTGGTATGGCTAAGCAGTATGAGCC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AAAGGTGGTGTAATCCCTGGCGAATAGAATGGCACCAGAACCTGATCGAATC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CTTGAGCCGATCATGAAGGTTGAAGTCGTCAGCGCGTTCTGAACAACGAAAT,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+TCTGAAAGACGTAACCACTGGTGACACGTCTGCACTTCGGTTCTTACCATGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CAACGTTGAAGCGAACGTAGGTAAACGTTACTGGCGTTAAGATCCACGCTGA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AGTACCGCTGTCTGAAATGTTCGGATTATCCTGGACGACGGTAAAGACACTC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CACCAAGAAAGCTACCATGCACTTGCCGTTGACTCCTCTGAACTGGCGTTTA,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CCTTGGCACCCGAGAATCCTCTATCCAGGCTCACTACAAGAATGTTCCATGGCCAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+CCTTGGCACCCGAGAATCCTCTATCCAGGCTCACTACAAGAATGTTCCATGGCCAACACTTGTCACTACTAG,ssDNA,none,unknown,protein,,,,,,,,,,,,172-707-807-024-860,patent,extracted,train
+AAAUUCUCGAAGUAUGCUCUU,ssRNA,none,unknown,protein,,,,,,,,,,,,168-968-175-321-728,patent,extracted,train
+UUUGCUAACGGACCAGUACUU,ssRNA,none,unknown,protein,,,,,,,,,,,,168-968-175-321-728,patent,extracted,train
+UAAUACCCAAAAUUCGACCUU,ssRNA,none,unknown,protein,,,,,,,,,,,,168-968-175-321-728,patent,extracted,train
+CAACACCCAGTCACGCAGTCTCAAGGGTCCT,ssDNA,none,unknown,protein,,,,,,,,,,,,179-015-261-506-776,patent,extracted,train
+GGAUGGGAAACGUGGUCCGAUCUGAAGGAGGCACGGAUUGGACU,ssRNA,none,Influenza,protein,,,,,,,,,,,,024-652-893-699-298,patent,extracted,train
+GUGGACACGUCGAUUUGGUCAUUCUU,ssRNA,none,Influenza,protein,,,,,,,,,,,,024-652-893-699-298,patent,extracted,train
+GGAUGGGAAACGUGGUCCGAUCUGAAGUCCACACGGAUU,ssRNA,none,Influenza,protein,,,,,,,,,,,,024-652-893-699-298,patent,extracted,train
+GGACUACGCCAAGUCGAUGAA,ssRNA,none,Influenza,protein,,,,,,,,,,,,024-652-893-699-298,patent,extracted,train
+GCCUCCACGUCGAUUUGGUCAUUCUU,ssRNA,none,Influenza,protein,,,,,,,,,,,,024-652-893-699-298,patent,extracted,train
+CAGTGAATGCGAGTCCGTCT,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,152-760-758-572-357,patent,extracted,train
+CAGTGAATGCGAGTCCGTCTAAG,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,152-760-758-572-357,patent,extracted,train
+AAGAGAGTAGTACAGCAGCCGTCAA,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,152-760-758-572-357,patent,extracted,train
+GTTCTGTCATATTTCAGTGAATGCGAGTCCGTCTAAGAGAGTAGTACAGC,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,152-760-758-572-357,patent,extracted,train
+GTTCTGTCATATTTCAGTGAATGCGAGTCCGTCTAAGAGAGTAGTACAGCAAGAGTGTCTA,ssDNA,none,streptavidin,protein,,,,,,other,other,,,,,152-760-758-572-357,patent,extracted,train
+AUAAUGGAUCCAAACACUGUGUCAAG,ssRNA,none,HER2,protein,,,,,,,,,,,1.0,125-172-467-043-535,patent,extracted,train
+CUUUCAGGUAGAUUGCUUUCUUUGGCAUGUCCGCAAAC,ssRNA,none,HER2,protein,,,,,,,,,,,1.0,125-172-467-043-535,patent,extracted,train
+ACAAGAATGATTGCAGAAAGAAA,ssDNA,none,unknown,protein,,,,,,,,,,,,034-720-045-431-20X,patent,extracted,train
+CATTCGTTAAGTCATATATGTTTTTGAC,ssDNA,none,albumin,protein,,,,,,other,other,,,,,133-506-673-360-66X,patent,extracted,train
+GGAAGAGATGATGTCTGTAAATT,ssDNA,none,albumin,protein,,,,,,other,other,,,,,133-506-673-360-66X,patent,extracted,train
+ATCTCTGAAGTAGCGCCGCCGT,ssDNA,none,albumin,protein,,,,,,other,other,,,,,133-506-673-360-66X,patent,extracted,train
+CTTACACATTCGTTAAGTCATATATGTTTTTGAC,ssDNA,none,albumin,protein,,,,,,other,other,,,,,133-506-673-360-66X,patent,extracted,train
+GGGAGACAAGAAUAAACGCUCAAUCAAUCUCGGACUAGACUAACGACCUUGGUUGACGCUCAUUCGACAGGAGGCUCACAACA,ssRNA,none,unknown,protein,,,,,,,,,,,,004-808-625-082-323,patent,extracted,train
+CGTCACAGGCAGGACCCACTGCCCA,ssDNA,none,unknown,protein,,,,,,,,,,,,064-053-811-922-617,patent,extracted,train
+TCCATGACGTTCCTGACGTT,ssDNA,none,albumin,protein,,,,,,,,,,,,037-763-674-543-991,patent,extracted,train
+TCGTCGTTTTGTCGTTTTGTCGTT,ssDNA,none,albumin,protein,,,,,,,,,,,,037-763-674-543-991,patent,extracted,train
+AGGCGGGTTCCTAGACTTGTACTCAGCCT,ssDNA,none,block binding to the receptor,protein,,,,,,,,,,,,049-514-672-890-197,patent,extracted,train
+CGGGACGACGACGGACATCGTGAGAAATGGTCGACCTTGTGTCTGTCGTCCCG,ssDNA,none,block binding to the receptor,protein,,,,,,,,,,,,049-514-672-890-197,patent,extracted,train
+CGCAGCACCCAAGAACAAGGACTGCTTAGGATTGCGATAGGTTCGG,ssDNA,none,block binding to the receptor,protein,,,,,,,,,,,,049-514-672-890-197,patent,extracted,train
+TAGGGAATTCGTCGACGGATCCATGGCACATGGATACTAGCGAACGCATGGCCGGCGCATGCGTCGACCTG,ssDNA,none,procymidone is 38,protein,,,,,,,,,,,,108-604-830-134-600,patent,extracted,train
+CGCAGGCGTATCTAGACCGCAGGTCGACGCATGCG,ssDNA,none,unknown,protein,,,,,,,,,,,,078-535-894-642-601,patent,extracted,train
+CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
+CGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
+CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGGCGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
