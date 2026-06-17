@@ -75,7 +75,24 @@ class PatentsUSAdapter(BaseAdapter):
         except Exception:
             return {}
 
+    def _check_reachable(self) -> bool:
+        """Quick DNS check — skip all retries if host is unreachable."""
+        import socket
+        try:
+            socket.gethostbyname("search.patentsview.org")
+            return True
+        except OSError:
+            log.warning(
+                "PatentsView: cannot resolve 'search.patentsview.org' — "
+                "likely a DNS/network issue in this environment. "
+                "Skipping PatentsView adapter. Works normally on open networks."
+            )
+            return False
+
     def run(self, max_results: int = 500) -> list[dict]:
+        if not self._check_reachable():
+            return []
+
         all_records: list[dict] = []
         seen_ids: set[str] = set()
 

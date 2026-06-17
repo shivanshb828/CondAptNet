@@ -35,15 +35,26 @@ _SCHOLARLY_URL = "https://api.lens.org/scholarly/search"
 _PATENT_URL    = "https://api.lens.org/patent/search"
 
 _SCHOLARLY_QUERIES = [
-    {"match": {"title_abstract_text": "DNA aptamer SELEX binding affinity"}},
-    {"match": {"title_abstract_text": "ssDNA aptamer Kd nM protein"}},
-    {"match": {"title_abstract_text": "aptamer selection dissociation constant"}},
+    {"query_string": {"query": "DNA aptamer SELEX binding affinity protein", "default_operator": "AND"}},
+    {"query_string": {"query": "ssDNA aptamer Kd nM dissociation constant",  "default_operator": "AND"}},
+    {"query_string": {"query": "aptamer selection oligonucleotide binding",   "default_operator": "AND"}},
 ]
 
+# Lens patent API: search for PCT/international aptamer patents.
+# Valid top-level fields: lens_id, jurisdiction, doc_number, abstract, biblio,
+#   sequence_listing, legal_status, date_published, publication_type.
 _PATENT_QUERIES = [
-    {"match": {"title_claims_abstract": "DNA aptamer SELEX nucleotide binding"}},
-    {"match": {"title_claims_abstract": "aptamer protein binding Kd dissociation"}},
+    {"query_string": {"query": "DNA aptamer SELEX nucleotide binding protein",  "default_operator": "AND"}},
+    {"query_string": {"query": "aptamer dissociation constant Kd nM sequence", "default_operator": "AND"}},
 ]
+
+
+def _doi_from_external_ids(external_ids: list) -> str:
+    """Extract DOI string from Lens scholarly external_ids list."""
+    for entry in (external_ids or []):
+        if isinstance(entry, dict) and entry.get("type") == "doi":
+            return entry.get("value", "")
+    return ""
 
 
 def _scholarly_payload(query: dict, from_: int = 0, size: int = 100) -> dict:
@@ -51,7 +62,7 @@ def _scholarly_payload(query: dict, from_: int = 0, size: int = 100) -> dict:
         "query": query,
         "from": from_,
         "size": size,
-        "include": ["title", "abstract", "doi", "external_ids", "year_published"],
+        "include": ["title", "abstract", "external_ids", "year_published"],
         "sort": [{"_score": "desc"}],
     }
 
@@ -61,7 +72,7 @@ def _patent_payload(query: dict, from_: int = 0, size: int = 100) -> dict:
         "query": query,
         "from": from_,
         "size": size,
-        "include": ["lens_id", "title", "abstract", "claims", "publication_number"],
+        "include": ["lens_id", "abstract", "biblio", "claims", "doc_number", "jurisdiction"],
         "sort": [{"_score": "desc"}],
     }
 
@@ -124,10 +135,12 @@ class LensAdapter(BaseAdapter):
         all_records: list[dict] = []
         seen_ids: set[str] = set()
 
+        from scripts.data.scraper.adapters.pubmed_pmc import _guess_target_from_abstract
+
         # ── Scholarly papers ──────────────────────────────────────────────────
         for query in _SCHOLARLY_QUERIES:
             for hit in self._iter_scholarly(query, max_hits=100):
-                lid = hit.get("lens_id", "")
+                lid = hit.get("lens_id", "") or hit.get("title", "")[:40]
                 if lid in seen_ids:
                     continue
                 seen_ids.add(lid)
@@ -135,18 +148,13 @@ class LensAdapter(BaseAdapter):
                 title    = hit.get("title") or ""
                 abstract = hit.get("abstract") or ""
                 text     = f"{title}\n{abstract}"
-                doi      = hit.get("doi") or ""
-                url      = f"https://doi.org/{doi}" if doi else f"https://lens.org/{lid}"
+                doi      = _doi_from_external_ids(hit.get("external_ids", []))
+                url      = f"https://doi.org/{doi}" if doi else f"https://lens.org/search"
 
-                from scripts.data.scraper.adapters.pubmed_pmc import _guess_target_from_abstract
                 target = _guess_target_from_abstract(text)
-
-                recs = self._extract_records_from_text(
-                    text=text,
-                    target_name=target,
-                    source_url=url,
-                    doi=doi,
-                    confidence="extracted",
+                recs   = self._extract_records_from_text(
+                    text=text, target_name=target, source_url=url,
+                    doi=doi, confidence="extracted",
                 )
                 all_records.extend(recs)
                 if len(all_records) >= max_results:
@@ -155,28 +163,36 @@ class LensAdapter(BaseAdapter):
         # ── Patents ───────────────────────────────────────────────────────────
         for query in _PATENT_QUERIES:
             for hit in self._iter_patents(query, max_hits=100):
-                lid = hit.get("lens_id", "") or hit.get("publication_number", "")
+                lid = hit.get("lens_id", "") or hit.get("doc_number", "")
                 if lid in seen_ids:
                     continue
                 seen_ids.add(lid)
 
-                title   = hit.get("title") or ""
                 abstract = hit.get("abstract") or ""
-                claims   = hit.get("claims") or ""
-                if isinstance(claims, list):
-                    claims = " ".join(str(c) for c in claims)
-                text = f"{title}\n{abstract}\n{claims}"
-                url  = f"https://lens.org/{lid}"
+                # Title is nested inside biblio.invention_title[0].text
+                biblio = hit.get("biblio") or {}
+                inv_titles = biblio.get("invention_title", [])
+                title = ""
+                if isinstance(inv_titles, list) and inv_titles:
+                    title = inv_titles[0].get("text", "") if isinstance(inv_titles[0], dict) else str(inv_titles[0])
+                # Claims contain explicit sequence text — include for extraction
+                claims_raw = hit.get("claims") or []
+                claims_text = ""
+                if isinstance(claims_raw, list):
+                    for claim_group in claims_raw:
+                        if isinstance(claim_group, dict):
+                            for c in claim_group.get("claims", []):
+                                if isinstance(c, dict):
+                                    claims_text += " ".join(c.get("claim_text", [])) + " "
+                text = f"{title}\n{abstract}\n{claims_text}".strip()
+                jur  = hit.get("jurisdiction", "")
+                doc  = hit.get("doc_number", "")
+                url  = f"https://lens.org/lens/patent/{jur}_{doc}" if jur and doc else f"https://lens.org/{lid}"
 
-                from scripts.data.scraper.adapters.pubmed_pmc import _guess_target_from_abstract
                 target = _guess_target_from_abstract(text)
-
-                recs = self._extract_records_from_text(
-                    text=text,
-                    target_name=target,
-                    source_url=url,
-                    doi=lid,
-                    confidence="extracted",
+                recs   = self._extract_records_from_text(
+                    text=text, target_name=target, source_url=url,
+                    doi=lid, confidence="extracted",
                     extra_fields={"source_type": "patent"},
                 )
                 all_records.extend(recs)

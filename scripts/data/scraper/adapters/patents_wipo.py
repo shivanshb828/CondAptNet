@@ -1,65 +1,51 @@
 """
-WIPO PatentScope adapter.
+WIPO PCT patent adapter — via Lens.org patent API.
 
-WIPO PatentScope provides international (PCT) patent data. The REST API
-endpoint allows keyword search and returns patent metadata + abstracts.
+The WIPO PatentScope web interface (patentscope.wipo.int) changed its URL
+structure and times out unreliably. Lens.org already indexes all PCT (WO)
+international patents from WIPO, so we query Lens with jurisdiction="WO"
+to get WIPO coverage without hitting patentscope.wipo.int directly.
 
-API endpoint:
-  GET https://patentscope.wipo.int/search/en/query.jsf (web interface)
+Requires: LENS_API_TOKEN in environment (same token as the Lens adapter).
+Without the token, returns [] with a warning.
 
-For programmatic access, WIPO provides an API at:
-  GET https://api.lens.org/patent/search  (Lens.org wraps WIPO data)
-
-Because WIPO's own REST API requires account registration and has limited
-public documentation, this adapter uses the WIPO PatentScope search URL
-and scrapes the results as structured JSON from their search endpoint.
-
-Alternative approach used here: scrape
-  POST https://patentscope.wipo.int/search/en/search.jsf
-with the form-encoded query, using BeautifulSoup to parse results.
-
-Rate limit: 1 req/s (very conservative — WIPO has no published limit).
-
-If WIPO access is unavailable or returns empty, the adapter silently
-returns []. The main pipeline has 9 other sources.
+Rate limit: shared 10 req/min Lens limit. Runs after the main Lens adapter,
+so uses the same token bucket — rate limiting is handled in base.BaseAdapter.
 """
 
 from __future__ import annotations
 
 import logging
-import re
 import sys
 from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
+from scripts.data.scraper import config as cfg
 from scripts.data.scraper.adapters.base import BaseAdapter
-from scripts.data.scraper.parsers.text_parser import parse_html
 from scripts.data.scraper.utils.provenance import ProvenanceLogger
 
 log = logging.getLogger(__name__)
 
-_SEARCH_URL = "https://patentscope.wipo.int/search/en/query.jsf"
-_RESULT_URL = "https://patentscope.wipo.int/search/en/result.jsf"
+_PATENT_URL = "https://api.lens.org/patent/search"
 
-_WIPO_QUERIES = [
-    "aptamer SELEX DNA binding protein",
-    "ssDNA aptamer dissociation constant",
-    "DNA aptamer nucleic acid binding affinity",
+_PCT_QUERIES = [
+    {"bool": {"must": [
+        {"query_string": {"query": "aptamer SELEX DNA binding", "default_operator": "AND"}},
+        {"term": {"jurisdiction": "WO"}},
+    ]}},
+    {"bool": {"must": [
+        {"query_string": {"query": "ssDNA aptamer dissociation constant protein", "default_operator": "AND"}},
+        {"term": {"jurisdiction": "WO"}},
+    ]}},
 ]
-
-_APTAMER_KW = re.compile(r"\baptamer\b|\bSELEX\b|\bssDNA\b", re.IGNORECASE)
-
-# WIPO result page: patent titles are in <span class="trans-title"> or similar
-_TITLE_RE    = re.compile(r'class="[^"]*title[^"]*"[^>]*>([^<]{5,200})<', re.IGNORECASE)
-_ABSTRACT_RE = re.compile(r'class="[^"]*abstract[^"]*"[^>]*>([^<]{10,2000})<', re.IGNORECASE)
-_WO_NUM_RE   = re.compile(r'\bWO\s*\d{4}/\d+\b', re.IGNORECASE)
 
 
 class WIPOAdapter(BaseAdapter):
     """
-    Scrape WIPO PatentScope for international aptamer patents.
+    Pull PCT (WO) aptamer patents from Lens.org as a WIPO data source.
+    Falls back cleanly if LENS_API_TOKEN is missing.
     """
 
     source_name = "patents_wipo"
@@ -67,83 +53,85 @@ class WIPOAdapter(BaseAdapter):
 
     def __init__(self, prov_logger: Optional[ProvenanceLogger] = None) -> None:
         super().__init__(prov_logger)
-        # WIPO rejects requests without a browser-like User-Agent
-        self._session.headers["User-Agent"] = (
-            "Mozilla/5.0 (compatible; CondAptNet/1.0; aptamer ML research; "
-            "coolshivansh7@gmail.com)"
-        )
+        if cfg.LENS_API_TOKEN:
+            self._session.headers["Authorization"] = f"Bearer {cfg.LENS_API_TOKEN}"
 
-    def _search(self, query: str, rows: int = 25) -> Optional[str]:
-        """POST a search and return the HTML results page."""
-        # First GET to establish session cookies
-        self._get(_SEARCH_URL)
-
-        resp = self._post(
-            _RESULT_URL,
-            data={
-                "query":         query,
-                "office":        "",
-                "dateRangeField": "PD",
-                "rows":          str(rows),
-                "sortOption":    "Relevance",
-            },
-        )
+    def _post_search(self, payload: dict) -> dict:
+        resp = self._post(_PATENT_URL, json=payload)
         if resp is None:
-            return None
-        return resp.text
-
-    def _parse_results(self, html: Optional[str]) -> list[dict]:
-        """Extract patent numbers + text snippets from WIPO search HTML."""
-        if not html:
-            return []
-        doc    = parse_html(html, source_path="wipo_results")
-        text   = doc.text
-        titles = _TITLE_RE.findall(html)
-        wo_nums = _WO_NUM_RE.findall(text)
-        abstracts = _ABSTRACT_RE.findall(html)
-
-        items: list[dict] = []
-        for i, wo in enumerate(wo_nums):
-            items.append({
-                "wo_number": wo.replace(" ", "").upper(),
-                "title":     titles[i] if i < len(titles) else "",
-                "abstract":  abstracts[i] if i < len(abstracts) else "",
-            })
-        return items
+            return {}
+        try:
+            return resp.json()
+        except Exception:
+            return {}
 
     def run(self, max_results: int = 500) -> list[dict]:
+        if not cfg.LENS_API_TOKEN:
+            log.warning("LENS_API_TOKEN not set; skipping WIPO (Lens PCT) adapter")
+            return []
+
+        from scripts.data.scraper.adapters.pubmed_pmc import _guess_target_from_abstract
+
         all_records: list[dict] = []
-        seen_ids: set[str] = set()
+        seen_ids:    set[str]   = set()
 
-        for query in _WIPO_QUERIES:
-            html  = self._search(query)
-            items = self._parse_results(html)
-
-            for item in items:
-                wo = item.get("wo_number", "")
-                if not wo or wo in seen_ids:
-                    continue
-                seen_ids.add(wo)
-
-                text = f"{item.get('title','')} {item.get('abstract','')}".strip()
-                if not _APTAMER_KW.search(text):
-                    continue
-
-                url = f"https://patentscope.wipo.int/search/en/detail.jsf?docId={wo}"
-
-                from scripts.data.scraper.adapters.pubmed_pmc import _guess_target_from_abstract
-                target = _guess_target_from_abstract(text)
-
-                recs = self._extract_records_from_text(
-                    text=text,
-                    target_name=target,
-                    source_url=url,
-                    doi=wo,
-                    confidence="extracted",
-                )
-                all_records.extend(recs)
-                if len(all_records) >= max_results:
+        for query in _PCT_QUERIES:
+            from_ = 0
+            size  = min(100, max_results)
+            while from_ < max_results:
+                payload = {
+                    "query":   query,
+                    "from":    from_,
+                    "size":    size,
+                    "include": ["lens_id", "abstract", "biblio", "claims", "doc_number", "jurisdiction"],
+                    "sort":    [{"_score": "desc"}],
+                }
+                data = self._post_search(payload)
+                hits = data.get("data", [])
+                if not hits:
                     break
 
-        log.info("WIPOAdapter: %d records", len(all_records))
+                for hit in hits:
+                    lid = hit.get("lens_id", "") or hit.get("doc_number", "")
+                    if lid in seen_ids:
+                        continue
+                    seen_ids.add(lid)
+
+                    abstract   = hit.get("abstract") or ""
+                    biblio     = hit.get("biblio") or {}
+                    inv_titles = biblio.get("invention_title", [])
+                    title = ""
+                    if isinstance(inv_titles, list) and inv_titles:
+                        title = (inv_titles[0].get("text", "")
+                                 if isinstance(inv_titles[0], dict) else str(inv_titles[0]))
+                    claims_raw  = hit.get("claims") or []
+                    claims_text = ""
+                    if isinstance(claims_raw, list):
+                        for cg in claims_raw:
+                            if isinstance(cg, dict):
+                                for c in cg.get("claims", []):
+                                    if isinstance(c, dict):
+                                        claims_text += " ".join(c.get("claim_text", [])) + " "
+                    text = f"{title}\n{abstract}\n{claims_text}".strip()
+                    doc  = hit.get("doc_number", "")
+                    url  = f"https://lens.org/lens/patent/WO_{doc}" if doc else f"https://lens.org/{lid}"
+
+                    target = _guess_target_from_abstract(text)
+                    recs   = self._extract_records_from_text(
+                        text=text, target_name=target, source_url=url,
+                        doi=lid, confidence="extracted",
+                        extra_fields={"source_type": "patent"},
+                    )
+                    all_records.extend(recs)
+                    if len(all_records) >= max_results:
+                        break
+
+                from_ += len(hits)
+                if len(hits) < size:
+                    break
+
+            if len(all_records) >= max_results:
+                break
+
+        log.info("WIPOAdapter (via Lens PCT): %d records", len(all_records))
         return all_records[:max_results]

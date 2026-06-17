@@ -67,18 +67,26 @@ class EPOAdapter(BaseAdapter):
     # ── OAuth2 ────────────────────────────────────────────────────────────────
 
     def _refresh_token(self) -> bool:
-        """Obtain a new OAuth2 token. Returns True on success."""
+        """Obtain a new OAuth2 token. Returns True on success.
+
+        EPO OPS uses non-standard OAuth2: credentials go in the Authorization
+        header as Basic base64(key:secret), NOT as form-body client_id/client_secret.
+        """
         if not cfg.EPO_CLIENT_KEY or not cfg.EPO_CLIENT_SECRET:
             return False
+        import base64
+        creds = base64.b64encode(
+            f"{cfg.EPO_CLIENT_KEY}:{cfg.EPO_CLIENT_SECRET}".encode()
+        ).decode()
         self._limiter.wait()
         try:
             resp = self._session.post(
                 _TOKEN_URL,
-                data={
-                    "grant_type":    "client_credentials",
-                    "client_id":     cfg.EPO_CLIENT_KEY,
-                    "client_secret": cfg.EPO_CLIENT_SECRET,
+                headers={
+                    "Authorization":  f"Basic {creds}",
+                    "Content-Type":   "application/x-www-form-urlencoded",
                 },
+                data="grant_type=client_credentials",
                 timeout=15,
             )
             resp.raise_for_status()
@@ -103,12 +111,20 @@ class EPOAdapter(BaseAdapter):
     # ── Search + fetch ────────────────────────────────────────────────────────
 
     def _search(self, cql: str, start: int = 1, count: int = 25) -> Optional[str]:
+        # EPO OPS: Range must not exceed 2000; 403 means out-of-range — stop paginating.
+        if start > 2000:
+            return None
         resp = self._get(
             _SEARCH_URL,
-            params={"q": cql, "Range": f"{start}-{start+count-1}"},
+            params={"q": cql, "Range": f"{start}-{min(start+count-1, 2000)}"},
             headers={"Accept": "application/json"},
         )
-        return resp.text if resp else None
+        if resp is None:
+            return None
+        if resp.status_code == 403:
+            log.debug("EPO 403 on Range=%d — end of results for this query", start)
+            return None
+        return resp.text
 
     def _parse_search_results(self, json_text: Optional[str]) -> list[dict]:
         """Parse OPS search response; returns list of {doc_number, title, abstract}."""
