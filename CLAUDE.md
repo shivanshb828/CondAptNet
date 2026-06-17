@@ -524,17 +524,28 @@ MPS rules:
 - [x] dual_head.py — added binding_label output (0=low/1=medium/2=high, Kd-first with prob fallback)
 - [x] condaptnet.py — CondAptNetOutput updated to include binding_label
 - [x] Data pipeline complete:
-  - master_dataset.csv: 3985 rows (UTexas 896 + Li2014 2320 + scraped 164 + other)
-  - UniProt enrichment: 3 passes with 145-entry override table → 3107 training-ready rows
-  - validate_sequences.py: 3762/3985 valid (94.4%); dedup key fixed to (seq, protein)
+  - master_dataset.csv: 4643 rows (UTexas 789 + Li2014 2320 + patent 792 + aptamerbase 712 + pubmed 30)
+  - UniProt enrichment: 3 passes → 3707 training-ready rows
   - vienna_cache.pkl: 6489 sequences cached
-  - augmented/: tier1_train=9929 / val=414 / test=374 rows (263/56/58 protein families)
+  - augmented/: tier1_train=14014 / val=502 / test=392 rows (273/58/60 protein families)
+- [x] 7-phase data cleaning pipeline (clean_dataset.py):
+  - Phase 1: removed 77 exact dupes + 5 RC pairs
+  - Phase 2: priority target audit (troponin/myoglobin/insulin thin pre-curated-merge)
+  - Phase 3: fixed 596-row Li2014 structural leakage → zero sequence overlap across splits
+  - Phase 4: added nucleic_acid_type; removed 67 non-DNA + 10 out-of-range-length rows
+  - Phase 5: target_type classification (protein=4370, organism/cell/other/sm=114)
+  - Phase 6: restructured to 20-column schema; merged 13 curated troponin/NT-proBNP/myoglobin/insulin rows (training_tier=2); protein_sequence backfilled for 11/13
+  - Phase 7: all validations pass (0 leakage; 2 warnings: val=4.4%/test=3.7% from leakage repair)
+  - master_dataset_cleaned.csv: 4497 rows, 23 columns (20-col spec + protein_sequence, label, training_tier)
+  - Also: non_dna_entries.csv (77), flagged_for_review.csv (609), outputs/cleaning_report.md
+- [x] train.py + finetune.py — _film_heads checkpoint bug fixed; strict=False resume guard added
+- [x] condition_encoder.py — pre-registers FUSION_DIM FiLM head so checkpoint keys are stable
 
 ### Next Up (in order)
-1. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
-2. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
-3. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
-4. (Optional) Second scraper pass with `--max-per-source 2000` for more data
+1. Enrich protein_sequence for 2 curated rows still missing (Insulin P01308, NT-proBNP P16860): run `python scripts/data/enrich_proteins.py --input data/processed/master_dataset_cleaned.csv`
+2. Run Stage 1 training (reads master_dataset_cleaned.csv): `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
+3. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
+4. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
 
 ### Open Decisions
 - esm2_t12_35M confirmed (480-dim, LoRA rank-8 working on MPS)
