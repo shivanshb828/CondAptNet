@@ -1012,3 +1012,19 @@ CGCAGGCGTATCTAGACCGCAGGTCGACGCATGCG,ssDNA,none,unknown,protein,,,,,,,,,,,,078-53
 CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
 CGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
 CCTGCACCCAGTGTCCCCGACGGGGCCCTCTAGCCGTACTCTGTAATGGCGGATGCTGACGGAGAGGAGGACGG,ssDNA,none,unknown,protein,,,,,,,,,,,,198-442-766-615-738,patent,extracted,train
+TGACACCGTACCTGCTCTAAGCACGCCAGGGACTAT,ssDNA,none,unknown,protein,,,,,,,,,,,,CN121896237A,patent,extracted,train
+ATAGTCCCTGGCGTGCTTGGCCAGAGCAGGTACGGTGTCA,ssDNA,none,unknown,protein,,,,,,,,,,,,CN121896237A,patent,extracted,train
+TGACACCGTACCTGCTCTACCCAAGCACGCCAGGGACTAT,ssDNA,none,unknown,protein,,,,,,,,,,,,CN121896237A,patent,extracted,train
+TAGGGAAGAGAAGGACATATGAT,ssDNA,none,unknown,protein,,,,,,,,,,,,CN118685415A,patent,extracted,train
+TCAAGTGGTCATGTACTAGTCAA,ssDNA,none,unknown,protein,,,,,,,,,,,,CN118685415A,patent,extracted,train
+TAGGAAGAGAAGGACATGAT,ssDNA,none,unknown,protein,,,,,,,,,,,,CN118685415A,patent,extracted,train
+TCAAGTGGTCATGTACTAGTCA,ssDNA,none,unknown,protein,,,,,,,,,,,,CN118685415A,patent,extracted,train
+TTTTTTGCAGTACCCACCCAGCCCAACATATGC,ssDNA,none,be capable of being combined,protein,,,,,,,,,,,,CN121087042A,patent,extracted,train
+CACGCATAACATGTATGGACTGCTCGGGATTGCGG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120843524A,patent,extracted,train
+ATTTACATTCGTTATGCGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120843524A,patent,extracted,train
+CACGCATAACATGTATGGACTGCTCGGGATTGCGGATTTACATTCGTTATGCGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120843524A,patent,extracted,train
+CACGCATAACCACCGTCCGCCCTCACCGCTGCGTCCCCTCATGA,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120555440A,patent,extracted,train
+CACGCATAACCACCGTCCGCCCTCACCGCTGCGTCCCCTCATGAGTTATGCGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120555440A,patent,extracted,train
+CACGCATAACCCACCCATCTG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120555439A,patent,extracted,train
+TCCCGTCCCCTGCTGTGTCCCTCGAG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120555439A,patent,extracted,train
+CACGCATAACCCACCCATCTGTCCCGTCCCCTGCTGTGTCCCTCGAGTTATGCGTG,ssDNA,none,unknown,protein,,,,,,,,,,,,CN120555439A,patent,extracted,train
