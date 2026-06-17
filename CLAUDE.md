@@ -521,12 +521,20 @@ MPS rules:
 - [x] evaluate.py — MCC, AUC-ROC, AUC-PR, Pearson r(Kd)
 - [x] Scraper pipeline — 4 parsers + 10 source adapters + merge.py + main.py (178 tests passing)
 - [x] finetune.py — Stage 2 (validation) + Stage 3 (deployment) fine-tuning; 24 tests passing
+- [x] dual_head.py — added binding_label output (0=low/1=medium/2=high, Kd-first with prob fallback)
+- [x] condaptnet.py — CondAptNetOutput updated to include binding_label
+- [x] Data pipeline complete:
+  - master_dataset.csv: 3985 rows (UTexas 896 + Li2014 2320 + scraped 164 + other)
+  - UniProt enrichment: 3 passes with 145-entry override table → 3107 training-ready rows
+  - validate_sequences.py: 3762/3985 valid (94.4%); dedup key fixed to (seq, protein)
+  - vienna_cache.pkl: 6489 sequences cached
+  - augmented/: tier1_train=9929 / val=414 / test=374 rows (263/56/58 protein families)
 
 ### Next Up (in order)
-1. Sequence enrichment pass — fetch sequences for Li2014 rows via PubMed PMIDs (needs_sequence_enrichment=True)
-2. UniProt enrichment — fetch uniprot_id + protein_sequence for all rows missing them
-3. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
-4. Run Stage 2 fine-tuning after training: `python scripts/training/finetune.py --stage validation`
+1. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
+2. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
+3. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
+4. (Optional) Second scraper pass with `--max-per-source 2000` for more data
 
 ### Open Decisions
 - esm2_t12_35M confirmed (480-dim, LoRA rank-8 working on MPS)
