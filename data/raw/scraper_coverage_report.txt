@@ -1,16 +1,16 @@
 =======================================================
 CondAptNet Scraper — Run Summary
-Run at 2026-06-17 07:06:58 UTC
+Run at 2026-06-17 21:04:45 UTC
 =======================================================
-Incoming records   :    199
-  valid (schema)   :    199
+Incoming records   :   1503
+  valid (schema)   :   1503
   invalid (dropped):      0
-Duplicates vs master:     5
+Duplicates vs master:  1188
 Intra-batch dups   :      0
-New rows written   :    194
-Output total rows  :    194
-Master rows        :      0
+New rows written   :    315
+Output total rows  :   1344
+Master rows        :   4300
 Per source:
-  paper                 :    31
-  patent                :   163
+  paper                 :     2
+  patent                :   313
 =======================================================
