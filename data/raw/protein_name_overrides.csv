@@ -56,3 +56,79 @@ dataset_name,uniprot_id
 "Autonomously replicating sequence‐binding factor 1 (ABF1) protein",P14265
 "Autonomously replicating sequence-binding factor 1 (ABF1) protein",P14265
 "PotatoVirusXCoatProtein",P13533
+"Wild type KRAS protein",P01116
+"KRAS (G12V) protein",P01116
+"farnesylated Kras peptide",P01116
+"recombinant human h-Ras protein",P01112
+"Human CXCL 10 Chemokine",P02778
+"mouse CXCL 10 Chemokine",P17515
+"Anterior gradient homolog 2 (AGR2)",O95994
+"anterior gradient homolog 2 (AGR2)",O95994
+"Mammaglobin B (MGB2)",Q9GZZ8
+"ERBB2 Receptor Protein-Tyrosine Kinase",P04626
+"Epitope peptide of human epithelial growth factor receptor 2 (HER2)",P04626
+"Extracellular domain (ECD) of human epithelial growth factor receptor 2 (HER2) protein",P04626
+"human epidermal growth factor receptor 3 HER3",P21860
+"Alpha thrombin (α-thrombin), Human",P00734
+"Thrombin (Sigma), Human",P00734
+"Alpha-synuclein (α-syn) with Glutathione S-transferase (GST) tag",P37840
+"Angiopoietin-2 (Ang2), Human",O15123
+"Angiotensin converting enzyme 2 (hACE2), Human",Q9BYF1
+"Basic fibroblast growth factor (bFGF(155)), Human",P09038
+"Beta-site amyloid precursor protein cleaving enzyme 1 (BACE-1)",P56817
+"Carbonic anhydrase IX (CAIX)",Q16790
+"Cluster of differentiation 70 (CD70) protein",P32970
+"DC-specific intercellular adhesion molecule (ICAM)-3 grabbing non-integrin (DC-SIGN)",Q9NNX6
+"Dickkopf-1(DKK1)",O94907
+"Fc-gamma receptor III (FcγRIII) (CD16α)",P08637
+"Forkhead box protein M1 (FOXMI) DNA-binding domain (DBD)",Q08050
+"Fractalkine (FKN)",P78552
+"G-protein-coupled cholecystokinin B receptor (CCKBR)",P28336
+"Golgi protein-73 (GP 73)",O95274
+"Human toll-like receptor 3 ectodomain",O15455
+"HIV-1nucleocapsidProtein",P04591
+"Human immunodeficiency virus reverse transcriptase (HIVRT)",P04585
+"Human immunodeficiency virus type 1 reverse transcriptase (HIV-1 RT)",P04585
+"Human immunodifficiency virus type 1 (HIV-1) p24 Recombinant Protein",P04591
+"Influenza virus non-structural protein 1 (NS1) protein",P03490
+"Insulin like growth factor II receptor (IGFIIR), Homo sapien",P11717
+"Interleukin 2 receptor alpha (IL2Rα CD25)",P01589
+"Lactate dehydrogenase (LDH), Human",P00338
+"Lethal factor (LF): one of three toxins produced by Bacillus anthracis (B. anthracis)",P15917
+"Liver X receptors alpha (LXRalpha, LXRα)",Q13133
+"Liver X receptors beta (LXRbeta, LXRβ)",P55055
+"Melanoma‐associated antigen A3 (MAGE‐A3)",P43357
+"Mucin 1 (MUC1) recombinant protein MUC1-5TR",P15941
+"Nuclear factor for human IL6 (NF-IL6)",P17676
+"Osteoponin (OPN), Human",P10451
+"Platelet-derived growth factor (PDGF)-AB",P01127
+"platelet-derived growth factor receptor, alpha polypeptide",P16234
+"Pro-gastrin-Releasing Peptide (proGRP)",P07492
+"Protective antigen (PA) PA63",P13423
+"Recombinant Human G-protein-coupled receptor kinase 2",P25098
+"Recombinant Human TLR4",O00206
+"Recombinant human erythropoietin-alpha (rHuEPO-α)",P01588
+"Ribonucleases (RNase) H1, Human",O60930
+"Ribonucleases (RNase) H2, Human",O75792
+"SARS CoV N protein",P59595
+"SARS-CoV N protein",P59595
+"SARS-CoV-2 [2019-nCoV (novel coronavirus 2019)] nucleocapsid-his recombinant protein",P0DTC9
+"Receptor-binding domain (RBD) of the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) spike (S) protein (S/RBD)",P0DTC2
+"SRP19 protein",P09132
+"Sonic hedgehog ligand (SHh)",Q15465
+"Staphylococcal enterotoxin B (SEB)",P01553
+"Hepatitis B surface antigen (HBsAg)",P03140
+"Hepatitis B virus (HBV) core protein (HBc)",P04530
+"Vaccinia-related kinase (VRK1), Human",Q99986
+"Vascular endothelial growth factor 165 (VEGF165)",P15692
+"Receptor-binding domain (RBD) of vascular endothelial growth factor 121 (VEGF121)",P15692
+"Receptor-binding domain (RBD) of vascular endothelial growth factor 165 (VEGF165)",P15692
+"Wilms' tumour suppressor gene WT1",P19544
+"nuclear factor of activated T-cells, cytoplasmic, calcineurin-dependent 1",O95644
+"Antigen 85 (Ag85A) (FbpA)",O53280
+"Mycobacterium tuberculosis HspX antigen",P9WGO5
+"DNA polymerase (Tth pol), Thermus thermophilus (Tth)",P20922
+"Thermus aquaticus DNA polymerase (Taq pol)",P19821
+"AIB1 CBP/p300-interaction domain",Q9Y6Q9
+"Yersinia PTPase",P06287
+"full length sheep prion protein PrP23-234 A136 R154 R171",P23907
