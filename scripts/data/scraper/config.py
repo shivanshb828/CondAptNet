@@ -32,7 +32,7 @@ RATE_LIMITS: dict[str, float] = {
 }
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT          = Path(__file__).resolve().parents[4]
+_ROOT          = Path(__file__).resolve().parents[3]
 DATA_RAW       = _ROOT / "data" / "raw"
 DATA_PROCESSED = _ROOT / "data" / "processed"
 

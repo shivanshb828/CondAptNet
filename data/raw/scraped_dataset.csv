@@ -1,0 +1,195 @@
+aptamer_sequence,nucleic_acid_type,modifications,target_name,target_type,target_id,target_id_source,kd_value,kd_unit,assay_type,selection_buffer,binding_buffer,ph,na_concentration_mM,mg_concentration_mM,temperature_C,source_doi,source_type,confidence_score,split
+ATGACCATGACCCTCCACACTGTAGGCACCACGGGTCCCTGGCAGTTAAAAGTACGTTTGTCAGACTGTGGCAGGGAAACA,ssDNA,none,inhibit histamine release from MRGPRX2-activated mast cells,protein,,,,,,,,,,,,10.1016/j.ejphar.2020.173104,paper,extracted,train
+GCCTGTTGTGAGCCTCCTAAC,ssDNA,none,unknown,protein,,,,,,,,,,,,10.1038/s41598-021-91826-8,paper,extracted,train
+AGGAAGGCTTTAGGTCTGAGATCTCGGAAT,ssDNA,none,HIV,protein,,,,,,,,,,,,https://doi.org/10.1089/nat.2011.0327,paper,extracted,train
+AACCTATCGGACTATTGTTAGTGATTTTTATAGTGT,ssDNA,none,be described,protein,,,,,,,,,,,,https://doi.org/10.1038/s41598-017-02055-x,paper,extracted,train
+TCTAATACGACTCACTATAGGGCGCTAAGTCCTCGCTCA,ssDNA,none,unknown,protein,,,,,,,Tris,8.0,,,30.0,https://doi.org/10.1074/jbc.272.44.27980,paper,extracted,train
+GTCGGATCCGAGTCGCGCGT,ssDNA,none,unknown,protein,,,,,,,Tris,8.0,,,30.0,https://doi.org/10.1074/jbc.272.44.27980,paper,extracted,train
+TAATACGACTCACTATAGGCAAGTAGGTAGCGTCGAA,ssDNA,none,unknown,protein,,,,,,HEPES,,7.0,300.0,7.5,65.0,https://doi.org/10.1074/jbc.m502329200,paper,extracted,train
+AAAAGAGCAAGTCGGTTAGA,ssDNA,none,unknown,protein,,,,,,HEPES,,7.0,300.0,7.5,65.0,https://doi.org/10.1074/jbc.m502329200,paper,extracted,train
+TAATACGACTCACTATAGGCAAGTAGAAGTGAAGAGC,ssDNA,none,unknown,protein,,,,,,HEPES,,7.0,300.0,7.5,65.0,https://doi.org/10.1074/jbc.m502329200,paper,extracted,train
+GCTCTTCGGAGAGGAGTGCG,ssDNA,none,unknown,protein,,,,,,HEPES,,7.0,300.0,7.5,65.0,https://doi.org/10.1074/jbc.m502329200,paper,extracted,train
+TTACGGTGAGTTATTTTAACTGTGCGCAA,ssDNA,none,unknown,protein,,,,,,,,,,,,https://doi.org/10.1074/jbc.m111.290684,paper,extracted,train
+AGTCCGTGGTAGGGCAGGTTGGGGTGACT,ssDNA,none,thrombin,protein,,,,,,,,,,,,https://doi.org/10.1360/n972018-00882,paper,extracted,train
+ACAGGTACGTTAATAGTTAATAGCGT,ssDNA,none,the N-terminal doma,protein,,,,,,,SELEX,8.0,,50.0,1.0,https://doi.org/10.31635/ccschem.022.202201945,paper,extracted,train
+ATATTGCAGCAGTACGCACACA,ssDNA,none,the N-terminal doma,protein,,,,,,,SELEX,8.0,,50.0,1.0,https://doi.org/10.31635/ccschem.022.202201945,paper,extracted,train
+ACACTAGCCATCCTTACTGC,ssDNA,none,the N-terminal doma,protein,,,,,,,SELEX,8.0,,50.0,1.0,https://doi.org/10.31635/ccschem.022.202201945,paper,extracted,train
+TAATACGACTCACTATAGGGTACGCTGAAACAG,ssDNA,none,unknown,protein,,,,,,other,other,7.5,10.0,6.0,37.0,https://doi.org/10.1074/jbc.m213058200,paper,extracted,train
+CCTCCGAAACAGGACTGTCAGGG,ssDNA,none,unknown,protein,,,,,,other,other,7.5,10.0,6.0,37.0,https://doi.org/10.1074/jbc.m213058200,paper,extracted,train
+GCGGCCGATAAGGTCTTTCCAAGCGAACGAATTGAACCGC,ssDNA,none,PDGF,protein,,,,,,,,,,,,https://doi.org/10.4236/ojapps.2012.23019,paper,extracted,train
+AAAAATTTCACACGGGTGCCTCGGCTGTCC,ssDNA,none,unknown,protein,,,,,,other,other,4.8,,,,https://doi.org/10.3390/s150922547,paper,extracted,train
+CTTCCGGCCGCCGCTTTCTT,ssDNA,none,unknown,protein,,,,,,,,,,,37.0,https://doi.org/10.5281/zenodo.19185667,paper,extracted,train
+AACACGACCTAACTGTGGGAGGCGAACTGCGCGGCTGTGGGC,ssDNA,none,unknown,protein,,,,,,,,,,,,https://doi.org/10.19083/tesis/671053,paper,extracted,train
+CCGTCTTCCAGACAAGAGTGCAGGG,ssDNA,none,VEGF at 20 degrees C is enthalpically driven,protein,,,,,,,,,,,20.0,https://doi.org/10.1002/bip.21097,paper,extracted,train
+GATCGGGTGTGGGTGGCGTAAAGGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,https://doi.org/10.3390/ijms23094876,paper,extracted,train
+GATCGGGTGTGGGTGGCGTAAAGGGAGCATCGGACA,ssDNA,none,unknown,protein,,,,,,,,,,,,https://doi.org/10.3390/ijms23094876,paper,extracted,train
+GGAGGAGGAGGAGGAGGAGGAGGA,ssDNA,none,unknown,protein,,,,,,,,,,,,https://doi.org/10.1038/s41598-020-61966-4,paper,extracted,train
+AGCGUUAGUUAUUUAGUUCG,ssRNA,none,unknown,protein,,,,,,other,other,8.0,,,1.0,https://doi.org/10.7554/elife.02848.021,paper,extracted,train
+AGTCCGTGGTAGGGCAGGTTGGGGTGACT,ssDNA,none,and at thromb,protein,,,,,,SELEX,,7.8,,10.0,1.0,https://doi.org/10.1074/jbc.m408037200,paper,extracted,train
+TCCGTGGTAGGGCAGGTTGGGGTGACTACGCGCCTGAG,ssDNA,none,and at thromb,protein,,,,,,SELEX,,7.8,,10.0,1.0,https://doi.org/10.1074/jbc.m408037200,paper,extracted,train
+TCTCATGCGCCGAGTGTGAGTTTACCTTCGT,ssDNA,none,unknown,protein,,,1.4,nM,,,,,,,,https://doi.org/10.1182/blood.v106.11.186.186,paper,extracted,train
+GGAUCGGUGGCCAAGUUAGUCAAACCCCGUGUGCCGGUUUAGCAUAGCCCCGAUCC,ssRNA,none,alpha-fetoprote,protein,,,,,,,,,,,,https://doi.org/10.21608/bfsa.2024.299474.2176,paper,extracted,train
+TAATACGACTCACTATAGGGAGGACGATGCGG,ssDNA,none,unknown,protein,,,,,,,,,,,,,paper,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCGATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGTGATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGAGGGGTAGTGGGTGTTATGGCGATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCGATTGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCAATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGACAATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGAGTCGTGAGTGGGGGTTGGTGGGTGGGTGGCTGTGTGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGTCGATCGTGGAGATAGTAAGTGCAATCT,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCGATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGTGATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGAGGGGTAGTGGGTGTTATGGCGATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCGATTGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGGCAATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGACAATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGAGTCGTGAGTGGGGGTTGGTGGGTGGGTGGCTGTGTGAG,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+ATACCAGCTTATTCAATTGGGCGGTGGGGGGGGTAGTGGGTGTTATGTCGATCGTGGAGA,ssDNA,none,il-17,protein,,,,,,Tris,Tris,9.5,100.0,2.0,2.0,KR101200553B1,patent,extracted,train
+CAGTAGGCTGTGCCCCGCTCGGTGTCGTATTCTCTTCTTTGTTCTGATGACTAGTTGTTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGCACCAGATGGAGTTTGCCACCATATGTGTGGGTGCAAATTTTTACCAGTTTTTGCTGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ATAGATCGGAAATCATCAATGAAAAGTAAAATAAACGCAGACTAGCAAATAAGTATCGCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCTCCATGTACGTGGCGTATCTTGCAGTCCTGTCCCCTCGTGGTGGCTTTGTTTTTCTCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GAACACAAATACAATAACGCCATTTAGGACATAATTAACGCTGTGCCGCCGGCCCTCCCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGGAACTGATCTAGTAAGCGAAACGCCTAGTCTCATGGGAGTTTTGGAGACTATATTCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TCAGGTGACTTGGCCTCTAC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TGGGCCCGGGTCTATATAATCAGGAATATGTTGCTGCATAGGACAAAAGCGCGCGTGGGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CAACAGACTACCCCCTGACTCAAAAACAGTAGAAAGTAGCTCGGACAATGAGACGGGCAG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCGGACGATTCTGTGCCTTATCAGTACTTCTGTATTTCTGGTTGGTAACGCGGGTTTTGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGTCTGTGGGTGCTGAGCCTGCGCGGATCGTTCGTCAGGAACGGGCTGATGGAGGTTGCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGCAAGTGGGTGTTAGAATAAATCGGTACGTGTTGCTCCTGAAGATTTTCCTATAGGCGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TCGTCGCAAGGGAAGATGGCAAAACACCAAGGTACGGTAGCCCAAGTGCCACGACGCGCC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CACCACTGCAATAATATCTTATCCACTGTTGTGCAATTGAATAAGCTGGTATAAGGGCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GAATAATTCGGACCCCACGAGTGCATCAGTGTCGAAATCCGGCTTTTAGTGGTTTCCTGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GCGAACTTGCCTTGACCGTTAAGACGAGCAGGCACAGTGCTAATCCATATTCTAGGCTTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGAACCCAGACGTATAATCCTCGACGGACTAAAGGACTAGGGCGAAAGACTTCACTGTCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GCGCAAAGCCATGCGGGCCTTACTCCTCCATCTTTTTTTGTGCCCGACATGGCAAGTAGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CTCGTAGCGTTTAGCCCGCAGCTGATTGCGATGGGGATCGCTTGTGTGCAAGGGGTTTCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGCAACAAGAGGGCATGGCACTGACGGTTTACTAGCAAAACATTATTATATGGTTAGTTC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GCCCATACATCCTGGATTATTTCACTGGCATCTGTCTTTGTTCAGCTGCAGCCCACAAGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGAAACAGAACCTCTGCGAGCCCCTGGTCCACGTTGTCCGAGTTTTTCCTAGGCCCGTCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ACCACGCCAGGATTCCAGATCAAGGGCTTAACGCCTGAAGCGTTGGCGCACGGAGTTGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GTTAGTAATTAACTATCTATGTGCCCTTATGGCTCCTGCGTATATGGAAGTGTTGTGTGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGCACCACACAGAAGGCAACCTTATTTACGCTGTACAATTACTATGGGGCCTCATTCCCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TTCGCAATCGGACGCACTGGAACCGGTTGTTTGACCTTACATTGTGCTC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GCAAGAGAACCAGCTCCCACGGCAAGGAGGGCTGGCCGCCCACTATCGGCTAGCTGGGGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TCTTAGCTCAATGTTCAGGTTGCTGGTTGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AGTCCTGGCAAGCACTCAGATGACCACACTTTAAGGTTTTTGTCACTATTTATCCCTGCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ATACGATCCTCAGGCGACCAGACTAAGATTGATTAGAGCTGCACCATCCTGTGTCTTTTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGTGACCACTAAATGCACATGCGGGCACGCCTTCGTGGAAGCAGGGTAGCAATGAACTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GATCATATCAATGGGGTGTCAAACCCTGCACAGCCGACATTTTGCATCGAGTGATGTAG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCTGCCTGCTGGCCATCTTTGTTATGACTGGGTTTCGTTAATTCTGTCGTGTATTCCTGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GTATCACTTCCCTAAGACGGTTGGTATTACAGATAGCGCGAGCTTAGTGCGTGAGCTTCC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AAGTAAGGCGTCCAGAGGCGGGATGTTGCAACACGCTTACTGCAACGCAACCACCTCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ATGAATCAAGCATAACACAG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AACAATGGAAAAGGGGTTGAATTTCTAGAAAATCTCTGAGTAATACGAGAGGGAGGTTGC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GTCCTATTAGCGCAGTTTGCCATGGCCAACGGCTGTCTGGTGGGGCATCACCTGCTCGCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CTGAGTACTAAGCTGCGCACCCGTGGATTGCTGTATCACAGTCGACCCGTGAGTCCTTA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AGCAGATTACAGACCTATACTGAACTTGGCAAGCTGGTCCATTGTCTTCCCACGCAGCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TGTCCGAGGTGTTGTGATACGGTTAGTATATAGACGTGCCGTCTAGACGCGGACATCGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ACGACATCGCAGTGTACGCCACTACTCAGCTCTGCTCTTCACTATTGCTGGTCGTGTACG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGGGATATGGACGTAGTACTCATTTAGAACTTGGTATTCTGAAAGCTCACTGGGTAAACT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGTTCGAGTGGCGGCATGTTGCTATCAGCAGCATTTAACATACGATCGGCTCGTTAAACG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GTGAAGACTTGCACACCGGCACCTGCGGAAGCTGACCACGCCACGCCGTCACCAGTATAC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGGGCTGTCTGATTTTTTTAGAGCTTTGTCGTGATGTGTTCTCTATTGCTATGGGGTATG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AAGCAGCAGATAATCACAAGCAATAGGTTAAGCGTCGACGTCCTCAATCAAACTGGGAGA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CTGCAAAGTAAACTGGATGGCTTTCTTGCCGCCAAGGATCTGATGGCGCAGGGGATCAAG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GAGGCGAACTGGACAGAGGGACCAGAATCACAGCGGCCGCTTGGTACCACGAGTGATTTC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGGGAATGAAATCACTGGGGATAGGTGGAAGCGAGTAGGAATTTCCTATTACCCGCGAGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGACTCAGCTAGGACCAGCTATGCCGTCTTCATGTACAATCCTCGACCATGGGTCACGCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGGGGCATGAGTCACCAAAGCGCCCTGTATATCTTTAAACTATATCCGCGAATCTCTGA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AACATCTTCCTCACACTAAATTTCCTACAACCCTGAAAGAATACTCAACATACCCCGGCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGTACTGGGACTCTTTTTTCCTTTGTCCTACTGATGTCAATTCTTCACTGTTGGGCTGTT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGAGCCTATATTGTTATGGTCCTTTTCCTCCGTGGCGGCGCAGTTGCTAAGTCCGGGTAC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCCTCATCTGGGTCGAATTTCGTCCCTGTCCCACCCCAACACAGCAATGCCCAAAGTCGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGTAATTGTTGCCCTAGAGACCTCTTGTGCAACCTCCTTCGCTTATAAACGGTTAGGCCA,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGGGGGATCACGTCCATGTAGGTTTGGTTAATTATTCTGTTAACTTTGAGCAGGATGCGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AACACTCATGTATTGAACGACCTTACGGTCCGGGTAAGTCCCCGAAGCTGGCAGCCATTC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GAAGCTGGGGGCCGGTTCGATGGCGTGTCCGCTGAATTAGGTTATGCTCCGTTGGCGTTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+AGATCACAACAGTGGAGCAGACACCAGAGGGTAGGCTCTAACACAGTCGCGCGACGGGTT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCAGTTATCTTTTTGCGGGTTTATTTCAGAGGATGATTTTGGCCAGATTCGTATGTCCGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+ACCAGGAGCATCGCACCCTTTCATGGAGAATGCTTATTGCAACTAGGGTTGTGTGGTCGG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TAACACACTAAAAATAAGAGACAAAACAAAAGAACAAATCAACTGGAAAGTCGCAATAGT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGTGGCGCTTCCGCAGCTCTGGCATGGTACTGTGCTGTATGTGCTAAGGCTCTATTAGTT,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+GGATAAAACCGGGCCACTGAGGAGAAAAGAAAGCCAGGTTGGTAGGCAAAAGCGCGCCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TATGCCCAAAGGGACCGGCGAATAGTGACCATCCTCAATCCTTACTCAAGACCCGCCAAC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCTCCGTAGTGGAAAGCAAGAACAAACGATACAAATCAGCTAAAATCCATCACTCACCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGCAGATATAGAATCAGCAGAATAATTTGACGGCAAGACCACACTACCCGAGTTCACGAG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+TATCGGATGTCTGGTATGGCCTCTTGTGTCATTAGTTTGTTAATTTAGTGCCCATAGTG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CGGCAAACGGAGTGTGTGGCGTGGCCTTGGTCCTGGTTACTTAAGTGTATCTACATAGCC,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CTTAGAATAGCGTACATTTCGTGAGGCGAGTGTAAAAAGAAAGTGTCTTAGACTAGTGCG,ssDNA,none,streptavidin,protein,,,,,,,SELEX,5.5,,,60.0,KR101583578B1,patent,extracted,train
+CCCCCCGAATCACATGACTTGGGCGGGGGT,ssDNA,none,be tightly controlled,protein,,,,,,other,other,8.0,,100.0,11.0,EP2935628B1,patent,extracted,train
+TAATACGACTCACTATAGGGAGAGGAGAGAACGTTCTAC,ssDNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CATCGATGATCGATCGATCGACC,ssDNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CTTGGTTTGGCACAGGCATACATACGCAGGGGTCGATCG,ssDNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGTCGATCGATCGATCATCGATG,ssDNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAACGUUCUAC,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGUCGAUCGAUCGAUCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CCUUGGUUUGGCACAGGCAUACAUACGCAGGG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CCUUGGUUUGGCACAGGCAUACAAACGCAGGG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGUUUGGCACAGGCAUACAUACCC,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGUUUGGCACAGGCAUACAAACCC,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGCGGCACAGGCAUACAUACGCAGGGGUCGCC,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CGUUCUACCUUGGUUUGGCACAGGCAUACAUACGCAGGGGUCGAUCG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUAC,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGGUUUGGCACAGGCAUACAUACGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGGUCGAUCGAUCGAUCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGGUCGAUCGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGUGUCGAUCUGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGGUUUGGCACAGGCAUAAAUAGGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGCUCGAUCGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGGUUUGGCCCAGGCAUAUAUACGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAUUGAUCCGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGGUUUGGCGCAGGCAUACAUACGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGUCGAUCGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGUUGUGGCACAGCCAACCCUACGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CGGAUCGCCCGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUAGGUUCGCACUGUCAUACAUACACA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CGGGCAAUCGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CGGGUCGAUCGGUUACGACUAGCAU,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUUCUCUGCCACAAGCAUACCUUCGCG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGUUCUAUUGGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGAGAGGAGAGAACGUUCUACCUUGGUUUGGCACAGGCAUAUAUACGCA,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+GGGUCGAUCCGUUACGACUAGCAUCGAUG,ssRNA,none,cynomolgus macaques,protein,,,0.08,nM,,,SELEX,7.2,50.0,6.5,3.0,US11913000B2,patent,extracted,train
+CTTCTGCCCGCCTCCTTCCGGTCGGGCACACCTGTCATACCCAATCTCGAG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+ACAGTGCTAAGTGGATCCGTACTGTATGTACATACAGTACACCGTATTACCGC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+ATTGAGTTCCTAGGATCCGTACTGTATGTACATACAGTACATCTCGGTCTATT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CAAAAGAATAGACCGAGATGTACTGTACATATGTACAGTACGGATCTGGTAC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TAATACAAGGTACCAGATCCGTACTGTACATATGTACAGTACATC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CTTCTGCCCGCCTCCTTCCGGTCGGGCACACCTGTCATACCC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+AATCTCGAGGCCAGACGAGATAGGCGGACACT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CTTCTGCCCGCCTCCTTCCGGTCGGGCACACCTGTCATACCCA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CCAGACGAGATAGGCGGACACT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCGGGCGCTGTTGACAGCGGTCAGGTGGATGGGATG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GACGAGATAGGCGGACACTGGTTTTGATGAAGCTGTCGCGGAT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GGTTTTGATGAAGCTGTCGCGGATCCCACATTCTGGGAA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CCAGACGAGATAGGCGGACACTGGTTTTGATGAAGCTGTCGCG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TTCTGCCCGCCTCCTTCCGACGAGATAGGCGGACAC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GGTTTTGATGAAGCTGTCGC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GTGGCAAGAATACCAAGAGTTCCTCGGTTTGCCAGTTATTAA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CGCTTTCATGGCCCTACAACATGAGCCACCATTGCCTATTTGG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TGAAGGCCAAAACGGCTGAATCGATAGTGGAAAAGGGTTTTG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GGTTTTGATGAAGCTGTCGCGGATCCCACATTCTGGGAAG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+ATGGCCCTACAACATGAGCCACCATTGCCTATTTGGTCCT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCGGGCGCTGTTGACAGCGGTCAGGTGGATGGGATGGCG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCGGGCGCTGTTGACAGCGGTCAGGTGGATGGGATGTGA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CAGGACGGCTGCTTCATCTA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCGGGCGTGTTGACAGCGGTCAGGTGGATGGGATGCAG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TTTCTTGCCCGCCTCCTTCCGACGAGATAGGCGGACAC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GCGACCGTGACCCAGGACTCCTCCCTGCAGGACGGCTGCTT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TTCTGCCCGCCTCCTTCCGACGAGATAGGCGGACACTGACC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TTCTGCCCGCCTCCTTCCGACGAGATAGGCGGACACCAGGA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TGACCCAGGACTCCTCCCTGCAGGACGGCTGCTTCATCTA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TCTAAGACTTGTGAGTCATACGGTGGGACGCGGTAA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TGAAGGCCAAAACGGCTGAATCGATAGT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CTCCTGGTCTAGACGAGCCTCACTTTCCAAATCATGAC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CTGCATTTCCTATGGACACAGTGCTTCGTTCAATC,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GAGTGCCGCGGGGGACTGTCAAGTCGCTGGGTCTA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+AGGCAGACGCCTCTGACGCAAGGTGCATTGCCTTT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+GTTGCGCTCTAGCTGATCGTGTTTATCCCAAAGGCA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CTTCTGCCCGCCTCCTTCCGGTCGGGCACACCTGTCATACCCAATCTCGAGGCCAGACGAGATAGGCGGACACT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+ACAGTGCTAAGTGGATCCGTACTGTATGTACATACAGTACACCGTATTACCGCCATGCAT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+ATTGAGTTCCTAGGATCCGTACTGTATGTACATACAGTACATCTCGGTCTATTCTTTTGA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+CAAAAGAATAGACCGAGATGTACTGTACATATGTACAGTACGGATCTGGTACCTTGTATTA,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TAATACAAGGTACCAGATCCGTACTGTACATATGTACAGTACATCTCGGTCTATTCTTT,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
+TAATACAAGGTACCAGATCCGTACTGTACATATGTACAGTACATCTCGGTCTATTCTTTTG,ssDNA,none,albumin,protein,,,,,,Tris,Tris,7.1,100.0,10.0,4.0,US9944933B2,patent,extracted,train
