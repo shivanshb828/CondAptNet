@@ -100,6 +100,7 @@ def run_pipeline(
     master_path:    Optional[Path]       = None,
     output_path:    Optional[Path]       = None,
     prov_path:      Optional[Path]       = None,
+    workers:        int                  = 6,
 ) -> MergeStats:
     """
     Execute the full scraping pipeline.
@@ -112,37 +113,52 @@ def run_pipeline(
         master_path:    Path to master_dataset.csv (default: cfg.EXISTING_MASTER).
         output_path:    Path to write scraped_dataset.csv (default: cfg.SCRAPER_OUTPUT).
         prov_path:      Path to provenance JSONL log (default: cfg.PROVENANCE_LOG).
+        workers:        Max parallel adapter threads (default: 6).
 
     Returns:
         MergeStats with full accounting of the run.
     """
+    import threading
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     sources     = sources or ALL_SOURCES
     master_path = Path(master_path or cfg.EXISTING_MASTER)
     output_path = Path(output_path or cfg.SCRAPER_OUTPUT)
     prov_path   = Path(prov_path   or cfg.PROVENANCE_LOG)
 
-    log.info("Pipeline starting — sources: %s, max_per_source: %d, dry_run: %s",
-             sources, max_per_source, dry_run)
+    n_workers = min(len(sources), workers)
+    log.info(
+        "Pipeline starting — sources: %s, max_per_source: %d, workers: %d, dry_run: %s",
+        sources, max_per_source, n_workers, dry_run,
+    )
 
     t_start = time.monotonic()
-    all_records: list[dict] = []
-    source_errors: list[str] = []
+    all_records:   list[dict] = []
+    source_errors: list[str]  = []
+    records_lock = threading.Lock()
+    errors_lock  = threading.Lock()
+
+    def _run_source(source_name: str) -> tuple[str, list[dict], float]:
+        t0      = time.monotonic()
+        adapter = _load_adapter(source_name, prov_logger=prov)
+        records = adapter.run(max_results=max_per_source)
+        return source_name, records, time.monotonic() - t0
 
     with ProvenanceLogger(prov_path) as prov:
-        for source_name in sources:
-            log.info("[%s] Starting adapter", source_name)
-            t0 = time.monotonic()
-            try:
-                adapter = _load_adapter(source_name, prov_logger=prov)
-                records = adapter.run(max_results=max_per_source)
-                elapsed = time.monotonic() - t0
-                log.info("[%s] %d records in %.1fs", source_name, len(records), elapsed)
-                all_records.extend(records)
-            except Exception as exc:
-                elapsed = time.monotonic() - t0
-                msg = f"[{source_name}] adapter failed after {elapsed:.1f}s: {exc}"
-                log.error(msg)
-                source_errors.append(msg)
+        with ThreadPoolExecutor(max_workers=n_workers) as executor:
+            futures = {executor.submit(_run_source, name): name for name in sources}
+            for future in as_completed(futures):
+                source_name = futures[future]
+                try:
+                    src, records, elapsed = future.result()
+                    log.info("[%s] %d records in %.1fs", src, len(records), elapsed)
+                    with records_lock:
+                        all_records.extend(records)
+                except Exception as exc:
+                    msg = f"[{source_name}] adapter failed: {exc}"
+                    log.error(msg)
+                    with errors_lock:
+                        source_errors.append(msg)
 
     total_elapsed = time.monotonic() - t_start
     log.info(
@@ -233,6 +249,13 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         help="Master dataset path for deduplication (default: data/processed/master_dataset.csv)",
     )
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=6,
+        metavar="N",
+        help="Number of parallel adapter threads (default: 6)",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Collect and validate records but do NOT write to disk",
@@ -263,6 +286,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             dry_run=args.dry_run,
             master_path=Path(args.master),
             output_path=Path(args.output),
+            workers=args.workers,
         )
     except ValueError as exc:
         log.error("Pipeline error: %s", exc)
