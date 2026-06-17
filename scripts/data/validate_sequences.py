@@ -30,11 +30,13 @@ log = logging.getLogger(__name__)
 _HOMOPOLYMER_RE = re.compile(r"(A{n}|T{n}|G{n}|C{n})".replace("{n}", "{" + str(MAX_HOMOPOLYMER + 1) + ",}"))
 
 
-def validate_sequence(seq: str, existing_seqs: set[str] | None = None) -> tuple[bool, str]:
+def validate_sequence(seq: str, existing_keys: set[str] | None = None, key: str | None = None) -> tuple[bool, str]:
     """
     Validate a single DNA aptamer sequence.
 
     Returns (is_valid, fail_reason). fail_reason is '' when valid.
+    existing_keys: set of already-seen (sequence, target_protein) composite keys.
+    key: the composite key for this row (sequence + target_protein).
     """
     if not isinstance(seq, str):
         return False, "not_a_string"
@@ -59,7 +61,9 @@ def validate_sequence(seq: str, existing_seqs: set[str] | None = None) -> tuple[
     if _HOMOPOLYMER_RE.search(seq):
         return False, f"homopolymer_run (>{MAX_HOMOPOLYMER} identical bases)"
 
-    if existing_seqs is not None and seq in existing_seqs:
+    # Duplicate = same (sequence, target_protein) pair, not just same sequence.
+    # The same aptamer against two different proteins is valid (cross-target context).
+    if existing_keys is not None and key is not None and key in existing_keys:
         return False, "duplicate"
 
     return True, ""
@@ -68,19 +72,22 @@ def validate_sequence(seq: str, existing_seqs: set[str] | None = None) -> tuple[
 def validate_dataframe(df: pd.DataFrame, seq_col: str = "sequence") -> pd.DataFrame:
     """
     Add `valid` and `fail_reason` columns to df.
-    Tracks seen sequences within this batch to flag intra-batch duplicates.
+    Tracks seen (sequence, target_protein) pairs to flag true duplicates.
     """
     if seq_col not in df.columns:
         raise ValueError(f"Column '{seq_col}' not found in dataframe")
 
+    protein_col = "target_protein" if "target_protein" in df.columns else None
     seen: set[str] = set()
     valid_flags = []
     fail_reasons = []
 
-    for seq in df[seq_col]:
-        is_valid, reason = validate_sequence(seq, seen)
+    for i, seq in enumerate(df[seq_col]):
+        protein = str(df[protein_col].iloc[i]).strip().lower() if protein_col else ""
+        key = f"{str(seq).strip().upper()}|||{protein}"
+        is_valid, reason = validate_sequence(seq, seen, key)
         if is_valid:
-            seen.add(str(seq).strip().upper())
+            seen.add(key)
         valid_flags.append(is_valid)
         fail_reasons.append(reason)
 

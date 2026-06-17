@@ -209,6 +209,8 @@ def main() -> None:
         (master["needs_sequence_enrichment"] == False) &
         master["protein_sequence"].notna()
     )
+    if "valid" in master.columns:
+        ready = ready & (master["valid"] == True)
     df = master[ready].copy()
     log.info("Training-ready rows: %d / %d total", len(df), len(master))
 
