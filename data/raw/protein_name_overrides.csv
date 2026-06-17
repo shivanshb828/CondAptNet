@@ -132,3 +132,14 @@ dataset_name,uniprot_id
 "AIB1 CBP/p300-interaction domain",Q9Y6Q9
 "Yersinia PTPase",P06287
 "full length sheep prion protein PrP23-234 A136 R154 R171",P23907
+"platelet-derived growth factor receptor, beta polypeptide",P09619
+"165 amino acid form of Vascular Endothelial Growth Factor",P15692
+"Closed-channel conformation of GluA2Qflip AMPA receptor subunit",P42262
+"Open-channel conformation of GluA2Qflip AMPA receptor subunit",P42262
+"GluR2Qflip Glutamate receptor channel",P42262
+"Closed-channel conformation of GluA2Qflip",P42262
+"Open-channel conformation of GluA2Qflip",P42262
+"Recombinant human (rhu) cellular prlon protein (Prpc)",P04156
+"Prion protein (PrP), Mouse",P04925
+"SARS-CoV-2 spike protein",P0DTC2
+"Zika non-structural 1 (NS1) protein",A0A024B7W1
