@@ -30,7 +30,7 @@ import torch
 import torch.nn as nn
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from config import DEVICE, CONDITION_INPUT_DIM, CONDITION_HIDDEN, CONDITION_DIM
+from config import DEVICE, CONDITION_INPUT_DIM, CONDITION_HIDDEN, CONDITION_DIM, FUSION_DIM
 
 
 class ConditionEncoder(nn.Module):
@@ -51,8 +51,13 @@ class ConditionEncoder(nn.Module):
             nn.GELU(),
         )
 
-        # Lazy-init FiLM projection heads keyed by target_dim
-        self._film_heads: dict[int, nn.Linear] = nn.ModuleDict()
+        # FiLM projection heads keyed by str(target_dim).
+        # Pre-register FUSION_DIM so checkpoint keys are stable across runs
+        # (lazy init creates the key on first forward pass, which breaks
+        #  load_state_dict if the head wasn't used before saving).
+        self._film_heads: dict[int, nn.Linear] = nn.ModuleDict({
+            str(FUSION_DIM): nn.Linear(CONDITION_DIM, FUSION_DIM * 2),
+        })
 
     def forward(self, condition: torch.Tensor) -> torch.Tensor:
         """

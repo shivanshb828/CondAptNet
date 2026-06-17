@@ -409,7 +409,16 @@ def main() -> None:
             resume_path = ckpts[-1]
             log.info("Resuming from %s", resume_path)
             ckpt = torch.load(resume_path, map_location=device)
-            model.load_state_dict(ckpt["model"])
+            missing, unexpected = model.load_state_dict(ckpt["model"], strict=False)
+            benign_missing = [k for k in missing if "_film_heads" in k]
+            real_missing   = [k for k in missing if k not in benign_missing]
+            if real_missing:
+                raise RuntimeError(f"Critical weights missing from checkpoint: {real_missing}")
+            if unexpected:
+                log.warning("Checkpoint has unexpected keys (ignored): %s", unexpected)
+            if benign_missing:
+                log.info("Lazily-init keys not in checkpoint (random init, OK): %s",
+                         benign_missing)
             optimizer.load_state_dict(ckpt["optimizer"])
             if "scheduler" in ckpt:
                 scheduler.load_state_dict(ckpt["scheduler"])
