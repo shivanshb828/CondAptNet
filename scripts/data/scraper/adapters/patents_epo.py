@@ -51,9 +51,9 @@ _CQL_QUERIES = [
     'txt="aptamer" AND txt="Kd" AND txt="nM"',
 ]
 
-# Limit pages per CQL query to avoid thousands of abstract fetches.
-# 3 pages × 25 results × 4 queries = 300 patents max → ~5 min at 2 req/s.
-_MAX_PAGES_PER_QUERY = 3
+# /search/biblio returns abstract inline — no per-patent calls needed.
+# Each page is 1 API call, so 10 pages × 4 queries = 40 calls maximum.
+_MAX_PAGES_PER_QUERY = 10
 
 
 def _extract_title(inv_title) -> str:
@@ -71,23 +71,29 @@ def _extract_title(inv_title) -> str:
 
 
 def _extract_abstract(doc: dict) -> str:
-    """Pull abstract text from an EPO exchange-document dict."""
-    abstract_field = doc.get("abstract", {})
-    # May be list (multiple languages) or single dict
+    """
+    Pull abstract text from an EPO exchange-document dict.
+
+    EPO returns abstract inline in /search/biblio as:
+      {"@lang": "en", "p": {"$": "text..."}}  (single paragraph)
+      {"@lang": "en", "p": [{"$": "p1"}, {"$": "p2"}]}  (multiple)
+    or as a list of the above for multi-language abstracts.
+    """
+    abstract_field = doc.get("abstract")
+    if not abstract_field:
+        return ""
+    # Normalize to single-language dict (prefer English)
     if isinstance(abstract_field, list):
-        for ab in abstract_field:
-            if isinstance(ab, dict) and ab.get("@lang", "").lower() in ("en", ""):
-                abstract_field = ab
-                break
-        else:
-            abstract_field = abstract_field[0] if abstract_field else {}
+        en = next((a for a in abstract_field
+                   if isinstance(a, dict) and a.get("@lang", "").lower() in ("en", "")), None)
+        abstract_field = en or (abstract_field[0] if abstract_field else {})
     if not isinstance(abstract_field, dict):
-        return str(abstract_field) if abstract_field else ""
+        return str(abstract_field)
     paragraphs = abstract_field.get("p", [])
     if isinstance(paragraphs, str):
         return paragraphs
     if isinstance(paragraphs, dict):
-        paragraphs = [paragraphs]
+        return paragraphs.get("$", "")
     return " ".join(p.get("$", "") for p in paragraphs if isinstance(p, dict))
 
 
@@ -175,7 +181,12 @@ class EPOAdapter(BaseAdapter):
     def _parse_search_results(self, json_text: Optional[str]) -> list[dict]:
         """
         Parse /search/biblio JSON response.
-        Returns list of {doc_number, title}.
+        Returns list of {doc_number, title, abstract}.
+
+        EPO OPS structure (confirmed live):
+          search-result.exchange-documents → LIST of {"exchange-document": {doc}}
+          doc.bibliographic-data.invention-title → dict OR list of lang dicts
+          doc.abstract → dict OR list of lang dicts (inline — no per-patent call needed)
         """
         if not json_text:
             return []
@@ -192,22 +203,32 @@ class EPOAdapter(BaseAdapter):
             )
 
             if "exchange-documents" in search_result:
-                # /biblio constituent: inline bibliographic data with titles
-                exchange_docs = search_result["exchange-documents"].get("exchange-document", [])
-                if isinstance(exchange_docs, dict):
-                    exchange_docs = [exchange_docs]
-                for doc in exchange_docs:
-                    country  = doc.get("@country", "")
-                    doc_num  = doc.get("@doc-number", "")
-                    kind     = doc.get("@kind", "")
-                    epodoc   = f"{country}{doc_num}{kind}" if country and doc_num else doc_num
-                    biblio   = doc.get("bibliographic-data", {})
-                    title    = _extract_title(biblio.get("invention-title", []))
-                    if epodoc:
-                        docs.append({"doc_number": epodoc, "title": title})
+                # exchange-documents is a LIST; each item is {"exchange-document": doc}
+                items = search_result["exchange-documents"]
+                if isinstance(items, dict):
+                    items = [items]
+
+                for item in items:
+                    doc = item.get("exchange-document", {})
+                    # doc may itself be a list in edge cases
+                    doc_list = doc if isinstance(doc, list) else [doc]
+
+                    for d in doc_list:
+                        country = d.get("@country", "")
+                        doc_num = d.get("@doc-number", "")
+                        kind    = d.get("@kind", "")
+                        epodoc  = f"{country}{doc_num}{kind}" if country and doc_num else doc_num
+
+                        biblio = d.get("bibliographic-data", {})
+                        title  = _extract_title(biblio.get("invention-title") or d.get("invention-title"))
+                        # Abstract is returned inline by /search/biblio
+                        abstract = _extract_abstract(d)
+
+                        if epodoc:
+                            docs.append({"doc_number": epodoc, "title": title, "abstract": abstract})
 
             elif "ops:publication-reference" in search_result:
-                # Fallback: old-style /search (no biblio constituent) — no titles
+                # Fallback: old /search endpoint — no titles or abstracts
                 refs = search_result["ops:publication-reference"]
                 if isinstance(refs, dict):
                     refs = [refs]
@@ -215,7 +236,7 @@ class EPOAdapter(BaseAdapter):
                     doc_id = ref.get("@document-id", {})
                     num    = doc_id.get("doc-number", {}).get("$", "")
                     if num:
-                        docs.append({"doc_number": num, "title": ""})
+                        docs.append({"doc_number": num, "title": "", "abstract": ""})
 
         except (KeyError, TypeError):
             pass
@@ -271,7 +292,7 @@ class EPOAdapter(BaseAdapter):
                     seen_ids.add(doc_num)
 
                     title    = item.get("title", "")
-                    abstract = self._fetch_abstract(doc_num)
+                    abstract = item.get("abstract", "")   # inline from /search/biblio
                     text     = f"{title}\n{abstract}".strip()
 
                     if not text:
