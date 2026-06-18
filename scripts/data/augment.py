@@ -5,7 +5,7 @@ Reads master_dataset.csv, splits by protein family, then augments the
 training split only (val/test are never touched).
 
 Augmentations applied to label=1 (positive) training rows:
-  1. reverse_complement  → new label=1 rows
+  1. reverse_complement  → new label=0 rows (hard negatives: different 3D fold)
   2. truncations         → remove 2 or 3 nt from left OR right (4 variants)
   3. cross_target_neg    → assign aptamer to a different protein → label=0
   4. scrambled           → shuffle nucleotides → label=0
@@ -109,14 +109,19 @@ def augment_train(
     aug_rows: list[pd.DataFrame] = []
 
     # ── 1. Reverse complement ──────────────────────────────────────────────────
+    # RC is labeled 0 (non-binder): the RC folds into a different 3D structure
+    # and is NOT a confirmed binder. It serves as a hard negative — same base
+    # composition, completely different folding → teaches the model that
+    # sequence alone doesn't determine binding.
     rc_rows = positives.copy()
     rc_rows["sequence"]   = rc_rows["sequence"].apply(reverse_complement)
+    rc_rows["label"]      = 0
     rc_rows["augmented"]  = True
     rc_rows["aug_method"] = "rev_comp"
     valid_rc = rc_rows["sequence"].apply(is_valid)
     rc_rows = rc_rows[valid_rc]
     aug_rows.append(rc_rows)
-    log.info("  rev_comp       : +%d rows", len(rc_rows))
+    log.info("  rev_comp       : +%d rows (label=0, hard negatives)", len(rc_rows))
 
     # ── 2. Truncations (2 and 3 nt from each end) ─────────────────────────────
     trunc_all: list[pd.DataFrame] = []
