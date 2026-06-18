@@ -513,17 +513,20 @@ class TestWIPOAdapter:
         assert records == []
 
     def test_parse_results_empty_html(self):
+        # Adapter uses Lens.org JSON API, not HTML scraping.
+        # _parse_results exists for interface compatibility and always returns [].
         from scripts.data.scraper.adapters.patents_wipo import WIPOAdapter
         adapter = WIPOAdapter()
         assert adapter._parse_results(None) == []
         assert adapter._parse_results("") == []
 
     def test_parse_results_with_wo_number(self):
+        # WIPOAdapter uses Lens.org JSON API — HTML is not parsed.
+        # Without LENS_API_TOKEN, run() returns [] cleanly.
         from scripts.data.scraper.adapters.patents_wipo import WIPOAdapter
         adapter = WIPOAdapter()
         html = '<html><body>Patent WO 2020/123456 aptamer SELEX binding</body></html>'
-        items = adapter._parse_results(html)
-        assert any("WO2020/123456" in (item.get("wo_number", "")) for item in items)
+        assert adapter._parse_results(html) == []
 
 
 # ── Lens ───────────────────────────────────────────────────────────────────────

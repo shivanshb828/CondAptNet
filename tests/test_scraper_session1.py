@@ -595,8 +595,9 @@ class TestSequenceValidation:
 
     def test_duplicate_detection(self):
         seq  = "ATGCATGCATGCATGCATGCATGC"   # valid 24-mer
-        seen = {seq}
-        ok, reason = validate_sequence(seq, existing_seqs=seen)
+        key  = seq + "|Thrombin"
+        seen = {key}
+        ok, reason = validate_sequence(seq, existing_keys=seen, key=key)
         assert not ok
         assert "duplicate" in reason
 

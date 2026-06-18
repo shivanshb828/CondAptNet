@@ -39,12 +39,12 @@ from scripts.training.finetune import filter_by_tier_targets, _merge_extra_data
 def _make_df(target_proteins: list[str]) -> pd.DataFrame:
     """Minimal DataFrame that satisfies filter_by_tier_targets input."""
     return pd.DataFrame({
-        "sequence":        ["ATCGATCGATCG"] * len(target_proteins),
-        "target_protein":  target_proteins,
+        "aptamer_sequence": ["ATCGATCGATCG"] * len(target_proteins),
+        "target_name":      target_proteins,
         "protein_sequence": ["MHQTLK"] * len(target_proteins),
-        "needs_sequence_enrichment": [False] * len(target_proteins),
-        "label":           [1] * len(target_proteins),
-        "training_tier":   [2] * len(target_proteins),
+        "split":            ["train"] * len(target_proteins),
+        "label":            [1] * len(target_proteins),
+        "training_tier":    [2] * len(target_proteins),
     })
 
 
@@ -56,14 +56,14 @@ class TestFilterByTierTargets(unittest.TestCase):
         df = _make_df(["Insulin", "Thrombin", "Albumin"])
         result = filter_by_tier_targets(df, ["insulin"])
         self.assertEqual(len(result), 1)
-        self.assertEqual(result.iloc[0]["target_protein"], "Insulin")
+        self.assertEqual(result.iloc[0]["target_name"], "Insulin")
 
     def test_underscore_normalised(self):
         """troponin_I target keyword should match 'Troponin I' protein name."""
         df = _make_df(["Troponin I", "Albumin"])
         result = filter_by_tier_targets(df, ["troponin_I"])
         self.assertEqual(len(result), 1)
-        self.assertIn("Troponin I", result["target_protein"].values)
+        self.assertIn("Troponin I", result["target_name"].values)
 
     def test_dash_normalised(self):
         """NT-proBNP keyword → 'nt probnp' should match 'NT-proBNP' protein."""
@@ -76,7 +76,7 @@ class TestFilterByTierTargets(unittest.TestCase):
         df = _make_df(["human serum albumin", "Insulin"])
         result = filter_by_tier_targets(df, ["albumin"])
         self.assertEqual(len(result), 1)
-        self.assertIn("human serum albumin", result["target_protein"].values)
+        self.assertIn("human serum albumin", result["target_name"].values)
 
     def test_multiple_targets(self):
         df = _make_df(["Insulin", "Myoglobin", "Thrombin", "Albumin"])
@@ -97,7 +97,7 @@ class TestFilterByTierTargets(unittest.TestCase):
 
     def test_none_target_protein_does_not_raise(self):
         df = _make_df(["Insulin"])
-        df.loc[0, "target_protein"] = None
+        df.loc[0, "target_name"] = None
         result = filter_by_tier_targets(df, ["insulin"])
         self.assertTrue(result.empty)
 

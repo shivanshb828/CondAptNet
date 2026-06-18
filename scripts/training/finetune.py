@@ -119,7 +119,7 @@ def filter_by_tier_targets(df: pd.DataFrame, targets: list[str]) -> pd.DataFrame
         tp = _norm(target_protein)
         return any(t in tp or tp in t for t in lower_targets)
 
-    mask = df["target_protein"].apply(matches)
+    mask = df["target_name"].apply(matches)
     result = df[mask].copy()
     log.info(
         "filter_by_tier_targets: %d / %d rows match targets %s",
@@ -134,8 +134,9 @@ def _merge_extra_data(
     targets:    list[str],
 ) -> pd.DataFrame:
     """
-    Optionally load extra rows from scraped_dataset.csv (20-column scraper schema),
-    map them to the master_dataset.csv schema, filter by targets, and append.
+    Optionally load extra rows from scraped_dataset.csv (20-column scraper schema)
+    and append them. The scraper output uses the same column names as
+    master_dataset_cleaned.csv, so no renaming is needed.
 
     Only columns present in both schemas are carried over; missing ones default
     to the physiological values from config.py.
@@ -150,29 +151,12 @@ def _merge_extra_data(
         log.warning("Could not load extra data from %s: %s", extra_path, exc)
         return base_df
 
-    # Rename scraper → master schema column names
-    col_map = {
-        "aptamer_sequence":    "sequence",
-        "target_name":         "target_protein",
-        "kd_value":            "Kd_nM",
-        "ph":                  "pH",
-        "na_concentration_mM": "salt_mM",
-        "temperature_C":       "temp_C",
-        "mg_concentration_mM": "mg_mM",
-        "source_doi":          "source_pmid",
-    }
-    extra = extra.rename(columns={k: v for k, v in col_map.items() if k in extra.columns})
-
     # Add columns required by AptamerDataset but absent from scraped schema
     for col, default in [
-        ("protein_sequence",         None),
-        ("uniprot_id",               None),
-        ("label",                    1),     # scraped rows assumed positive (binders)
-        ("training_tier",            2),
-        ("augmented",                False),
-        ("needs_sequence_enrichment", False),
-        ("source",                   "scraper"),
-        ("buffer_type",              DEFAULT_BUFFER),
+        ("protein_sequence", None),
+        ("label",            1),       # scraped rows assumed positive (binders)
+        ("training_tier",    2),
+        ("split",            "train"),
     ]:
         if col not in extra.columns:
             extra[col] = default
@@ -184,7 +168,7 @@ def _merge_extra_data(
         return base_df
 
     # Only keep sequences that are pure ATGC (same QC as master)
-    atgc_mask = extra_filtered["sequence"].str.match(r"^[ATGC]+$", na=False)
+    atgc_mask = extra_filtered["aptamer_sequence"].str.match(r"^[ATGC]+$", na=False)
     extra_filtered = extra_filtered[atgc_mask]
 
     combined = pd.concat([base_df, extra_filtered], ignore_index=True)
@@ -218,7 +202,7 @@ def main() -> None:
     parser.add_argument(
         "--data",
         type=str,
-        default=os.path.join(DATA_PROCESSED, "master_dataset.csv"),
+        default=os.path.join(DATA_PROCESSED, "master_dataset_cleaned.csv"),
     )
     parser.add_argument(
         "--extra-data",
@@ -278,9 +262,9 @@ def main() -> None:
     master = pd.read_csv(args.data)
 
     ready = (
-        master["sequence"].notna() &
-        (master["needs_sequence_enrichment"] == False) &
-        master["protein_sequence"].notna()
+        master["aptamer_sequence"].notna() &
+        master["protein_sequence"].notna() &
+        master["split"].isin(["train", "val", "test"])
     )
     df = master[ready].copy()
     log.info("Training-ready rows (all tiers): %d / %d total", len(df), len(master))
@@ -293,7 +277,7 @@ def main() -> None:
     if len(df) == 0:
         log.error(
             "No rows found for targets: %s\n"
-            "Check that master_dataset.csv has rows with matching target_protein "
+            "Check that master_dataset_cleaned.csv has rows with matching target_name "
             "values and that protein_sequence enrichment has been run.",
             tier_targets,
         )

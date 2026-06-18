@@ -56,6 +56,11 @@ class WIPOAdapter(BaseAdapter):
         if cfg.LENS_API_TOKEN:
             self._session.headers["Authorization"] = f"Bearer {cfg.LENS_API_TOKEN}"
 
+    def _parse_results(self, html) -> list[dict]:
+        # This adapter uses the Lens.org JSON API, not HTML scraping.
+        # Method exists for interface compatibility; always returns empty list.
+        return []
+
     def _post_search(self, payload: dict) -> dict:
         resp = self._post(_PATENT_URL, json=payload)
         if resp is None:

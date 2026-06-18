@@ -109,8 +109,8 @@ class AptamerDataset(Dataset):
     """
     Loads aptamer-protein pairs from a filtered DataFrame.
 
-    Requires rows where both `sequence` and `protein_sequence` are non-null
-    and `needs_sequence_enrichment` is False.
+    Requires rows where both `aptamer_sequence` and `protein_sequence` are
+    non-null and `split` is train/val/test (not 'unassigned').
 
     Protein embeddings are loaded from pre-computed .npy files (ESM-2 is NOT
     called during training). Pass `seq_to_emb_path` from precompute_protein_embeddings().
@@ -164,7 +164,7 @@ class AptamerDataset(Dataset):
 
     def __getitem__(self, idx: int):
         row = self.df.iloc[idx]
-        seq  = row["sequence"]
+        seq  = row["aptamer_sequence"]
         prot = row["protein_sequence"]
 
         # aptamer tokens [apt_token_len] (padded to DNA_MAX_LEN)
@@ -186,18 +186,18 @@ class AptamerDataset(Dataset):
             return float(v) if pd.notna(v) else float(default)
 
         condition = torch.tensor([
-            _f("pH",          DEFAULT_PH),
-            _f("salt_mM",     DEFAULT_SALT_MM),
-            _f("temp_C",      DEFAULT_TEMP_C),
-            _f("buffer_type", DEFAULT_BUFFER),
-            _f("mg_mM",       DEFAULT_MG_MM),
+            _f("ph",                  DEFAULT_PH),
+            _f("na_concentration_mM", DEFAULT_SALT_MM),
+            _f("temperature_C",       DEFAULT_TEMP_C),
+            float(DEFAULT_BUFFER),     # no buffer_type column in cleaned schema
+            _f("mg_concentration_mM", DEFAULT_MG_MM),
         ], dtype=torch.float32)
 
         # label [1]
         label = torch.tensor([float(row["label"])], dtype=torch.float32)
 
         # Kd: log10(nM + 1), NaN if missing
-        kd_raw = row.get("Kd_nM", float("nan"))
+        kd_raw = row.get("kd_value", float("nan"))
         if pd.notna(kd_raw) and float(kd_raw) >= 0:
             kd = torch.tensor([np.log10(float(kd_raw) + 1)], dtype=torch.float32)
         else:
@@ -241,8 +241,10 @@ def split_by_protein_family(
     """
     Assign entire protein families to train / val / test.
     Never mixes rows from the same protein across splits.
+    Used by finetune.py to re-split filtered subsets; train.py uses the
+    pre-assigned `split` column from master_dataset_cleaned.csv instead.
     """
-    families = sorted(df["target_protein"].dropna().unique())
+    families = sorted(df["target_name"].dropna().unique())
     rng = np.random.default_rng(seed)
     rng.shuffle(families)
 
@@ -254,9 +256,9 @@ def split_by_protein_family(
     val_f    = set(families[n_train : n_train + n_val])
     test_f   = set(families[n_train + n_val :])
 
-    tr  = df[df["target_protein"].isin(train_f)].reset_index(drop=True)
-    va  = df[df["target_protein"].isin(val_f)].reset_index(drop=True)
-    te  = df[df["target_protein"].isin(test_f)].reset_index(drop=True)
+    tr  = df[df["target_name"].isin(train_f)].reset_index(drop=True)
+    va  = df[df["target_name"].isin(val_f)].reset_index(drop=True)
+    te  = df[df["target_name"].isin(test_f)].reset_index(drop=True)
 
     log.info("Split: %d train / %d val / %d test rows  "
              "(%d / %d / %d families)",
@@ -363,7 +365,7 @@ def main() -> None:
     parser.add_argument("--lr-base",     type=float, default=LEARNING_RATE_BASE)
     parser.add_argument("--lr-lora",     type=float, default=LEARNING_RATE_LORA)
     parser.add_argument("--data",        type=str,
-                        default=os.path.join(DATA_PROCESSED, "master_dataset.csv"))
+                        default=os.path.join(DATA_PROCESSED, "master_dataset_cleaned.csv"))
     parser.add_argument("--checkpoint-dir", type=str,
                         default=os.path.join(CHECKPOINTS_DIR, "pretrain"))
     parser.add_argument("--prot-max-tokens", type=int, default=PROT_MAX_TOKENS,
@@ -397,22 +399,27 @@ def main() -> None:
     log.info("Loading data from %s", args.data)
     master = pd.read_csv(args.data)
 
+    # Use pre-assigned splits from the cleaned CSV (protein-family split, zero leakage)
     ready = (
-        master["sequence"].notna() &
-        (master["needs_sequence_enrichment"] == False) &
-        master["protein_sequence"].notna()
+        master["aptamer_sequence"].notna() &
+        master["protein_sequence"].notna() &
+        master["split"].isin(["train", "val", "test"])
     )
     df = master[ready].copy()
     log.info("Training-ready rows: %d / %d total", len(df), len(master))
 
     if len(df) == 0:
-        log.error("No training-ready rows. Run enrich_proteins.py first.")
+        log.error("No training-ready rows in %s.", args.data)
         sys.exit(1)
 
-    train_df, val_df, test_df = split_by_protein_family(df)
+    train_df = df[df["split"] == "train"].reset_index(drop=True)
+    val_df   = df[df["split"] == "val"].reset_index(drop=True)
+    test_df  = df[df["split"] == "test"].reset_index(drop=True)
+    log.info("Split (from CSV): %d train / %d val / %d test rows",
+             len(train_df), len(val_df), len(test_df))
 
     if len(train_df) == 0:
-        log.error("Train split is empty after family split.")
+        log.error("Train split is empty in %s.", args.data)
         sys.exit(1)
 
     # ── Load auxiliary tools ──────────────────────────────────────────────────
