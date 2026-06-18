@@ -168,7 +168,7 @@ Scraped records follow a 20-column schema distinct from master_dataset.csv and a
 
 ### Augmentation
 
-- **Reverse complement** — doubles positive data (AptaTrans validated)
+- **Reverse complement** — hard negatives (label=0): RC folds into a different 3D structure, so it is NOT a confirmed binder
 - **Systematic truncations** — 2–3 nt from each end
 - **Cross-target negatives** — binder for protein A is a hard negative for protein B
 - **Scrambled sequences** — composition preserved, order destroyed → non-binder label

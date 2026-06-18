@@ -273,7 +273,7 @@ source                      : string  — 'utexas', 'li2014', 'pubmed', etc.
 ```
 
 ### Augmentation
-- Reverse complement: doubles positive data (validated by AptaTrans)
+- Reverse complement: hard negatives (label=0) — RC folds into a different 3D structure, is NOT a confirmed binder
 - Truncations: 2–5 nt systematic removal from ends
 - Cross-target negatives: binder for protein A = non-binder for protein B
 - Scrambled sequences: shuffle nucleotides → label as non-binder
