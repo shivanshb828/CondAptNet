@@ -1,17 +1,18 @@
 """
 Condition Encoder for CondAptNet — FiLM conditioning MLP.
 
-Encodes experimental conditions [pH, salt_mM, temp_C, buffer_type] into a
+Encodes experimental conditions [pH, salt_mM, temp_C, buffer_type, mg_mM] into a
 128-dim vector, then projects that vector into FiLM scale (γ) and shift (β)
-parameters used to modulate cross-attention feature maps.
+parameters used to modulate cross-attention feature maps. mg_mM (divalent Mg2+)
+is a separate input because it critically affects aptamer folding.
 
-Architecture:
-    Linear(4, 64) → GELU → Linear(64, 128) → GELU → 128-dim condition vector
+Architecture (CONDITION_INPUT_DIM=5 → CONDITION_HIDDEN=64 → CONDITION_DIM=128):
+    Linear(5, 64) → GELU → Linear(64, 128) → GELU → 128-dim condition vector
     get_film_params(target_dim) → Linear(128, target_dim*2) → γ [target_dim],
                                                                 β [target_dim]
 
 Input shapes:
-    condition : [batch, 4]   float32  — [pH, salt_mM, temp_C, buffer_type]
+    condition : [batch, 5]   float32  — [pH, salt_mM, temp_C, buffer_type, mg_mM]
 
 Output shapes:
     encode()         → [batch, CONDITION_DIM]          (128-dim)
@@ -62,7 +63,7 @@ class ConditionEncoder(nn.Module):
     def forward(self, condition: torch.Tensor) -> torch.Tensor:
         """
         Args:
-            condition : [batch, 4]  float32
+            condition : [batch, 5]  float32  — [pH, salt_mM, temp_C, buffer_type, mg_mM]
 
         Returns:
             [batch, CONDITION_DIM]  float32
@@ -83,7 +84,7 @@ class ConditionEncoder(nn.Module):
         Project condition into FiLM scale γ and shift β for a given feature dim.
 
         Args:
-            condition     : [batch, 4]            raw condition input
+            condition     : [batch, 5]            raw condition input
             target_dim    : int                   dim of the feature map to modulate
             condition_vec : [batch, CONDITION_DIM] pre-computed (skips encode if given)
 

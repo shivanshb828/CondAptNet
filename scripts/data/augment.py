@@ -233,6 +233,18 @@ def main() -> None:
     val_df   = df[df["split"] == "val"].reset_index(drop=True)
     test_df  = df[df["split"] == "test"].reset_index(drop=True)
 
+    # ── Leakage guard ─────────────────────────────────────────────────────────
+    # Folding 'unassigned' rows into train can reintroduce sequences that also
+    # appear in val/test (those rows were never leakage-checked during cleaning).
+    # Drop any train row whose aptamer_sequence appears in val or test so the
+    # CLAUDE.md "zero sequence overlap across splits" invariant holds.
+    holdout_seqs = set(val_df["aptamer_sequence"]) | set(test_df["aptamer_sequence"])
+    leaked = train_df["aptamer_sequence"].isin(holdout_seqs)
+    if leaked.any():
+        log.info("Leakage guard: dropping %d train rows whose sequence is in val/test",
+                 int(leaked.sum()))
+        train_df = train_df[~leaked].reset_index(drop=True)
+
     train_families = train_df["target_name"].nunique()
     val_families   = val_df["target_name"].nunique()
     test_families  = test_df["target_name"].nunique()
@@ -244,6 +256,14 @@ def main() -> None:
 
     # ── Augment training split only ───────────────────────────────────────────
     aug_train = augment_train(train_df, rng, cross_neg=not args.no_cross_neg)
+
+    # Augmentation can synthesize a sequence (RC / scramble / truncation) that
+    # coincidentally matches a held-out one — drop those too.
+    aug_leaked = aug_train["aptamer_sequence"].isin(holdout_seqs)
+    if aug_leaked.any():
+        log.info("Leakage guard (post-augment): dropping %d augmented rows colliding with val/test",
+                 int(aug_leaked.sum()))
+        aug_train = aug_train[~aug_leaked].reset_index(drop=True)
 
     log.info("=" * 55)
     log.info("tier1_train rows : %d", len(aug_train))

@@ -15,7 +15,7 @@ projection weights and attention layers.
 Input shapes:
     aptamer_emb  : [batch, apt_len,  DNA_EMBED_DIM]   (128)
     protein_emb  : [batch, prot_len, ESM_EMBED_DIM]   (480)
-    condition    : [batch, 4]                          raw scalars
+    condition    : [batch, 5]                          raw scalars
 
 Output shapes:
     apt_out      : [batch, apt_len,  FUSION_DIM]       (256)
@@ -87,7 +87,7 @@ class SymmetricCrossAttention(nn.Module):
         Args:
             aptamer_emb : [batch, apt_len,  DNA_EMBED_DIM]
             protein_emb : [batch, prot_len, ESM_EMBED_DIM]
-            condition   : [batch, 4]  float32
+            condition   : [batch, 5]  float32
 
         Returns:
             apt_out     : [batch, apt_len,  FUSION_DIM]

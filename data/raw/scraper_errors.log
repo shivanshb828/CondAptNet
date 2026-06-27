@@ -1738,3 +1738,90 @@
 2026-06-18 10:53:40,954 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
 2026-06-18 10:53:40,956 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
 2026-06-18 10:53:40,956 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18T18:49:08Z ERROR [databases] adapter failed: network down
+2026-06-18 11:49:08,900 ERROR    scripts.data.scraper.main: Unknown source(s): ['nonexistent_source']. Available: ['databases', 'pubmed', 'semantic_scholar', 'openalex', 'biorxiv', 'patents_us', 'patents_epo', 'patents_wipo', 'lens', 'google_patents']
+2026-06-18 11:49:08,901 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: True
+2026-06-18 11:49:08,901 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 11:49:08,902 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 11:49:08,902 INFO     scripts.data.scraper.main: Dry run — skipping write to disk.
+2026-06-18 11:49:08,903 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: False
+2026-06-18 11:49:08,903 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 11:49:08,903 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 11:49:08,903 ERROR    scripts.data.scraper.main: Pipeline error: output_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-3/test_main_safety_guard_exits_10/same.csv) must not be the same as master_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-3/test_main_safety_guard_exits_10/same.csv). The master dataset must never be overwritten.
+2026-06-18 11:49:08,912 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/data.csv (67 chars)
+2026-06-18 11:49:08,922 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp.xlsx (66 chars)
+2026-06-18 11:49:08,931 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp0.xlsx (66 chars)
+2026-06-18 11:49:08,931 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,931 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,931 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,931 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,932 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,932 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,932 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,932 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,932 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 11:49:08,937 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/a.csv (4 chars)
+2026-06-18 11:49:08,937 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/b.csv (4 chars)
+2026-06-18 11:49:08,939 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://ncbi.nlm.nih.gov/pmc/articles/PMC999/bin/table1.csv (20 chars)
+2026-06-18 11:49:08,943 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 11:49:08,943 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18 11:49:08,944 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 11:49:08,945 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18T22:44:27Z ERROR [databases] adapter failed: network down
+2026-06-18 15:44:27,460 ERROR    scripts.data.scraper.main: Unknown source(s): ['nonexistent_source']. Available: ['databases', 'pubmed', 'semantic_scholar', 'openalex', 'biorxiv', 'patents_us', 'patents_epo', 'patents_wipo', 'lens', 'google_patents']
+2026-06-18 15:44:27,461 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: True
+2026-06-18 15:44:27,461 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 15:44:27,462 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 15:44:27,462 INFO     scripts.data.scraper.main: Dry run — skipping write to disk.
+2026-06-18 15:44:27,463 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: False
+2026-06-18 15:44:27,463 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 15:44:27,463 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 15:44:27,463 ERROR    scripts.data.scraper.main: Pipeline error: output_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-4/test_main_safety_guard_exits_10/same.csv) must not be the same as master_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-4/test_main_safety_guard_exits_10/same.csv). The master dataset must never be overwritten.
+2026-06-18 15:44:27,472 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/data.csv (67 chars)
+2026-06-18 15:44:27,481 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp.xlsx (66 chars)
+2026-06-18 15:44:27,489 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp0.xlsx (66 chars)
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,489 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,490 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,490 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:44:27,495 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/a.csv (4 chars)
+2026-06-18 15:44:27,495 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/b.csv (4 chars)
+2026-06-18 15:44:27,497 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://ncbi.nlm.nih.gov/pmc/articles/PMC999/bin/table1.csv (20 chars)
+2026-06-18 15:44:27,500 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 15:44:27,500 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18 15:44:27,501 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 15:44:27,501 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18T22:47:17Z ERROR [databases] adapter failed: network down
+2026-06-18 15:47:17,936 ERROR    scripts.data.scraper.main: Unknown source(s): ['nonexistent_source']. Available: ['databases', 'pubmed', 'semantic_scholar', 'openalex', 'biorxiv', 'patents_us', 'patents_epo', 'patents_wipo', 'lens', 'google_patents']
+2026-06-18 15:47:17,937 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: True
+2026-06-18 15:47:17,938 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 15:47:17,938 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 15:47:17,938 INFO     scripts.data.scraper.main: Dry run — skipping write to disk.
+2026-06-18 15:47:17,939 INFO     scripts.data.scraper.main: Pipeline starting — sources: ['databases'], max_per_source: 500, workers: 1, dry_run: False
+2026-06-18 15:47:17,939 INFO     scripts.data.scraper.main: [databases] 0 records in 0.0s
+2026-06-18 15:47:17,939 INFO     scripts.data.scraper.main: All adapters done in 0.0s — 0 records collected from 1 sources
+2026-06-18 15:47:17,940 ERROR    scripts.data.scraper.main: Pipeline error: output_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-5/test_main_safety_guard_exits_10/same.csv) must not be the same as master_path (/private/var/folders/nq/qxs1sy3s0v11yyz6hx_sx3480000gn/T/pytest-of-shivanshbansal/pytest-5/test_main_safety_guard_exits_10/same.csv). The master dataset must never be overwritten.
+2026-06-18 15:47:17,949 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/data.csv (67 chars)
+2026-06-18 15:47:17,957 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp.xlsx (66 chars)
+2026-06-18 15:47:17,964 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/supp0.xlsx (66 chars)
+2026-06-18 15:47:17,964 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,965 WARNING  scripts.data.scraper.parsers.excel_parser: Excel open failed (<bytes>): Excel file format cannot be determined, you must specify an engine manually.
+2026-06-18 15:47:17,971 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/a.csv (4 chars)
+2026-06-18 15:47:17,971 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://example.com/b.csv (4 chars)
+2026-06-18 15:47:17,973 INFO     scripts.data.scraper.adapters.supp_fetcher: Supplementary file parsed: https://ncbi.nlm.nih.gov/pmc/articles/PMC999/bin/table1.csv (20 chars)
+2026-06-18 15:47:17,977 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 15:47:17,977 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
+2026-06-18 15:47:17,978 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMed query '("DNA aptamer"[Title/Abstract] AND "SELEX"[Title/Abstract])' → 1 new PMIDs
+2026-06-18 15:47:17,978 INFO     scripts.data.scraper.adapters.pubmed_pmc: PubMedPMCAdapter: extracted 0 records
