@@ -1,0 +1,467 @@
+2026-06-18 11:58:32,283 INFO Cleaned schema detected: 4497 rows (4383 protein-type, 3700 with sequence)
+2026-06-18 11:58:32,287 INFO Override table: 142 entries loaded from data/raw/protein_name_overrides.csv
+2026-06-18 11:58:32,290 INFO Proteins to enrich (cleaned schema): 228 (covering 683 rows)
+2026-06-18 11:58:32,290 INFO [1/228] Ustilago maydis RNA binding protein Rrm4
+2026-06-18 11:58:34,846 WARNING   NOT FOUND: Ustilago maydis RNA binding protein Rrm4
+2026-06-18 11:58:34,846 INFO [2/228] to SARS-CoV-2 spike glycoprote
+2026-06-18 11:58:37,348 WARNING   NOT FOUND: to SARS-CoV-2 spike glycoprote
+2026-06-18 11:58:37,348 INFO [3/228] Escherichia coli K88
+2026-06-18 11:58:40,118 WARNING   NOT FOUND: Escherichia coli K88
+2026-06-18 11:58:40,118 INFO [4/228] Cryptosporidium parvum (C.parvum) oocysts
+2026-06-18 11:58:45,413 WARNING   NOT FOUND: Cryptosporidium parvum (C.parvum) oocysts
+2026-06-18 11:58:45,415 INFO [5/228] Thermus aquaticus σA subunit
+2026-06-18 11:58:48,168 WARNING   NOT FOUND: Thermus aquaticus σA subunit
+2026-06-18 11:58:48,168 INFO [6/228] Escherichia coli (E. coli) core bacterial RNA polymerase (RNAP)
+2026-06-18 11:58:53,287 WARNING   NOT FOUND: Escherichia coli (E. coli) core bacterial RNA polymerase (RNAP)
+2026-06-18 11:58:53,288 INFO [7/228] Rabbit immunoglobulin G IgG
+2026-06-18 11:58:58,468 WARNING   NOT FOUND: Rabbit immunoglobulin G IgG
+2026-06-18 11:58:58,468 INFO [8/228] Hepatoma HepG2 cells, Human
+2026-06-18 11:59:03,628 WARNING   NOT FOUND: Hepatoma HepG2 cells, Human
+2026-06-18 11:59:03,628 INFO [9/228] Anti-neuroexcitation peptide III (ANEPIII)
+2026-06-18 11:59:08,698 WARNING   NOT FOUND: Anti-neuroexcitation peptide III (ANEPIII)
+2026-06-18 11:59:08,698 INFO [10/228] NS3 protein of hepatitis C virus
+2026-06-18 11:59:13,898 WARNING   NOT FOUND: NS3 protein of hepatitis C virus
+2026-06-18 11:59:13,899 INFO [11/228] Hematoporphyrin IX (HPIX)
+2026-06-18 11:59:19,162 WARNING   NOT FOUND: Hematoporphyrin IX (HPIX)
+2026-06-18 11:59:19,163 INFO [12/228] TvFL3 Thermoplasma volcanium
+2026-06-18 11:59:21,978 WARNING   NOT FOUND: TvFL3 Thermoplasma volcanium
+2026-06-18 11:59:21,979 INFO [13/228] CED-91-251-His6
+2026-06-18 11:59:24,855 WARNING   NOT FOUND: CED-91-251-His6
+2026-06-18 11:59:24,855 INFO [14/228] HIV TAR-RNA element
+2026-06-18 11:59:27,687 WARNING   NOT FOUND: HIV TAR-RNA element
+2026-06-18 11:59:27,687 INFO [15/228] 17 beta-Estradiol (17β-Estradiol) (E2）
+2026-06-18 11:59:32,923 WARNING   NOT FOUND: 17 beta-Estradiol (17β-Estradiol) (E2）
+2026-06-18 11:59:32,923 INFO [16/228] Hematoporphyrin IX
+2026-06-18 11:59:35,655 WARNING   NOT FOUND: Hematoporphyrin IX
+2026-06-18 11:59:35,655 INFO [17/228] Soft-shelled turtle iridovirus (STIV)
+2026-06-18 11:59:41,714 WARNING   NOT FOUND: Soft-shelled turtle iridovirus (STIV)
+2026-06-18 11:59:41,715 INFO [18/228] hepatitis C virus domain
+2026-06-18 11:59:47,593 WARNING   NOT FOUND: hepatitis C virus domain
+2026-06-18 11:59:47,601 INFO [19/228] Abrin toxin, Abrus precatorius (A.precatorius)
+2026-06-18 11:59:52,848 WARNING   NOT FOUND: Abrin toxin, Abrus precatorius (A.precatorius)
+2026-06-18 11:59:52,848 INFO [20/228] synthetic P5.1 stem-loop element from Bacillus subtilis RNase P RNA
+2026-06-18 11:59:58,078 WARNING   NOT FOUND: synthetic P5.1 stem-loop element from Bacillus subtilis RNase P RNA
+2026-06-18 11:59:58,078 INFO [21/228] selB protein (Escherichia coli)
+2026-06-18 12:00:03,183 WARNING   NOT FOUND: selB protein (Escherichia coli)
+2026-06-18 12:00:03,183 INFO [22/228] Acute myeloid leukemia cells (HL60)
+2026-06-18 12:00:08,411 WARNING   NOT FOUND: Acute myeloid leukemia cells (HL60)
+2026-06-18 12:00:08,411 INFO [23/228] Vibrio parahaemolyticus (V. parahaemolyticus)
+2026-06-18 12:00:13,641 WARNING   NOT FOUND: Vibrio parahaemolyticus (V. parahaemolyticus)
+2026-06-18 12:00:13,641 INFO [24/228] O-glycan-peptide
+2026-06-18 12:00:16,423 WARNING   NOT FOUND: O-glycan-peptide
+2026-06-18 12:00:16,423 INFO [25/228] MUC1 peptide APDTRPAPG
+2026-06-18 12:00:19,186 WARNING   NOT FOUND: MUC1 peptide APDTRPAPG
+2026-06-18 12:00:19,186 INFO [26/228] Cytotoxin CNY
+2026-06-18 12:00:22,011 WARNING   NOT FOUND: Cytotoxin CNY
+2026-06-18 12:00:22,011 INFO [27/228] Listeria (L. monocytogenes)
+2026-06-18 12:00:27,246 WARNING   NOT FOUND: Listeria (L. monocytogenes)
+2026-06-18 12:00:27,246 INFO [28/228] peptide-acridine conjugates (PACs)
+2026-06-18 12:00:32,359 WARNING   NOT FOUND: peptide-acridine conjugates (PACs)
+2026-06-18 12:00:32,359 INFO [29/228] Rabies virus infected BHK-21 cells
+2026-06-18 12:00:35,112 WARNING   NOT FOUND: Rabies virus infected BHK-21 cells
+2026-06-18 12:00:35,113 INFO [30/228] Rituximab, anti-CD20 lgG1 antibody
+2026-06-18 12:00:40,392 WARNING   NOT FOUND: Rituximab, anti-CD20 lgG1 antibody
+2026-06-18 12:00:40,392 INFO [31/228] C-terminal region Recombinant human connective tissue growth factor (rhCTGF)
+2026-06-18 12:00:45,661 WARNING   NOT FOUND: C-terminal region Recombinant human connective tissue growth factor (rhCTGF)
+2026-06-18 12:00:45,661 INFO [32/228] Poly-beta-1,4-N-acetylglucosamine (Chitin) (poly-β-1,6-N-acetyl-D-glucosamine)
+2026-06-18 12:00:50,986 WARNING   NOT FOUND: Poly-beta-1,4-N-acetylglucosamine (Chitin) (poly-β-1,6-N-acetyl-D-glucosamine)
+2026-06-18 12:00:50,986 INFO [33/228] racemic ibuprofen
+2026-06-18 12:00:53,723 WARNING   NOT FOUND: racemic ibuprofen
+2026-06-18 12:00:53,723 INFO [34/228] M proteins on the surface of Streptococcus pyogenes (S. pyogenes)
+2026-06-18 12:00:58,753 WARNING   NOT FOUND: M proteins on the surface of Streptococcus pyogenes (S. pyogenes)
+2026-06-18 12:00:58,753 INFO [35/228] Nonphosphorylated BACE1 CT
+2026-06-18 12:01:01,565 WARNING   NOT FOUND: Nonphosphorylated BACE1 CT
+2026-06-18 12:01:01,566 INFO [36/228] Myasthenia gravis antibodies mAB198
+2026-06-18 12:01:04,368 WARNING   NOT FOUND: Myasthenia gravis antibodies mAB198
+2026-06-18 12:01:04,368 INFO [37/228] SAureus82354
+2026-06-18 12:01:07,094 WARNING   NOT FOUND: SAureus82354
+2026-06-18 12:01:07,095 INFO [38/228] Hepatitis C virus core and NS5 proteins
+2026-06-18 12:01:12,159 WARNING   NOT FOUND: Hepatitis C virus core and NS5 proteins
+2026-06-18 12:01:12,159 INFO [39/228] Pyr tobramycin
+2026-06-18 12:01:14,959 WARNING   NOT FOUND: Pyr tobramycin
+2026-06-18 12:01:14,960 INFO [40/228] 16S rRNA Decoding Region
+2026-06-18 12:01:17,844 WARNING   NOT FOUND: 16S rRNA Decoding Region
+2026-06-18 12:01:17,844 INFO [41/228] Black Hole Quenchers
+2026-06-18 12:01:20,530 WARNING   NOT FOUND: Black Hole Quenchers
+2026-06-18 12:01:20,531 INFO [42/228] Clostridium botulinum neurotoxin (BoNT) heavy chain-peptide domain
+2026-06-18 12:01:25,839 WARNING   NOT FOUND: Clostridium botulinum neurotoxin (BoNT) heavy chain-peptide domain
+2026-06-18 12:01:25,840 INFO [43/228] Ss-LrpB Sulfolobus solfataricus
+2026-06-18 12:01:28,589 WARNING   NOT FOUND: Ss-LrpB Sulfolobus solfataricus
+2026-06-18 12:01:28,589 INFO [44/228] Human immunodeficiency virus type-1 trans-activation-responsive (TAR) RNA element
+2026-06-18 12:01:33,878 WARNING   NOT FOUND: Human immunodeficiency virus type-1 trans-activation-responsive (TAR) RNA element
+2026-06-18 12:01:33,878 INFO [45/228] Clostridium botulinum neurotoxin BoNT-toxoid aldehyde-inactivated toxin
+2026-06-18 12:01:36,704 WARNING   NOT FOUND: Clostridium botulinum neurotoxin BoNT-toxoid aldehyde-inactivated toxin
+2026-06-18 12:01:36,704 INFO [46/228] Influenza virus subtype H3N2
+2026-06-18 12:01:39,422 WARNING   NOT FOUND: Influenza virus subtype H3N2
+2026-06-18 12:01:39,422 INFO [47/228] Plasmid R1 transfer operon, gene M mutant (TraMM13)
+2026-06-18 12:01:44,883 WARNING   NOT FOUND: Plasmid R1 transfer operon, gene M mutant (TraMM13)
+2026-06-18 12:01:44,883 INFO [48/228] Plasmid R1 transfer operon, gene M (TraM)
+2026-06-18 12:01:49,916 WARNING   NOT FOUND: Plasmid R1 transfer operon, gene M (TraM)
+2026-06-18 12:01:49,916 INFO [49/228] Colorectal cancer stem cells (CR-CSC)
+2026-06-18 12:01:55,020 WARNING   NOT FOUND: Colorectal cancer stem cells (CR-CSC)
+2026-06-18 12:01:55,020 INFO [50/228] Ovarian cancer tissues (OVCAR-3, National Cancer Institute #0507709, 104 cells per test)
+2026-06-18 12:02:00,372 WARNING   NOT FOUND: Ovarian cancer tissues (OVCAR-3, National Cancer Institute #0507709, 104 cells per test)
+2026-06-18 12:02:00,373 INFO [51/228] small-cell carcinoma NCI-H69 cells
+2026-06-18 12:02:03,081 WARNING   NOT FOUND: small-cell carcinoma NCI-H69 cells
+2026-06-18 12:02:03,082 INFO [52/228] Influenza virus subtype H1N1
+2026-06-18 12:02:05,807 WARNING   NOT FOUND: Influenza virus subtype H1N1
+2026-06-18 12:02:05,808 INFO [53/228] Diclofenac (DCF)
+2026-06-18 12:02:11,054 WARNING   NOT FOUND: Diclofenac (DCF)
+2026-06-18 12:02:11,055 INFO [54/228] CCRF-CEM cells (CCL-119, T lymphoblast, human acue lymphoblastic leukemia)
+2026-06-18 12:02:16,150 WARNING   NOT FOUND: CCRF-CEM cells (CCL-119, T lymphoblast, human acue lymphoblastic leukemia)
+2026-06-18 12:02:16,151 INFO [55/228] Recombinant HA protein from swine IAV H3 cluster IV
+2026-06-18 12:02:21,246 WARNING   NOT FOUND: Recombinant HA protein from swine IAV H3 cluster IV
+2026-06-18 12:02:21,246 INFO [56/228] Mouse tumor endothelial cells (mTEC)
+2026-06-18 12:02:26,492 WARNING   NOT FOUND: Mouse tumor endothelial cells (mTEC)
+2026-06-18 12:02:26,494 INFO [57/228] N-terminal histone H3 peptide with dimethylated Arg
+2026-06-18 12:02:29,243 WARNING   NOT FOUND: N-terminal histone H3 peptide with dimethylated Arg
+2026-06-18 12:02:29,243 INFO [58/228] Singapore grouper iridovirus (SGIV)--infected grouper spleen (GS) cells
+2026-06-18 12:02:34,547 WARNING   NOT FOUND: Singapore grouper iridovirus (SGIV)--infected grouper spleen (GS) cells
+2026-06-18 12:02:34,548 INFO [59/228] Enterotoxigenic Escherichia coli (E. coli) (ETEC) K88 fimbriae protein
+2026-06-18 12:02:39,699 WARNING   NOT FOUND: Enterotoxigenic Escherichia coli (E. coli) (ETEC) K88 fimbriae protein
+2026-06-18 12:02:39,699 INFO [60/228] 3,5-dimethoxy-4-hydroxybenzylidene imidazolinone
+2026-06-18 12:02:44,646 WARNING   NOT FOUND: 3,5-dimethoxy-4-hydroxybenzylidene imidazolinone
+2026-06-18 12:02:44,647 INFO [61/228] Phosphorylated BACE1 CT
+2026-06-18 12:02:47,412 WARNING   NOT FOUND: Phosphorylated BACE1 CT
+2026-06-18 12:02:47,412 INFO [62/228] Lysergamine
+2026-06-18 12:02:50,089 WARNING   NOT FOUND: Lysergamine
+2026-06-18 12:02:50,089 INFO [63/228] Trachinotus ovatus nervous necrosis virus (GTONNV)
+2026-06-18 12:02:55,301 WARNING   NOT FOUND: Trachinotus ovatus nervous necrosis virus (GTONNV)
+2026-06-18 12:02:55,301 INFO [64/228] linezolid-neomycin B
+2026-06-18 12:03:00,339 WARNING   NOT FOUND: linezolid-neomycin B
+2026-06-18 12:03:00,339 INFO [65/228] Escherichia coli (E. coli) ATCC 25922
+2026-06-18 12:03:05,619 WARNING   NOT FOUND: Escherichia coli (E. coli) ATCC 25922
+2026-06-18 12:03:05,620 INFO [66/228] phospho-Ser845 cGluR1
+2026-06-18 12:03:08,439 WARNING   NOT FOUND: phospho-Ser845 cGluR1
+2026-06-18 12:03:08,439 INFO [67/228] Polyhistidine-tag
+2026-06-18 12:03:11,154 WARNING   NOT FOUND: Polyhistidine-tag
+2026-06-18 12:03:11,155 INFO [68/228] Grass carp reovirus (GCRV)-infected CIK cells
+2026-06-18 12:03:16,274 WARNING   NOT FOUND: Grass carp reovirus (GCRV)-infected CIK cells
+2026-06-18 12:03:16,274 INFO [69/228] HepCnsp3protease
+2026-06-18 12:03:19,019 WARNING   NOT FOUND: HepCnsp3protease
+2026-06-18 12:03:19,020 INFO [70/228] MDA-MB-231 cells, Human
+2026-06-18 12:03:23,923 WARNING   NOT FOUND: MDA-MB-231 cells, Human
+2026-06-18 12:03:23,924 INFO [71/228] 4,4'-Methylenedianiline
+2026-06-18 12:03:28,970 WARNING   NOT FOUND: 4,4'-Methylenedianiline
+2026-06-18 12:03:28,970 INFO [72/228] provide an NP- aptamer conjugate
+2026-06-18 12:03:34,159 WARNING   NOT FOUND: provide an NP- aptamer conjugate
+2026-06-18 12:03:34,160 INFO [73/228] MUC1 peptide APDTREAPG
+2026-06-18 12:03:36,859 WARNING   NOT FOUND: MUC1 peptide APDTREAPG
+2026-06-18 12:03:36,859 INFO [74/228] Rhesus (Rh) D antigen
+2026-06-18 12:03:41,962 WARNING   NOT FOUND: Rhesus (Rh) D antigen
+2026-06-18 12:03:41,962 INFO [75/228] VP1 structural polypeptide of O-serotype FMD
+2026-06-18 12:03:47,254 WARNING   NOT FOUND: VP1 structural polypeptide of O-serotype FMD
+2026-06-18 12:03:47,254 INFO [76/228] the N-terminal doma
+2026-06-18 12:03:52,429 WARNING   NOT FOUND: the N-terminal doma
+2026-06-18 12:03:52,429 INFO [77/228] a second aptamer
+2026-06-18 12:03:57,690 WARNING   NOT FOUND: a second aptamer
+2026-06-18 12:03:57,691 INFO [78/228] KHO-3
+2026-06-18 12:04:00,436 WARNING   NOT FOUND: KHO-3
+2026-06-18 12:04:00,438 INFO [79/228] coagulation factor VIIa activity
+2026-06-18 12:04:03,246 WARNING   NOT FOUND: coagulation factor VIIa activity
+2026-06-18 12:04:03,246 INFO [80/228] 8-hydroxy-2′-deoxyguanosine (8-OHdG)
+2026-06-18 12:04:08,536 WARNING   NOT FOUND: 8-hydroxy-2′-deoxyguanosine (8-OHdG)
+2026-06-18 12:04:08,536 INFO [81/228] Immunoglobulin E (IgE)-binding epitope of Asp f 1 allergen
+2026-06-18 12:04:13,739 WARNING   NOT FOUND: Immunoglobulin E (IgE)-binding epitope of Asp f 1 allergen
+2026-06-18 12:04:13,740 INFO [82/228] 6xHIS–LiPABP protein (rLiPABP)
+2026-06-18 12:04:19,221 WARNING   NOT FOUND: 6xHIS–LiPABP protein (rLiPABP)
+2026-06-18 12:04:19,221 INFO [83/228] Abrin toxin
+2026-06-18 12:04:21,963 WARNING   NOT FOUND: Abrin toxin
+2026-06-18 12:04:21,964 INFO [84/228] Cytokine (CK+, CK-) stimulated cells that cause Chronic Kidney Disease (CKD)
+2026-06-18 12:04:27,266 WARNING   NOT FOUND: Cytokine (CK+, CK-) stimulated cells that cause Chronic Kidney Disease (CKD)
+2026-06-18 12:04:27,267 INFO [85/228] L Tyrosine-agarose
+2026-06-18 12:04:33,378 WARNING   NOT FOUND: L Tyrosine-agarose
+2026-06-18 12:04:33,379 INFO [86/228] Palladium ion
+2026-06-18 12:04:36,270 WARNING   NOT FOUND: Palladium ion
+2026-06-18 12:04:36,270 INFO [87/228] Omethoate
+2026-06-18 12:04:39,107 WARNING   NOT FOUND: Omethoate
+2026-06-18 12:04:39,109 INFO [88/228] Isocarbophos
+2026-06-18 12:04:41,908 WARNING   NOT FOUND: Isocarbophos
+2026-06-18 12:04:41,909 INFO [89/228] Raf-like Ras-binding domain
+2026-06-18 12:04:47,480 WARNING   NOT FOUND: Raf-like Ras-binding domain
+2026-06-18 12:04:47,481 INFO [90/228] Recombinant HA1 proteins of the H5N1 influenza virus
+2026-06-18 12:04:52,587 WARNING   NOT FOUND: Recombinant HA1 proteins of the H5N1 influenza virus
+2026-06-18 12:04:52,587 INFO [91/228] HepatitisCVirusPolymerase
+2026-06-18 12:04:55,183 WARNING   NOT FOUND: HepatitisCVirusPolymerase
+2026-06-18 12:04:55,184 INFO [92/228] Glutamate/Glutamic Acid
+2026-06-18 12:05:00,457 WARNING   NOT FOUND: Glutamate/Glutamic Acid
+2026-06-18 12:05:00,458 INFO [93/228] Soft-shelled turtle iridovirus (STIV)-infected fathead minnow (FHM) cells
+2026-06-18 12:05:05,724 WARNING   NOT FOUND: Soft-shelled turtle iridovirus (STIV)-infected fathead minnow (FHM) cells
+2026-06-18 12:05:05,732 INFO [94/228] Virus coat protein of two apple stem pitting virus (ASPV) isolates: MT32 and PSA‐H
+2026-06-18 12:05:11,162 WARNING   NOT FOUND: Virus coat protein of two apple stem pitting virus (ASPV) isolates: MT32 and PSA‐H
+2026-06-18 12:05:11,162 INFO [95/228] dsRBD 2 of xlADAR1
+2026-06-18 12:05:16,119 WARNING   NOT FOUND: dsRBD 2 of xlADAR1
+2026-06-18 12:05:16,119 INFO [96/228] Pepocin
+2026-06-18 12:05:19,008 WARNING   NOT FOUND: Pepocin
+2026-06-18 12:05:19,009 INFO [97/228] Syrian hamster embryo ﬁbroblasts HETSR1
+2026-06-18 12:05:21,885 WARNING   NOT FOUND: Syrian hamster embryo ﬁbroblasts HETSR1
+2026-06-18 12:05:21,886 INFO [98/228] Recombinant human 14-3-3 gamma (14-3-3γ)
+2026-06-18 12:05:27,230 WARNING   NOT FOUND: Recombinant human 14-3-3 gamma (14-3-3γ)
+2026-06-18 12:05:27,230 INFO [99/228] Tetra-BDE congener (BDE47)
+2026-06-18 12:05:32,458 WARNING   NOT FOUND: Tetra-BDE congener (BDE47)
+2026-06-18 12:05:32,458 INFO [100/228] Mouse transferrin receptor (TfR-ECD)
+2026-06-18 12:05:37,615 WARNING   NOT FOUND: Mouse transferrin receptor (TfR-ECD)
+2026-06-18 12:05:37,616 INFO [101/228] Ff gene 5 protein (g5p)
+2026-06-18 12:05:42,857 WARNING   NOT FOUND: Ff gene 5 protein (g5p)
+2026-06-18 12:05:42,858 INFO [102/228] and at thromb
+2026-06-18 12:05:48,404 WARNING   NOT FOUND: and at thromb
+2026-06-18 12:05:48,404 INFO [103/228] RNA-dependent RNA polymerase (RdRp) (nonstructural protein 5B [NS5B]) of HCV subtype 3a
+2026-06-18 12:05:53,961 WARNING   NOT FOUND: RNA-dependent RNA polymerase (RdRp) (nonstructural protein 5B [NS5B]) of HCV subtype 3a
+2026-06-18 12:05:53,961 INFO [104/228] Hemagglutinin (HA) glycoprotein; Influenza virus
+2026-06-18 12:05:58,996 WARNING   NOT FOUND: Hemagglutinin (HA) glycoprotein; Influenza virus
+2026-06-18 12:05:58,996 INFO [105/228] Anti-MUC1 IgG3 monoclonal antibody; anti-MUC1 IgG3 MAb, C595 MAb (epitope: Arg-Pro-Ala-Pro)
+2026-06-18 12:06:04,368 WARNING   NOT FOUND: Anti-MUC1 IgG3 monoclonal antibody; anti-MUC1 IgG3 MAb, C595 MAb (epitope: Arg-Pro-Ala-Pro)
+2026-06-18 12:06:04,368 INFO [106/228] yeast phenylalanine tRNA
+2026-06-18 12:06:07,183 WARNING   NOT FOUND: yeast phenylalanine tRNA
+2026-06-18 12:06:07,184 INFO [107/228] Escherichia coli release factor 1
+2026-06-18 12:06:12,608 WARNING   NOT FOUND: Escherichia coli release factor 1
+2026-06-18 12:06:12,609 INFO [108/228] Stoffel fragment
+2026-06-18 12:06:15,390 WARNING   NOT FOUND: Stoffel fragment
+2026-06-18 12:06:15,390 INFO [109/228] Tubulin purified, Calf brain
+2026-06-18 12:06:20,399 WARNING   NOT FOUND: Tubulin purified, Calf brain
+2026-06-18 12:06:20,399 INFO [110/228] Cyanine dye cy3
+2026-06-18 12:06:23,083 WARNING   NOT FOUND: Cyanine dye cy3
+2026-06-18 12:06:23,084 INFO [111/228] the target polypeptide
+2026-06-18 12:06:28,510 WARNING   NOT FOUND: the target polypeptide
+2026-06-18 12:06:28,511 INFO [112/228] Norovirus P particles (GG2.4P), Human
+2026-06-18 12:06:33,705 WARNING   NOT FOUND: Norovirus P particles (GG2.4P), Human
+2026-06-18 12:06:33,706 INFO [113/228] L-substance P
+2026-06-18 12:06:38,946 WARNING   NOT FOUND: L-substance P
+2026-06-18 12:06:38,947 INFO [114/228] H9N2 avian influenza virus (AIV) purified haemagglutinin (HA)
+2026-06-18 12:06:44,012 WARNING   NOT FOUND: H9N2 avian influenza virus (AIV) purified haemagglutinin (HA)
+2026-06-18 12:06:44,012 INFO [115/228] Murine CD200R1
+2026-06-18 12:06:46,674 WARNING   NOT FOUND: Murine CD200R1
+2026-06-18 12:06:46,675 INFO [116/228] Lys-Arg-azobenzene-Arg
+2026-06-18 12:06:49,434 WARNING   NOT FOUND: Lys-Arg-azobenzene-Arg
+2026-06-18 12:06:49,434 INFO [117/228] Zn(II) mesoporphyrin IX
+2026-06-18 12:06:54,551 WARNING   NOT FOUND: Zn(II) mesoporphyrin IX
+2026-06-18 12:06:54,552 INFO [118/228] CD63 protein
+2026-06-18 12:06:57,424 WARNING   NOT FOUND: CD63 protein
+2026-06-18 12:06:57,424 INFO [119/228] Shigella sonnei (S. sonnei)
+2026-06-18 12:07:02,589 WARNING   NOT FOUND: Shigella sonnei (S. sonnei)
+2026-06-18 12:07:02,589 INFO [120/228] FL11 (Pyrococcus sp. OT3)
+2026-06-18 12:07:07,824 WARNING   NOT FOUND: FL11 (Pyrococcus sp. OT3)
+2026-06-18 12:07:07,824 INFO [121/228] human Tcell lukemia Tax
+2026-06-18 12:07:13,075 WARNING   NOT FOUND: human Tcell lukemia Tax
+2026-06-18 12:07:13,076 INFO [122/228] Ni(II) mesoporphyrin IX
+2026-06-18 12:07:18,084 WARNING   NOT FOUND: Ni(II) mesoporphyrin IX
+2026-06-18 12:07:18,085 INFO [123/228] MUC1 peptide APDTRPPPG
+2026-06-18 12:07:20,692 WARNING   NOT FOUND: MUC1 peptide APDTRPPPG
+2026-06-18 12:07:20,692 INFO [124/228] the detection of IgG
+2026-06-18 12:07:25,792 WARNING   NOT FOUND: the detection of IgG
+2026-06-18 12:07:25,793 INFO [125/228] Acetamiprid
+2026-06-18 12:07:28,647 WARNING   NOT FOUND: Acetamiprid
+2026-06-18 12:07:28,648 INFO [126/228] Fe(III)-mesoporphyrin IX
+2026-06-18 12:07:33,820 WARNING   NOT FOUND: Fe(III)-mesoporphyrin IX
+2026-06-18 12:07:33,821 INFO [127/228] RNA binding motif protein, Y-linked, family 1, member A1
+2026-06-18 12:07:40,014 WARNING   NOT FOUND: RNA binding motif protein, Y-linked, family 1, member A1
+2026-06-18 12:07:40,014 INFO [128/228] N-methylmesoporphyrin IX
+2026-06-18 12:07:42,761 WARNING   NOT FOUND: N-methylmesoporphyrin IX
+2026-06-18 12:07:42,761 INFO [129/228] MBP-fused drosophila HSF
+2026-06-18 12:07:45,542 WARNING   NOT FOUND: MBP-fused drosophila HSF
+2026-06-18 12:07:45,542 INFO [130/228] Prostate specific membrane antigen (PSMA) positive LNCaP cells
+2026-06-18 12:07:51,104 WARNING   NOT FOUND: Prostate specific membrane antigen (PSMA) positive LNCaP cells
+2026-06-18 12:07:51,104 INFO [131/228] CCdApPuro
+2026-06-18 12:07:53,729 WARNING   NOT FOUND: CCdApPuro
+2026-06-18 12:07:53,729 INFO [132/228] CD44 glycoprotein HABD
+2026-06-18 12:07:56,447 WARNING   NOT FOUND: CD44 glycoprotein HABD
+2026-06-18 12:07:56,447 INFO [133/228] TNFoc
+2026-06-18 12:07:59,685 WARNING   NOT FOUND: TNFoc
+2026-06-18 12:07:59,686 INFO [134/228] human influenza A/Panama/2007/1999(H3N2) virus
+2026-06-18 12:08:05,129 WARNING   NOT FOUND: human influenza A/Panama/2007/1999(H3N2) virus
+2026-06-18 12:08:05,131 INFO [135/228] Aspergillus fumigatus f1 allergen
+2026-06-18 12:08:07,967 WARNING   NOT FOUND: Aspergillus fumigatus f1 allergen
+2026-06-18 12:08:07,967 INFO [136/228] VacciniaInfectedA549cells
+2026-06-18 12:08:10,702 WARNING   NOT FOUND: VacciniaInfectedA549cells
+2026-06-18 12:08:10,702 INFO [137/228] Hepatitis C virus minus internal ribosome entry site
+2026-06-18 12:08:16,333 WARNING   NOT FOUND: Hepatitis C virus minus internal ribosome entry site
+2026-06-18 12:08:16,333 INFO [138/228] tet repressor protein (tetR)
+2026-06-18 12:08:21,584 WARNING   NOT FOUND: tet repressor protein (tetR)
+2026-06-18 12:08:21,584 INFO [139/228] 6F Bisphenol A
+2026-06-18 12:08:26,819 WARNING   NOT FOUND: 6F Bisphenol A
+2026-06-18 12:08:26,820 INFO [140/228] Bisphenol B
+2026-06-18 12:08:32,230 WARNING   NOT FOUND: Bisphenol B
+2026-06-18 12:08:32,231 INFO [141/228] HIV-1 LTR-408
+2026-06-18 12:08:37,441 WARNING   NOT FOUND: HIV-1 LTR-408
+2026-06-18 12:08:37,442 INFO [142/228] 3,5-difluoro-4-hydroxybenzylidene imidazolinone
+2026-06-18 12:08:42,810 WARNING   NOT FOUND: 3,5-difluoro-4-hydroxybenzylidene imidazolinone
+2026-06-18 12:08:42,810 INFO [143/228] dimethylindole red (DIR)
+2026-06-18 12:08:47,752 WARNING   NOT FOUND: dimethylindole red (DIR)
+2026-06-18 12:08:47,752 INFO [144/228] rat neurotensin receptor 1
+2026-06-18 12:08:52,987 WARNING   NOT FOUND: rat neurotensin receptor 1
+2026-06-18 12:08:52,987 INFO [145/228] antiMUC1MAbC595
+2026-06-18 12:08:55,631 WARNING   NOT FOUND: antiMUC1MAbC595
+2026-06-18 12:08:55,631 INFO [146/228] HIV-1 LTR-325
+2026-06-18 12:09:00,832 WARNING   NOT FOUND: HIV-1 LTR-325
+2026-06-18 12:09:00,832 INFO [147/228] DNA template for in vitro transcription of the TAR element
+2026-06-18 12:09:05,824 WARNING   NOT FOUND: DNA template for in vitro transcription of the TAR element
+2026-06-18 12:09:05,824 INFO [148/228] dsRBD 2 of Xlrbpa
+2026-06-18 12:09:11,027 WARNING   NOT FOUND: dsRBD 2 of Xlrbpa
+2026-06-18 12:09:11,028 INFO [149/228] N-methylmesoporphyrin IX (NMM)
+2026-06-18 12:09:16,129 WARNING   NOT FOUND: N-methylmesoporphyrin IX (NMM)
+2026-06-18 12:09:16,130 INFO [150/228] mouse CCL1 chemokine mCCL1
+2026-06-18 12:09:18,965 WARNING   NOT FOUND: mouse CCL1 chemokine mCCL1
+2026-06-18 12:09:18,966 INFO [151/228] Hepatocellular carcinoma HCCLM9 (LY-1)
+2026-06-18 12:09:24,168 WARNING   NOT FOUND: Hepatocellular carcinoma HCCLM9 (LY-1)
+2026-06-18 12:09:24,168 INFO [152/228] Monoclonal antibody against OA (OA-mAb-F(ab′)2)
+2026-06-18 12:09:29,674 WARNING   NOT FOUND: Monoclonal antibody against OA (OA-mAb-F(ab′)2)
+2026-06-18 12:09:29,674 INFO [153/228] Caov-3 epithelial ovarian tumor
+2026-06-18 12:09:32,485 WARNING   NOT FOUND: Caov-3 epithelial ovarian tumor
+2026-06-18 12:09:32,485 INFO [154/228] N-terminal region of Recombinant human connective tissue growth factor (rhCTGF)
+2026-06-18 12:09:37,832 WARNING   NOT FOUND: N-terminal region of Recombinant human connective tissue growth factor (rhCTGF)
+2026-06-18 12:09:37,832 INFO [155/228] His3-tagged recombinant proteins
+2026-06-18 12:09:42,872 WARNING   NOT FOUND: His3-tagged recombinant proteins
+2026-06-18 12:09:42,872 INFO [156/228] Epididymis 4, Human
+2026-06-18 12:09:48,019 WARNING   NOT FOUND: Epididymis 4, Human
+2026-06-18 12:09:48,019 INFO [157/228] Matrix binding domain [MBD] Hepatitis B capsid
+2026-06-18 12:09:53,112 WARNING   NOT FOUND: Matrix binding domain [MBD] Hepatitis B capsid
+2026-06-18 12:09:53,112 INFO [158/228] Brevetoxin-2 (BTX-2)
+2026-06-18 12:09:58,551 WARNING   NOT FOUND: Brevetoxin-2 (BTX-2)
+2026-06-18 12:09:58,552 INFO [159/228] Group A streptococcus (GAS) serotype M3
+2026-06-18 12:10:04,234 WARNING   NOT FOUND: Group A streptococcus (GAS) serotype M3
+2026-06-18 12:10:04,234 INFO [160/228] CD4-expressing human cells
+2026-06-18 12:10:09,403 WARNING   NOT FOUND: CD4-expressing human cells
+2026-06-18 12:10:09,404 INFO [161/228] Group A streptococcus (GAS) serotype M4
+2026-06-18 12:10:14,629 WARNING   NOT FOUND: Group A streptococcus (GAS) serotype M4
+2026-06-18 12:10:14,629 INFO [162/228] 25-HydroxyvitaminD3
+2026-06-18 12:10:17,441 WARNING   NOT FOUND: 25-HydroxyvitaminD3
+2026-06-18 12:10:17,442 INFO [163/228] Bifidobacterium bifidum (B. bifidum)
+2026-06-18 12:10:22,726 WARNING   NOT FOUND: Bifidobacterium bifidum (B. bifidum)
+2026-06-18 12:10:22,727 INFO [164/228] Ractopamine (RAC)
+2026-06-18 12:10:27,694 WARNING   NOT FOUND: Ractopamine (RAC)
+2026-06-18 12:10:27,694 INFO [165/228] Escherichia coli (E. coli) O157:H7
+2026-06-18 12:10:32,866 WARNING   NOT FOUND: Escherichia coli (E. coli) O157:H7
+2026-06-18 12:10:32,867 INFO [166/228] Alpha-amanitin (α-amanitin) from Amanita phalloides (A. phalloides)
+2026-06-18 12:10:37,864 WARNING   NOT FOUND: Alpha-amanitin (α-amanitin) from Amanita phalloides (A. phalloides)
+2026-06-18 12:10:37,865 INFO [167/228] Prostate cancer bone metastasis (PB)
+2026-06-18 12:10:43,528 WARNING   NOT FOUND: Prostate cancer bone metastasis (PB)
+2026-06-18 12:10:43,530 INFO [168/228] U-2 OS human osteosacroma cells
+2026-06-18 12:10:49,389 WARNING   NOT FOUND: U-2 OS human osteosacroma cells
+2026-06-18 12:10:49,390 INFO [169/228] Recombinant human E-selectin/IgG-Fc-chimeras
+2026-06-18 12:10:54,793 WARNING   NOT FOUND: Recombinant human E-selectin/IgG-Fc-chimeras
+2026-06-18 12:10:54,794 INFO [170/228] Nonylphenol ethoxylate (NPE)
+2026-06-18 12:11:00,228 WARNING   NOT FOUND: Nonylphenol ethoxylate (NPE)
+2026-06-18 12:11:00,228 INFO [171/228] Hepatitis C virus (HCV) envelope surface glycoprotein E3
+2026-06-18 12:11:05,469 WARNING   NOT FOUND: Hepatitis C virus (HCV) envelope surface glycoprotein E3
+2026-06-18 12:11:05,469 INFO [172/228] Peptide hormone vasopressin (vertebrate hormone arginine vasopressin (VP), a 9-residue cyclic l peptide)
+2026-06-18 12:11:10,783 WARNING   NOT FOUND: Peptide hormone vasopressin (vertebrate hormone arginine vasopressin (VP), a 9-residue cyclic l peptide)
+2026-06-18 12:11:10,783 INFO [173/228] Rex fusion protein of Human T-lymphotropic virus 1 (HTLV-1)
+2026-06-18 12:11:15,896 WARNING   NOT FOUND: Rex fusion protein of Human T-lymphotropic virus 1 (HTLV-1)
+2026-06-18 12:11:15,896 INFO [174/228] Endothelial regulatory protein pigpen (YPEN-1)
+2026-06-18 12:11:21,196 WARNING   NOT FOUND: Endothelial regulatory protein pigpen (YPEN-1)
+2026-06-18 12:11:21,196 INFO [175/228] D‐staphylococcal enterotoxin B peptide (respective SEB peptides)
+2026-06-18 12:11:26,464 WARNING   NOT FOUND: D‐staphylococcal enterotoxin B peptide (respective SEB peptides)
+2026-06-18 12:11:26,465 INFO [176/228] D‐staphylococcal enterotoxin B peptide ( full-length SEB protein)
+2026-06-18 12:11:31,743 WARNING   NOT FOUND: D‐staphylococcal enterotoxin B peptide ( full-length SEB protein)
+2026-06-18 12:11:31,744 INFO [177/228] Vaccinia virus (VACV) as a model for orthopoxviruses (OPV)
+2026-06-18 12:11:36,971 WARNING   NOT FOUND: Vaccinia virus (VACV) as a model for orthopoxviruses (OPV)
+2026-06-18 12:11:36,971 INFO [178/228] Hepatitis C virus (HCV) envelope surface glycoprotein E2
+2026-06-18 12:11:42,197 WARNING   NOT FOUND: Hepatitis C virus (HCV) envelope surface glycoprotein E2
+2026-06-18 12:11:42,197 INFO [179/228] Hepatitis C virus (HCV) envelope surface glycoprotein E4
+2026-06-18 12:11:47,234 WARNING   NOT FOUND: Hepatitis C virus (HCV) envelope surface glycoprotein E4
+2026-06-18 12:11:47,234 INFO [180/228] Influenza virus non-structural protein 1 (NS1) protein
+2026-06-18 12:11:54,035 WARNING   NOT FOUND: Influenza virus non-structural protein 1 (NS1) protein
+2026-06-18 12:11:54,035 INFO [181/228] Arsenate [(As(V)]
+2026-06-18 12:11:59,472 WARNING   NOT FOUND: Arsenate [(As(V)]
+2026-06-18 12:11:59,472 INFO [182/228] Anti-FLAG M2 antibody
+2026-06-18 12:12:02,263 WARNING   NOT FOUND: Anti-FLAG M2 antibody
+2026-06-18 12:12:02,263 INFO [183/228] Bisphenol A (BPA)
+2026-06-18 12:12:07,501 WARNING   NOT FOUND: Bisphenol A (BPA)
+2026-06-18 12:12:07,501 INFO [184/228] 6 fluorine atoms difference bisphenol A (6F BPA)
+2026-06-18 12:12:13,037 WARNING   NOT FOUND: 6 fluorine atoms difference bisphenol A (6F BPA)
+2026-06-18 12:12:13,037 INFO [185/228] Bisphenol B (BPB)
+2026-06-18 12:12:18,017 WARNING   NOT FOUND: Bisphenol B (BPB)
+2026-06-18 12:12:18,018 INFO [186/228] 4,4′-Bisphenol (BP)
+2026-06-18 12:12:23,253 WARNING   NOT FOUND: 4,4′-Bisphenol (BP)
+2026-06-18 12:12:23,257 INFO [187/228] Primary cultured Mouse tumor endothelial cells (mTECs)
+2026-06-18 12:12:28,643 WARNING   NOT FOUND: Primary cultured Mouse tumor endothelial cells (mTECs)
+2026-06-18 12:12:28,643 INFO [188/228] Membrane proteins of matrix metalloproteinase 14 (MMP14) transfected 293T cells
+2026-06-18 12:12:34,402 WARNING   NOT FOUND: Membrane proteins of matrix metalloproteinase 14 (MMP14) transfected 293T cells
+2026-06-18 12:12:34,402 INFO [189/228] CD33 antigen on leukemia cells
+2026-06-18 12:12:37,282 WARNING   NOT FOUND: CD33 antigen on leukemia cells
+2026-06-18 12:12:37,282 INFO [190/228] quinoprotein glucose dehydrogenase PQQGDH
+2026-06-18 12:12:40,171 WARNING   NOT FOUND: quinoprotein glucose dehydrogenase PQQGDH
+2026-06-18 12:12:40,172 INFO [191/228] 16mer (16-amino acid peptide from collagen XIα1) peptide of the C-telopeptide from human collagen XIα1 (colXIα1)
+2026-06-18 12:12:45,447 WARNING   NOT FOUND: 16mer (16-amino acid peptide from collagen XIα1) peptide of the C-telopeptide from human collagen XIα1 (colXIα1)
+2026-06-18 12:12:45,448 INFO [192/228] Nucleoprotein (NP) of the crimean-congo hemorrhagic fever (CCHF) virus
+2026-06-18 12:12:50,715 WARNING   NOT FOUND: Nucleoprotein (NP) of the crimean-congo hemorrhagic fever (CCHF) virus
+2026-06-18 12:12:50,716 INFO [193/228] Hepatocellular carcinoma (HCC) CD44E
+2026-06-18 12:12:56,096 WARNING   NOT FOUND: Hepatocellular carcinoma (HCC) CD44E
+2026-06-18 12:12:56,096 INFO [194/228] Hepatocellular carcinoma (HCC) CD44s
+2026-06-18 12:13:01,220 WARNING   NOT FOUND: Hepatocellular carcinoma (HCC) CD44s
+2026-06-18 12:13:01,221 INFO [195/228] Olive (Olea europaea L.) pollen 1 (Ole e 1)
+2026-06-18 12:13:06,587 WARNING   NOT FOUND: Olive (Olea europaea L.) pollen 1 (Ole e 1)
+2026-06-18 12:13:06,588 INFO [196/228] Major urinary protein 13 (MUP13) (rat urine biomarker)
+2026-06-18 12:13:11,915 WARNING   NOT FOUND: Major urinary protein 13 (MUP13) (rat urine biomarker)
+2026-06-18 12:13:11,916 INFO [197/228] Cancer stem cells (CSCs) A549 shEcad cells
+2026-06-18 12:13:17,171 WARNING   NOT FOUND: Cancer stem cells (CSCs) A549 shEcad cells
+2026-06-18 12:13:17,171 INFO [198/228] CDC133 (cell surface markers of Colorectal cancer (CRC))
+2026-06-18 12:13:22,354 WARNING   NOT FOUND: CDC133 (cell surface markers of Colorectal cancer (CRC))
+2026-06-18 12:13:22,354 INFO [199/228] Β-casomorphin-7 (BCM-7)
+2026-06-18 12:13:27,353 WARNING   NOT FOUND: Β-casomorphin-7 (BCM-7)
+2026-06-18 12:13:27,354 INFO [200/228] Spores of three toxic aspergillus species: A. niger
+2026-06-18 12:13:32,661 WARNING   NOT FOUND: Spores of three toxic aspergillus species: A. niger
+2026-06-18 12:13:32,661 INFO [201/228] Receptor-binding domain (RBD) of SARS-CoV-2 spike protein (S protein)
+2026-06-18 12:13:38,404 WARNING   NOT FOUND: Receptor-binding domain (RBD) of SARS-CoV-2 spike protein (S protein)
+2026-06-18 12:13:38,404 INFO [202/228] Human T-cell acute lymphoblastic leukemia CCRF-CEM cells (later identified to bind PTK-7)
+2026-06-18 12:13:43,688 WARNING   NOT FOUND: Human T-cell acute lymphoblastic leukemia CCRF-CEM cells (later identified to bind PTK-7)
+2026-06-18 12:13:43,689 INFO [203/228] Epidermal growth factor receptor 2, Human (ErbB-2/HER2)
+2026-06-18 12:13:48,850 WARNING   NOT FOUND: Epidermal growth factor receptor 2, Human (ErbB-2/HER2)
+2026-06-18 12:13:48,851 INFO [204/228] Mucin 1 (MUC1)
+2026-06-18 12:13:53,903 WARNING   NOT FOUND: Mucin 1 (MUC1)
+2026-06-18 12:13:53,903 INFO [205/228] M3 HIV-1 RT
+2026-06-18 12:13:59,004 WARNING   NOT FOUND: M3 HIV-1 RT
+2026-06-18 12:13:59,004 INFO [206/228] Interleukin 17 F F
+2026-06-18 12:14:04,271 WARNING   NOT FOUND: Interleukin 17 F F
+2026-06-18 12:14:04,272 INFO [207/228] Interleukin 17 A A
+2026-06-18 12:14:09,295 WARNING   NOT FOUND: Interleukin 17 A A
+2026-06-18 12:14:09,295 INFO [208/228] Helicobacter pylori (H. pylori)
+2026-06-18 12:14:14,538 WARNING   NOT FOUND: Helicobacter pylori (H. pylori)
+2026-06-18 12:14:14,539 INFO [209/228] Isoleucyl-tRNA synthetase (tRNAIle)
+2026-06-18 12:14:19,803 WARNING   NOT FOUND: Isoleucyl-tRNA synthetase (tRNAIle)
+2026-06-18 12:14:19,803 INFO [210/228] Di(2-ethylhexyl) phthalate (DEHP)
+2026-06-18 12:14:25,157 WARNING   NOT FOUND: Di(2-ethylhexyl) phthalate (DEHP)
+2026-06-18 12:14:25,158 INFO [211/228] PD-L1 (MDA-MB-231 PD-L1 OE cells), Human
+2026-06-18 12:14:30,114 WARNING   NOT FOUND: PD-L1 (MDA-MB-231 PD-L1 OE cells), Human
+2026-06-18 12:14:30,115 INFO [212/228] Anti-human tumor necrosis factor alpha (anti‐hTNF‐α)
+2026-06-18 12:14:35,524 WARNING   NOT FOUND: Anti-human tumor necrosis factor alpha (anti‐hTNF‐α)
+2026-06-18 12:14:35,525 INFO [213/228] Crystalline hydroxyapatite (Ca10(PO4)6(OH)2; HAP)
+2026-06-18 12:14:40,508 WARNING   NOT FOUND: Crystalline hydroxyapatite (Ca10(PO4)6(OH)2; HAP)
+2026-06-18 12:14:40,508 INFO [214/228] 1,1,1-trichloro-2-(p-chlorophenyl)-2-(o-chlorophenyl) ethane (O,p'-DDT)
+2026-06-18 12:15:13,455 WARNING   NOT FOUND: 1,1,1-trichloro-2-(p-chlorophenyl)-2-(o-chlorophenyl) ethane (O,p'-DDT)
+2026-06-18 12:15:13,456 INFO [215/228] SipA effector protein secreted by type three secretory system (T3SS)
+2026-06-18 12:22:28,982 WARNING   NOT FOUND: SipA effector protein secreted by type three secretory system (T3SS)
+2026-06-18 12:22:28,983 INFO [216/228] Tacrolimus (TAC)
+2026-06-18 12:22:34,002 WARNING   NOT FOUND: Tacrolimus (TAC)
+2026-06-18 12:22:34,002 INFO [217/228] Mammalian cell-expressed human recombinant low-density lipoprotein receptor (LDL-R) protein
+2026-06-18 12:26:23,501 WARNING   NOT FOUND: Mammalian cell-expressed human recombinant low-density lipoprotein receptor (LDL-R) protein
+2026-06-18 12:26:23,503 INFO [218/228] CD63 positive cells, including breast cancer MDA-MB-231 cells and CD63-overexpressed HEK293T cells
+2026-06-18 12:27:17,332 WARNING   NOT FOUND: CD63 positive cells, including breast cancer MDA-MB-231 cells and CD63-overexpressed HEK293T cells
+2026-06-18 12:27:17,333 INFO [219/228] Rituximab, anti-CD20 lgG1antibody
+2026-06-18 12:27:22,125 WARNING   NOT FOUND: Rituximab, anti-CD20 lgG1antibody
+2026-06-18 12:27:22,126 INFO [220/228] Spores of toxic aspergillus species: A. fumigatus
+2026-06-18 12:27:26,981 WARNING   NOT FOUND: Spores of toxic aspergillus species: A. fumigatus
+2026-06-18 12:27:26,982 INFO [221/228] Klebsiella Pneumoniae Carbapenemase 2 (KPC-2) specifically on KPC-2 Escherichia coli (E. coli)
+2026-06-18 12:27:31,979 WARNING   NOT FOUND: Klebsiella Pneumoniae Carbapenemase 2 (KPC-2) specifically on KPC-2 Escherichia coli (E. coli)
+2026-06-18 12:27:31,980 INFO [222/228] Osteocalcin (OC) - osteoporosis biomarker
+2026-06-18 12:27:37,907 WARNING   NOT FOUND: Osteocalcin (OC) - osteoporosis biomarker
+2026-06-18 12:27:37,908 INFO [223/228] Beta-crosslap (BC) - osteoporosis biomarker
+2026-06-18 12:27:42,649 WARNING   NOT FOUND: Beta-crosslap (BC) - osteoporosis biomarker
+2026-06-18 12:27:42,649 INFO [224/228] RNase H2 from Clostridium difficile (C. difficile) (CDH2)
+2026-06-18 12:27:51,208 WARNING   NOT FOUND: RNase H2 from Clostridium difficile (C. difficile) (CDH2)
+2026-06-18 12:27:51,209 INFO [225/228] Salivary peptide histatin-3 (synthetic H3 peptides)
+2026-06-18 12:27:56,985 WARNING   NOT FOUND: Salivary peptide histatin-3 (synthetic H3 peptides)
+2026-06-18 12:27:56,986 INFO [226/228] Programmed death-ligand 1 (PD-L1)-expressing cells
+2026-06-18 12:28:02,675 WARNING   NOT FOUND: Programmed death-ligand 1 (PD-L1)-expressing cells
+2026-06-18 12:28:02,675 INFO [227/228] Ebola virus (EBOV) recombinant NP his-tagged
+2026-06-18 12:28:07,558 WARNING   NOT FOUND: Ebola virus (EBOV) recombinant NP his-tagged
+2026-06-18 12:28:07,559 INFO [228/228] Spores of toxic aspergillus species: A. flavus
+2026-06-18 12:28:19,437 WARNING   NOT FOUND: Spores of toxic aspergillus species: A. flavus
+2026-06-18 12:28:19,462 INFO =======================================================
+2026-06-18 12:28:19,462 INFO Proteins newly found        : 0
+2026-06-18 12:28:19,462 INFO Protein rows still missing  : 683
+2026-06-18 12:28:19,462 INFO Protein targets still missing: 228
+2026-06-18 12:28:19,462 INFO Training-ready protein rows : 3700
+2026-06-18 12:28:19,462 INFO =======================================================
+2026-06-18 12:28:19,523 INFO Saved → data/processed/master_dataset_cleaned.csv
+[CondAptNet] Device: mps

@@ -1,10 +1,15 @@
 """
 CondAptNet Stage 1 — Broad Pretraining.
 
-Trains the full model on all available aptamer-protein pairs. ESM-2 backbone
-is frozen; LoRA adapters and all other layers are trainable (set_stage1()).
+Trains the full model on the augmented training set produced by
+scripts/data/augment.py. ESM-2 backbone is frozen; LoRA adapters and all other
+layers are trainable (set_stage1()).
 
-Split: by protein family (target_protein) — never randomly.
+Data: reads the protein-family splits written to data/augmented/ —
+    tier1_train.csv (augmented: hard negatives, cross-target negatives,
+                     truncations, scrambles), val.csv and test.csv (never
+                     augmented). Splits were assigned by protein family during
+                     cleaning (never randomly), with zero sequence leakage.
 Primary metric: MCC. Also logs AUC-ROC, AUC-PR, sensitivity.
 
 Usage:
@@ -13,6 +18,7 @@ Usage:
     PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --max-epochs 3
     PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py --batch-size 8
 
+Prerequisite: run `python scripts/data/augment.py` first to build data/augmented/.
 Checkpoints saved to: models/checkpoints/pretrain/
 """
 
@@ -34,7 +40,7 @@ from torch.utils.data import DataLoader, Dataset
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
-    DEVICE, RANDOM_SEED, DATA_PROCESSED, CHECKPOINTS_DIR, VIENNA_CACHE,
+    DEVICE, RANDOM_SEED, DATA_PROCESSED, DATA_AUGMENTED, CHECKPOINTS_DIR, VIENNA_CACHE,
     BATCH_SIZE, LEARNING_RATE_BASE, LEARNING_RATE_LORA, WEIGHT_DECAY,
     MAX_EPOCHS, EARLY_STOPPING_PATIENCE, GRAD_CLIP,
     DNA_MAX_LEN, PROT_MAX_TOKENS, DEFAULT_PH, DEFAULT_SALT_MM,
@@ -79,7 +85,9 @@ def precompute_protein_embeddings(
     protein_encoder.eval()
     with torch.no_grad():
         for i, seq in enumerate(unique, 1):
-            key  = hashlib.md5(seq.encode()).hexdigest()
+            # Key includes prot_max_tokens: embeddings truncated to a different
+            # token cap are NOT interchangeable, so they must not share a cache file.
+            key  = hashlib.md5(f"{prot_max_tokens}:{seq}".encode()).hexdigest()
             path = os.path.join(emb_dir, f"{key}.npy")
             seq_to_path[seq] = path
 
@@ -241,8 +249,8 @@ def split_by_protein_family(
     """
     Assign entire protein families to train / val / test.
     Never mixes rows from the same protein across splits.
-    Used by finetune.py to re-split filtered subsets; train.py uses the
-    pre-assigned `split` column from master_dataset_cleaned.csv instead.
+    Used by finetune.py to re-split small filtered target subsets; Stage 1
+    train.py instead reads the pre-split augmented files in data/augmented/.
     """
     families = sorted(df["target_name"].dropna().unique())
     rng = np.random.default_rng(seed)
@@ -364,8 +372,9 @@ def main() -> None:
     parser.add_argument("--batch-size",  type=int,   default=BATCH_SIZE)
     parser.add_argument("--lr-base",     type=float, default=LEARNING_RATE_BASE)
     parser.add_argument("--lr-lora",     type=float, default=LEARNING_RATE_LORA)
-    parser.add_argument("--data",        type=str,
-                        default=os.path.join(DATA_PROCESSED, "master_dataset_cleaned.csv"))
+    parser.add_argument("--augmented-dir", type=str, default=DATA_AUGMENTED,
+                        help="Directory holding tier1_train.csv / val.csv / test.csv "
+                             "produced by scripts/data/augment.py")
     parser.add_argument("--checkpoint-dir", type=str,
                         default=os.path.join(CHECKPOINTS_DIR, "pretrain"))
     parser.add_argument("--prot-max-tokens", type=int, default=PROT_MAX_TOKENS,
@@ -395,31 +404,37 @@ def main() -> None:
 
     torch.manual_seed(RANDOM_SEED)
 
-    # ── Load data ─────────────────────────────────────────────────────────────
-    log.info("Loading data from %s", args.data)
-    master = pd.read_csv(args.data)
+    # ── Load data: augmented protein-family splits from augment.py ────────────
+    # train = augmented (hard negatives, cross-target negatives, truncations,
+    # scrambles); val/test = never augmented. Splits are leakage-free by family.
+    train_csv = os.path.join(args.augmented_dir, "tier1_train.csv")
+    val_csv   = os.path.join(args.augmented_dir, "val.csv")
+    test_csv  = os.path.join(args.augmented_dir, "test.csv")
 
-    # Use pre-assigned splits from the cleaned CSV (protein-family split, zero leakage)
-    ready = (
-        master["aptamer_sequence"].notna() &
-        master["protein_sequence"].notna() &
-        master["split"].isin(["train", "val", "test"])
-    )
-    df = master[ready].copy()
-    log.info("Training-ready rows: %d / %d total", len(df), len(master))
-
-    if len(df) == 0:
-        log.error("No training-ready rows in %s.", args.data)
+    if not os.path.exists(train_csv):
+        log.error("Augmented training file not found: %s\n"
+                  "Run `python scripts/data/augment.py` first.", train_csv)
         sys.exit(1)
 
-    train_df = df[df["split"] == "train"].reset_index(drop=True)
-    val_df   = df[df["split"] == "val"].reset_index(drop=True)
-    test_df  = df[df["split"] == "test"].reset_index(drop=True)
-    log.info("Split (from CSV): %d train / %d val / %d test rows",
+    log.info("Loading augmented splits from %s", args.augmented_dir)
+
+    def _load_ready(path: str) -> pd.DataFrame:
+        if not os.path.exists(path):
+            return pd.DataFrame()
+        d = pd.read_csv(path)
+        ready = d["aptamer_sequence"].notna() & d["protein_sequence"].notna()
+        return d[ready].reset_index(drop=True)
+
+    train_df = _load_ready(train_csv)
+    val_df   = _load_ready(val_csv)
+    test_df  = _load_ready(test_csv)
+    df = pd.concat([train_df, val_df, test_df], ignore_index=True)
+
+    log.info("Split (augmented): %d train / %d val / %d test rows",
              len(train_df), len(val_df), len(test_df))
 
     if len(train_df) == 0:
-        log.error("Train split is empty in %s.", args.data)
+        log.error("Train split is empty in %s.", train_csv)
         sys.exit(1)
 
     # ── Load auxiliary tools ──────────────────────────────────────────────────

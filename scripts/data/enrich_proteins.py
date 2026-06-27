@@ -1,16 +1,35 @@
 """
-UniProt protein sequence enrichment for master_dataset.csv — v2.
+UniProt protein sequence enrichment — v3.
 
-Changes from v1:
-  - Non-protein filtering (small molecules, cell lines) before enrichment
+Supports two dataset schemas:
+  - Legacy  (master_dataset.csv):       target_protein / sequence / uniprot_id /
+                                         needs_sequence_enrichment
+  - Cleaned (master_dataset_cleaned.csv): target_name / aptamer_sequence /
+                                         target_id / target_type
+
+The schema is auto-detected from the input columns. On the cleaned schema only
+rows with target_type == "protein" and a missing protein_sequence are enriched
+(non-protein targets are already classified by the cleaning pipeline, so the
+regex non-protein filter is skipped).
+
+Changes from v2:
+  - --input / --output flags (CLAUDE.md documents enriching the cleaned CSV)
+  - Cleaned-schema enrichment path (writes protein_sequence + target_id)
+
+v2 features retained:
+  - Non-protein filtering (small molecules, cell lines) for the legacy schema
   - Fuzzy matching: strip noise words + 80% token-overlap scoring
   - Manual override table: data/raw/protein_name_overrides.csv
   - Synonym search: strips "human", "recombinant", etc. for retry
 
 Usage:
+    # cleaned schema (current canonical training file)
+    python scripts/data/enrich_proteins.py --input data/processed/master_dataset_cleaned.csv
+    python scripts/data/enrich_proteins.py --input data/processed/master_dataset_cleaned.csv --dry-run
+
+    # legacy schema (defaults to master_dataset.csv in place)
     python scripts/data/enrich_proteins.py              # all proteins
     python scripts/data/enrich_proteins.py --top 50     # top-N by row count
-    python scripts/data/enrich_proteins.py --dry-run    # print matches, no write
     python scripts/data/enrich_proteins.py --filter-only  # just remove non-proteins
 """
 
@@ -303,23 +322,134 @@ def enrich(
     return master, found
 
 
+# ── Cleaned-schema enrichment ─────────────────────────────────────────────────
+
+def enrich_cleaned(
+    master: pd.DataFrame,
+    top_n: int | None = None,
+    overrides: dict[str, str] | None = None,
+) -> tuple[pd.DataFrame, int]:
+    """
+    Enrich the cleaned schema (master_dataset_cleaned.csv).
+
+    Only rows with target_type == "protein" and a missing protein_sequence are
+    enriched. On a hit, both protein_sequence and target_id (UniProt accession)
+    are written for every row sharing that target_name.
+
+    Returns (updated_master, n_proteins_found).
+    """
+    need_mask = (
+        (master["target_type"] == "protein") &
+        master["protein_sequence"].isna()
+    )
+    proteins_by_count = master.loc[need_mask, "target_name"].value_counts()
+    if top_n is not None:
+        proteins_by_count = proteins_by_count.head(top_n)
+
+    master["target_id"]        = master["target_id"].astype(object)
+    master["protein_sequence"] = master["protein_sequence"].astype(object)
+
+    targets = proteins_by_count.index.tolist()
+    log.info("Proteins to enrich (cleaned schema): %d (covering %d rows)",
+             len(targets), int(proteins_by_count.sum()))
+
+    found = 0
+    for i, name in enumerate(targets, 1):
+        log.info("[%d/%d] %s", i, len(targets), name)
+        hit = find_sequence(name, overrides=overrides)
+        time.sleep(REQUEST_DELAY)
+
+        if hit is None:
+            log.warning("  NOT FOUND: %s", name)
+            continue
+
+        acc, seq = hit
+        # only fill rows for this target that are still missing a sequence
+        mask = (master["target_name"] == name) & master["protein_sequence"].isna()
+        master.loc[mask, "protein_sequence"] = seq
+        master.loc[mask, "target_id"]        = acc
+        master.loc[mask, "target_id_source"] = "UniProt"
+        log.info("  → %s  (%d aa)  %d rows", acc, len(seq), int(mask.sum()))
+        found += 1
+
+    return master, found
+
+
+def _run_cleaned(args, master: pd.DataFrame) -> None:
+    """Cleaned-schema enrichment driver (target_name / target_type / target_id)."""
+    n_protein = (master["target_type"] == "protein").sum()
+    have_seq  = master["protein_sequence"].notna().sum()
+    log.info("Cleaned schema detected: %d rows (%d protein-type, %d with sequence)",
+             len(master), int(n_protein), int(have_seq))
+
+    overrides = load_overrides()
+    if overrides:
+        log.info("Override table: %d entries loaded from %s", len(overrides), OVERRIDES_PATH)
+
+    master, n_found = enrich_cleaned(master, top_n=args.top, overrides=overrides)
+
+    still_missing_rows = (
+        (master["target_type"] == "protein") & master["protein_sequence"].isna()
+    ).sum()
+    still_missing_proteins = (
+        master.loc[
+            (master["target_type"] == "protein") & master["protein_sequence"].isna(),
+            "target_name",
+        ].nunique()
+    )
+    total_ready = (
+        master["aptamer_sequence"].notna() &
+        (master["target_type"] == "protein") &
+        master["protein_sequence"].notna()
+    ).sum()
+
+    log.info("=" * 55)
+    log.info("Proteins newly found        : %d", n_found)
+    log.info("Protein rows still missing  : %d", int(still_missing_rows))
+    log.info("Protein targets still missing: %d", int(still_missing_proteins))
+    log.info("Training-ready protein rows : %d", int(total_ready))
+    log.info("=" * 55)
+
+    if args.dry_run:
+        log.info("Dry-run — not writing")
+        return
+
+    master.to_csv(args.output, index=False)
+    log.info("Saved → %s", args.output)
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="CondAptNet protein sequence enrichment v2")
+    default_input = os.path.join(DATA_PROCESSED, "master_dataset.csv")
+    parser = argparse.ArgumentParser(description="CondAptNet protein sequence enrichment v3")
+    parser.add_argument("--input",       default=default_input,
+                        help="Dataset CSV to enrich (schema auto-detected)")
     parser.add_argument("--top",         type=int,  default=None)
-    parser.add_argument("--output",      default=os.path.join(DATA_PROCESSED, "master_dataset.csv"))
+    parser.add_argument("--output",      default=None,
+                        help="Output CSV (defaults to --input, enriched in place)")
     parser.add_argument("--dry-run",     action="store_true")
     parser.add_argument("--filter-only", action="store_true",
-                        help="Only remove non-protein rows, skip UniProt search")
+                        help="Only remove non-protein rows, skip UniProt search "
+                             "(legacy schema only)")
     args = parser.parse_args()
 
-    master_path = os.path.join(DATA_PROCESSED, "master_dataset.csv")
-    if not os.path.exists(master_path):
-        log.error("master_dataset.csv not found — run build_dataset.py first")
+    if args.output is None:
+        args.output = args.input
+
+    if not os.path.exists(args.input):
+        log.error("Input not found: %s — run build_dataset.py / clean_dataset.py first",
+                  args.input)
         sys.exit(1)
 
-    master = pd.read_csv(master_path)
+    master = pd.read_csv(args.input)
+
+    # ── Auto-detect schema ────────────────────────────────────────────────────
+    if "target_name" in master.columns and "aptamer_sequence" in master.columns:
+        _run_cleaned(args, master)
+        return
+
+    # ── Legacy schema (master_dataset.csv) ────────────────────────────────────
     log.info("Loaded: %d rows, %d with protein_sequence",
              len(master), master["protein_sequence"].notna().sum())
 

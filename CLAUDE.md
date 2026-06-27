@@ -540,12 +540,17 @@ MPS rules:
   - Also: non_dna_entries.csv (77), flagged_for_review.csv (609), outputs/cleaning_report.md
 - [x] train.py + finetune.py — _film_heads checkpoint bug fixed; strict=False resume guard added
 - [x] condition_encoder.py — pre-registers FUSION_DIM FiLM head so checkpoint keys are stable
+- [x] Pre-training cleanup pass (all pipeline plumbing verified end-to-end):
+  - enrich_proteins.py — v3: auto-detects legacy vs cleaned schema; `--input/--output` flags. Re-ran on master_dataset_cleaned.csv: all 17 Tier-2 rows already enriched; 228 residual "protein" targets are garbled scraper noise (organisms/cells/spores/truncated names) that fail UniProt name search — left unenriched, dropped downstream. 3700 protein rows have sequences.
+  - train.py — Stage 1 now reads the augmented protein-family splits in data/augmented/ (tier1_train.csv/val.csv/test.csv) instead of the raw cleaned CSV; the augmentation pipeline is now actually used and the 858 unassigned rows are folded into train. `--augmented-dir` arg.
+  - evaluate.py — rewritten: was crashing (stale master_dataset.csv schema, re-randomized split, wrong AptamerDataset signature, 6-tuple vs 7-tuple, no protein_emb). Now mirrors train.py exactly (augmented splits, pre-computed ESM-2 embeddings, strict=False ckpt load).
+  - augment.py — added a leakage guard dropping any folded-in/synthesized train row whose aptamer_sequence appears in val/test. Regenerated splits: tier1_train=15904 / val=159 / test=136, verified zero sequence overlap.
+  - condition_encoder.py — docstring corrected (5-dim input incl. mg_mM, was stale 4-dim).
 
 ### Next Up (in order)
-1. Enrich protein_sequence for 2 curated rows still missing (Insulin P01308, NT-proBNP P16860): run `python scripts/data/enrich_proteins.py --input data/processed/master_dataset_cleaned.csv`
-2. Run Stage 1 training (reads master_dataset_cleaned.csv): `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py`
-3. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
-4. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
+1. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py` (reads data/augmented/; run `python scripts/data/augment.py` first if splits are stale)
+2. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
+3. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
 
 ### Open Decisions
 - esm2_t12_35M confirmed (480-dim, LoRA rank-8 working on MPS)
