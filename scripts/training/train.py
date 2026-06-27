@@ -277,7 +277,7 @@ def split_by_protein_family(
 
 # ── Training / evaluation loops ───────────────────────────────────────────────
 
-def train_epoch(model, loader, optimizer, criterion, device, max_batches=None):
+def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, use_amp=False):
     model.train()
     total_loss = bce_sum = kd_sum = 0.0
     all_labels: list = []
@@ -286,6 +286,7 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None):
     all_kd_pred: list = []
     n_batches = len(loader) if max_batches is None else min(max_batches, len(loader))
     t_batch = time.time()
+    amp_ctx = torch.cuda.amp.autocast(dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
 
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
@@ -299,9 +300,16 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None):
         kds      = kds.to(device)
 
         optimizer.zero_grad()
-        out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+        with amp_ctx:
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
 
-        loss, bce, kd_l = criterion(out.binding_prob, labels, out.kd_pred, kds)
+        # Loss always in float32 for numerical stability
+        loss, bce, kd_l = criterion(
+            out.binding_prob.float(),
+            labels,
+            out.kd_pred.float() if out.kd_pred is not None else None,
+            kds,
+        )
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP)
         optimizer.step()
@@ -311,9 +319,9 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None):
         kd_sum     += kd_l.item() if isinstance(kd_l, torch.Tensor) else kd_l
 
         all_labels.extend(labels.detach().cpu().squeeze(-1).tolist())
-        all_probs.extend(out.binding_prob.detach().cpu().squeeze(-1).tolist())
+        all_probs.extend(out.binding_prob.detach().float().cpu().squeeze(-1).tolist())
         all_kd_true.extend(kds.detach().cpu().squeeze(-1).tolist())
-        all_kd_pred.extend(out.kd_pred.detach().cpu().squeeze(-1).tolist()
+        all_kd_pred.extend(out.kd_pred.detach().float().cpu().squeeze(-1).tolist()
                            if out.kd_pred is not None else [float("nan")] * labels.shape[0])
 
         if (batch_i + 1) % 10 == 0 or (batch_i + 1) == n_batches:
@@ -328,13 +336,14 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None):
 
 
 @torch.no_grad()
-def eval_epoch(model, loader, criterion, device, max_batches=None):
+def eval_epoch(model, loader, criterion, device, max_batches=None, use_amp=False):
     model.eval()
     total_loss = bce_sum = kd_sum = 0.0
     all_labels: list = []
     all_probs:  list = []
     all_kd_true: list = []
     all_kd_pred: list = []
+    amp_ctx = torch.cuda.amp.autocast(dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
 
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
@@ -346,17 +355,24 @@ def eval_epoch(model, loader, criterion, device, max_batches=None):
         labels   = labels.to(device)
         kds      = kds.to(device)
 
-        out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
-        loss, bce, kd_l = criterion(out.binding_prob, labels, out.kd_pred, kds)
+        with amp_ctx:
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+
+        loss, bce, kd_l = criterion(
+            out.binding_prob.float(),
+            labels,
+            out.kd_pred.float() if out.kd_pred is not None else None,
+            kds,
+        )
 
         total_loss += loss.item()
         bce_sum    += bce.item()
         kd_sum     += kd_l.item() if isinstance(kd_l, torch.Tensor) else kd_l
 
         all_labels.extend(labels.cpu().squeeze(-1).tolist())
-        all_probs.extend(out.binding_prob.cpu().squeeze(-1).tolist())
+        all_probs.extend(out.binding_prob.float().cpu().squeeze(-1).tolist())
         all_kd_true.extend(kds.cpu().squeeze(-1).tolist())
-        all_kd_pred.extend(out.kd_pred.cpu().squeeze(-1).tolist()
+        all_kd_pred.extend(out.kd_pred.float().cpu().squeeze(-1).tolist()
                            if out.kd_pred is not None else [float("nan")] * labels.shape[0])
 
     n = max(batch_i + 1, 1)
@@ -389,6 +405,10 @@ def main() -> None:
                         help="Resume from the latest epoch_*.pt checkpoint in "
                              "--checkpoint-dir, restoring optimizer, scheduler, "
                              "and best val MCC so early stopping continues correctly")
+    parser.add_argument("--use-amp", action="store_true", default=False,
+                        help="Enable BF16 automatic mixed precision (A100/Ampere GPUs). "
+                             "Halves activation memory — enables batch=32 + prot_len=1024 "
+                             "on A100 that would OOM without it.")
     args = parser.parse_args()
 
     os.makedirs(args.checkpoint_dir, exist_ok=True)
@@ -401,6 +421,12 @@ def main() -> None:
     else:
         device = torch.device("cpu")
     log.info("Device confirmed at runtime: %s", device)
+
+    use_amp = args.use_amp and device.type == "cuda"
+    if use_amp:
+        log.info("BF16 AMP enabled — activations in bfloat16, loss in float32")
+    elif args.use_amp:
+        log.warning("--use-amp requested but device is %s (not CUDA) — AMP disabled", device)
 
     torch.manual_seed(RANDOM_SEED)
 
@@ -569,7 +595,8 @@ def main() -> None:
          tr_labels, tr_probs,
          tr_kd_t, tr_kd_p) = train_epoch(model, train_loader, optimizer,
                                           criterion, device,
-                                          max_batches=args.max_batches)
+                                          max_batches=args.max_batches,
+                                          use_amp=use_amp)
 
         tr_m = compute_metrics(tr_labels, tr_probs,
                                kd_true=tr_kd_t, kd_pred=tr_kd_p)
@@ -580,7 +607,8 @@ def main() -> None:
             (va_loss, va_bce, va_kd,
              va_labels, va_probs,
              va_kd_t, va_kd_p) = eval_epoch(model, val_loader, criterion, device,
-                                             max_batches=args.max_batches)
+                                             max_batches=args.max_batches,
+                                             use_amp=use_amp)
             va_m = compute_metrics(va_labels, va_probs,
                                    kd_true=va_kd_t, kd_pred=va_kd_p)
             val_mcc = va_m["mcc"]

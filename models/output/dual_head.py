@@ -126,7 +126,7 @@ class DualHead(nn.Module):
         Returns:
             DualHeadOutput(binding_prob, kd_pred, binding_label)
         """
-        assert features.dtype == torch.float32, "features must be float32"
+        assert features.is_floating_point(), f"features must be float, got {features.dtype}"
         assert features.dim() == 2, f"Expected [batch, features], got {features.shape}"
 
         binding_prob = self.binding_head(features)           # [batch, 1]

@@ -33,6 +33,7 @@ from pathlib import Path
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils import checkpoint as _grad_ckpt
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import DEVICE, FUSION_DIM, CNN_CHANNELS, CNN_KERNEL_SIZE, CNN_NUM_BLOCKS
@@ -115,6 +116,22 @@ class CNNHead(nn.Module):
         self.final_norm = nn.GroupNorm(8, CNN_CHANNELS[-1])
         self.gap = nn.AdaptiveAvgPool2d(1)   # global average pooling → [batch, C, 1, 1]
 
+    def _interact_and_project(
+        self, apt_fused: torch.Tensor, prot_fused: torch.Tensor
+    ) -> torch.Tensor:
+        """
+        Build outer-product interaction matrix and run the 1×1 entry conv.
+        Extracted as a method so it can be gradient-checkpointed: saves only the
+        small apt_fused/prot_fused inputs instead of the large [B,D,apt,prot] matrix.
+        """
+        apt_len  = apt_fused.size(1)
+        prot_len = prot_fused.size(1)
+        apt_exp  = apt_fused.unsqueeze(2).expand(-1, -1, prot_len, -1)
+        prot_exp = prot_fused.unsqueeze(1).expand(-1, apt_len, -1, -1)
+        interaction = apt_exp * prot_exp
+        interaction = interaction.permute(0, 3, 1, 2).contiguous()  # [B, D, apt, prot]
+        return self.entry_conv(interaction)                           # [B, 64, apt, prot]
+
     def forward(self, apt_fused: torch.Tensor, prot_fused: torch.Tensor) -> torch.Tensor:
         """
         Args:
@@ -125,26 +142,22 @@ class CNNHead(nn.Module):
             features   : [batch, CNN_CHANNELS[-1]]
         """
         batch = apt_fused.size(0)
-        apt_len  = apt_fused.size(1)
-        prot_len = prot_fused.size(1)
 
-        # Outer product: [batch, apt_len, FUSION_DIM] × [batch, prot_len, FUSION_DIM]
-        # → [batch, apt_len, prot_len, FUSION_DIM]
-        apt_exp  = apt_fused.unsqueeze(2).expand(-1, -1, prot_len, -1)
-        prot_exp = prot_fused.unsqueeze(1).expand(-1, apt_len, -1, -1)
-        interaction = apt_exp * prot_exp          # element-wise → [batch, apt_len, prot_len, D]
+        # Checkpoint the interaction matrix construction so the large
+        # [batch, FUSION_DIM, apt_len, prot_len] tensor is never stored between
+        # forward and backward — only the small apt_fused/prot_fused are saved.
+        x = _grad_ckpt.checkpoint(
+            self._interact_and_project, apt_fused, prot_fused, use_reentrant=False
+        )   # [batch, 64, apt_len, prot_len]
 
-        # Rearrange to CNN format: [batch, D, apt_len, prot_len]
-        interaction = interaction.permute(0, 3, 1, 2).contiguous()
-
-        x = self.entry_conv(interaction)   # [batch, 64, apt_len, prot_len]
-
+        # Per-block gradient checkpointing: stores each block's input only,
+        # never all 17 blocks' intermediate activations simultaneously.
         for block in self.blocks:
-            x = block(x)
+            x = _grad_ckpt.checkpoint(block, x, use_reentrant=False)
 
         x = self.final_norm(x)
-        x = self.gap(x)                    # [batch, 256, 1, 1]
-        x = x.flatten(1)                   # [batch, 256]
+        x = self.gap(x)    # [batch, 256, 1, 1]
+        x = x.flatten(1)   # [batch, 256]
 
         assert x.shape == (batch, CNN_CHANNELS[-1]), f"Unexpected shape: {x.shape}"
         return x

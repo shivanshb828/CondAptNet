@@ -34,7 +34,6 @@ from typing import NamedTuple, Optional
 
 import torch
 import torch.nn as nn
-from torch.utils import checkpoint as grad_ckpt
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from config import (
@@ -136,9 +135,8 @@ class CondAptNet(nn.Module):
         # prot_fused: [batch, prot_len,      FUSION_DIM=256]
 
         # ── Interaction matrix → CNN ──────────────────────────────────────────
-        features = grad_ckpt.checkpoint(
-            self.cnn_head, apt_fused, prot_fused, use_reentrant=False
-        )
+        # CNNHead uses per-block gradient checkpointing internally.
+        features = self.cnn_head(apt_fused, prot_fused)
         # features: [batch, 256]
 
         # ── Dual output ───────────────────────────────────────────────────────
