@@ -286,7 +286,7 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, u
     all_kd_pred: list = []
     n_batches = len(loader) if max_batches is None else min(max_batches, len(loader))
     t_batch = time.time()
-    amp_ctx = torch.cuda.amp.autocast(dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
+    amp_ctx = torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
 
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
@@ -343,7 +343,7 @@ def eval_epoch(model, loader, criterion, device, max_batches=None, use_amp=False
     all_probs:  list = []
     all_kd_true: list = []
     all_kd_pred: list = []
-    amp_ctx = torch.cuda.amp.autocast(dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
+    amp_ctx = torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
 
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
