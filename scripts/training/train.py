@@ -510,17 +510,23 @@ def main() -> None:
         val_ds = AptamerDataset(val_df, tokenizer, vienna_cache, seq_to_emb,
                                 max_prot_len=args.max_prot_len)
 
+    # MPS requires num_workers=0; CUDA benefits from prefetch workers + pinned memory
+    _num_workers = 0 if device.type in ("mps", "cpu") else 2
+    _pin_memory  = device.type == "cuda"
+
     train_loader = DataLoader(
         train_ds,
         batch_size=args.batch_size,
         shuffle=True,
         collate_fn=collate_fn,
-        num_workers=0,   # MPS requires num_workers=0
-        pin_memory=False,
+        num_workers=_num_workers,
+        pin_memory=_pin_memory,
+        persistent_workers=_num_workers > 0,
     )
     val_loader = (
         DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
-                   collate_fn=collate_fn, num_workers=0, pin_memory=False)
+                   collate_fn=collate_fn, num_workers=_num_workers,
+                   pin_memory=_pin_memory, persistent_workers=_num_workers > 0)
         if val_ds else None
     )
 
