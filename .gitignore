@@ -21,3 +21,6 @@ models/checkpoints/
 
 # OS
 .DS_Store
+
+# env
+.env
