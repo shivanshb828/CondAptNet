@@ -36,25 +36,34 @@ import torch.nn.functional as F
 from torch.utils import checkpoint as _grad_ckpt
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from config import DEVICE, FUSION_DIM, CNN_CHANNELS, CNN_KERNEL_SIZE, CNN_NUM_BLOCKS
+from config import DEVICE, FUSION_DIM, CNN_CHANNELS, CNN_KERNEL_SIZE, CNN_NUM_BLOCKS, CNN_DROPOUT
 
 
 class ConvBlock(nn.Module):
     """
     One residual convolutional block: two Conv2d layers with GroupNorm+GELU.
     A 1×1 projection shortcut is added when in_channels != out_channels.
+
+    A channel-wise ``nn.Dropout2d`` follows each GELU (both occurrences).
+    Dropout2d zeroes whole feature-map channels rather than individual pixels —
+    the standard choice for conv stacks, since neighbouring pixels in a conv
+    activation are highly correlated and per-element dropout barely
+    decorrelates them. Adds zero learnable parameters.
     """
 
-    def __init__(self, in_channels: int, out_channels: int, kernel_size: int = CNN_KERNEL_SIZE) -> None:
+    def __init__(self, in_channels: int, out_channels: int, kernel_size: int = CNN_KERNEL_SIZE,
+                 dropout: float = CNN_DROPOUT) -> None:
         super().__init__()
         pad = kernel_size // 2
 
         self.block = nn.Sequential(
             nn.GroupNorm(8, in_channels),
             nn.GELU(),
+            nn.Dropout2d(dropout),
             nn.Conv2d(in_channels, out_channels, kernel_size, padding=pad, bias=False),
             nn.GroupNorm(8, out_channels),
             nn.GELU(),
+            nn.Dropout2d(dropout),
             nn.Conv2d(out_channels, out_channels, kernel_size, padding=pad, bias=False),
         )
 

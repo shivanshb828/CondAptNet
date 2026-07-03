@@ -68,6 +68,9 @@ CROSS_ATTN_DROPOUT = 0.1
 CNN_CHANNELS    = [64, 128, 256]
 CNN_KERNEL_SIZE = 3
 CNN_NUM_BLOCKS  = 17
+# Channel-wise (Dropout2d) regularization inside each ConvBlock — guards the
+# deep 17-block, 256-channel stack against overfitting on our ~3.3k real rows.
+CNN_DROPOUT     = 0.1
 
 # ── Output Heads ─────────────────────────────────────────────────────────────
 KD_OUTPUT_DIM   = 1   # log-scale nM
