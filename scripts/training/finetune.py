@@ -220,9 +220,18 @@ def main() -> None:
     parser.add_argument("--max-prot-len",    type=int, default=PROT_MAX_TOKENS)
     parser.add_argument("--max-batches",   type=int,   default=None,
         help="Limit batches per epoch (smoke-test mode).")
+    parser.add_argument("--grad-accum",    type=int,   default=1,
+        help="Accumulate gradients over this many micro-batches before an optimizer "
+             "step. Effective batch = batch-size * grad-accum. Use a small --batch-size "
+             "with --grad-accum>1 to avoid the interaction-matrix OOM at long --max-prot-len.")
+    parser.add_argument("--use-amp",       action="store_true", default=False,
+        help="Enable BF16 automatic mixed precision (A100/Ampere GPUs).")
     parser.add_argument("--resume",        action="store_true",
         help="Resume from latest epoch_*.pt in --checkpoint-dir.")
     args = parser.parse_args()
+
+    if args.grad_accum < 1:
+        parser.error("--grad-accum must be >= 1")
 
     # ── Resolve stage-specific settings ──────────────────────────────────────
     if args.stage == "validation":
@@ -255,6 +264,13 @@ def main() -> None:
     else:
         device = torch.device("cpu")
     log.info("Device: %s", device)
+
+    use_amp = args.use_amp and device.type == "cuda"
+    if use_amp:
+        log.info("BF16 AMP enabled — activations in bfloat16, loss in float32")
+    elif args.use_amp:
+        log.warning("--use-amp requested but device is %s (not CUDA) — AMP disabled", device)
+
     torch.manual_seed(RANDOM_SEED)
 
     # ── Load and filter data ──────────────────────────────────────────────────
@@ -433,7 +449,9 @@ def main() -> None:
          tr_labels, tr_probs,
          tr_kd_t,  tr_kd_p) = train_epoch(model, train_loader, optimizer,
                                            criterion, device,
-                                           max_batches=args.max_batches)
+                                           max_batches=args.max_batches,
+                                           use_amp=use_amp,
+                                           grad_accum=args.grad_accum)
         tr_m = compute_metrics(tr_labels, tr_probs,
                                kd_true=tr_kd_t, kd_pred=tr_kd_p)
         elapsed = time.time() - t0
@@ -442,7 +460,8 @@ def main() -> None:
             (va_loss, va_bce, va_kd,
              va_labels, va_probs,
              va_kd_t,  va_kd_p) = eval_epoch(model, val_loader, criterion, device,
-                                              max_batches=args.max_batches)
+                                              max_batches=args.max_batches,
+                                              use_amp=use_amp)
             va_m    = compute_metrics(va_labels, va_probs,
                                       kd_true=va_kd_t, kd_pred=va_kd_p)
             val_mcc = va_m["mcc"]
