@@ -136,6 +136,38 @@ class AptamerDataset(Dataset):
         self.seq_to_emb_path = seq_to_emb_path
         self.max_prot_len    = max_prot_len
 
+        # DNA-encoder-dependent aptamer tokenization. Default "scratch" uses the
+        # 3-mer DNATokenizer (unchanged). "dnabert2" needs DNABERT-2's own BPE
+        # tokenizer producing input_ids padded to DNABERT2_MAX_LEN — a parallel
+        # path, NOT the 3-mer pipeline. Config/transformers are imported lazily
+        # here so the scratch path pulls in no extra dependency.
+        from config import DNA_ENCODER_TYPE
+        self.dna_encoder_type = DNA_ENCODER_TYPE
+        self._bpe_tokenizer = None
+        if DNA_ENCODER_TYPE == "dnabert2":
+            from config import DNABERT2_MODEL_NAME, DNABERT2_MAX_LEN
+            from transformers import AutoTokenizer
+            self._bpe_tokenizer = AutoTokenizer.from_pretrained(
+                DNABERT2_MODEL_NAME, trust_remote_code=True)
+            self._bpe_max_len = DNABERT2_MAX_LEN
+
+    def _encode_aptamer(self, seq: str) -> torch.Tensor:
+        """Aptamer -> token ids, per the active DNA encoder.
+
+        scratch  : 3-mer ids padded to DNA_MAX_LEN (via DNATokenizer).
+        dnabert2 : DNABERT-2 BPE input_ids padded to DNABERT2_MAX_LEN.
+        Both return a fixed-length LongTensor so collate_fn can stack them.
+        """
+        if self._bpe_tokenizer is not None:
+            enc = self._bpe_tokenizer(
+                seq.upper(), return_tensors="pt", padding="max_length",
+                truncation=True, max_length=self._bpe_max_len,
+            )
+            return enc["input_ids"].squeeze(0).long()
+        encoded = self.tokenizer.encode_padded(seq, DNA_MAX_LEN)
+        return (encoded.clone().detach() if isinstance(encoded, torch.Tensor)
+                else torch.tensor(encoded, dtype=torch.long))
+
     def _vienna_feats(self, seq: str) -> torch.Tensor:
         if seq in self.vc:
             d = self.vc[seq]
@@ -175,10 +207,8 @@ class AptamerDataset(Dataset):
         seq  = row["aptamer_sequence"]
         prot = row["protein_sequence"]
 
-        # aptamer tokens [apt_token_len] (padded to DNA_MAX_LEN)
-        encoded = self.tokenizer.encode_padded(seq, DNA_MAX_LEN)
-        apt_tok = (encoded.clone().detach() if isinstance(encoded, torch.Tensor)
-                   else torch.tensor(encoded, dtype=torch.long))
+        # aptamer tokens — 3-mer ids (scratch) or DNABERT-2 BPE input_ids (dnabert2)
+        apt_tok = self._encode_aptamer(seq)
 
         # vienna features [6]
         v_feats = self._vienna_feats(seq)
