@@ -36,6 +36,21 @@ DNA_FF_DIM      = 512
 DNA_DROPOUT     = 0.1
 DNA_MAX_LEN     = 120      # max aptamer nucleotides
 
+# ── DNA Encoder selector (A/B ablation) ──────────────────────────────────────
+# "scratch"  = the from-scratch 6-layer Transformer above (default, unchanged).
+# "dnabert2" = pretrained DNABERT-2 foundation model + LoRA (dna_encoder_pretrained.py).
+# NOTE: this is a switchable ablation, NOT a replacement — the scratch encoder
+# remains the default and is bit-for-bit unchanged when this stays "scratch".
+DNA_ENCODER_TYPE    = "scratch"
+DNABERT2_MODEL_NAME = "zhihan1996/DNABERT-2-117M"
+DNABERT2_EMBED_DIM  = 768
+# Session-2 spike measured BPE token counts on the real cleaned dataset:
+# 120 nt -> 27 tokens, dataset-wide max 28 (BPE != nt count). 32 gives headroom.
+DNABERT2_MAX_LEN      = 32
+DNABERT2_LORA_RANK    = 8
+DNABERT2_LORA_ALPHA   = 16
+DNABERT2_LORA_DROPOUT = 0.05
+
 # ── Protein Encoder (ESM-2) ───────────────────────────────────────────────────
 ESM_MODEL_NAME  = "esm2_t12_35M_UR50D"  # 35M params, 480-dim output
 ESM_EMBED_DIM   = 480
@@ -68,6 +83,9 @@ CROSS_ATTN_DROPOUT = 0.1
 CNN_CHANNELS    = [64, 128, 256]
 CNN_KERNEL_SIZE = 3
 CNN_NUM_BLOCKS  = 17
+# Channel-wise (Dropout2d) regularization inside each ConvBlock — guards the
+# deep 17-block, 256-channel stack against overfitting on our ~3.3k real rows.
+CNN_DROPOUT     = 0.1
 
 # ── Output Heads ─────────────────────────────────────────────────────────────
 KD_OUTPUT_DIM   = 1   # log-scale nM

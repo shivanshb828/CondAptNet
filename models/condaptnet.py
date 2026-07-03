@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from config import (
     DEVICE,
     DNA_EMBED_DIM, ESM_EMBED_DIM, FUSION_DIM,
+    DNA_ENCODER_TYPE, DNABERT2_EMBED_DIM,
     DEFAULT_PH, DEFAULT_SALT_MM, DEFAULT_TEMP_C, DEFAULT_BUFFER, DEFAULT_MG_MM,
 )
 from models.encoders.dna_encoder      import DNAEncoder, VIENNA_FEAT_DIM
@@ -67,10 +68,29 @@ class CondAptNet(nn.Module):
         super().__init__()
         self.predict_kd = predict_kd
 
-        self.dna_encoder       = DNAEncoder(use_vienna=True)
+        # DNA encoder is selectable (A/B ablation). "scratch" is the default and
+        # keeps the exact prior behavior; "dnabert2" swaps in the pretrained
+        # foundation model. The cross-attention DNA projection input dim follows
+        # whichever encoder is active (128 vs 768).
+        if DNA_ENCODER_TYPE == "scratch":
+            self.dna_encoder = DNAEncoder(use_vienna=True)
+            dna_embed_dim    = DNA_EMBED_DIM
+        elif DNA_ENCODER_TYPE == "dnabert2":
+            # Lazy import: only pull in transformers/DNABERT-2 when actually used,
+            # so the default "scratch" path has no new hard dependency.
+            from models.encoders.dna_encoder_pretrained import PretrainedDNAEncoder
+            self.dna_encoder = PretrainedDNAEncoder()
+            dna_embed_dim    = DNABERT2_EMBED_DIM
+        else:
+            raise ValueError(
+                f"Unknown DNA_ENCODER_TYPE={DNA_ENCODER_TYPE!r}; "
+                "expected 'scratch' or 'dnabert2'."
+            )
+        self.dna_encoder_type  = DNA_ENCODER_TYPE
+
         self.protein_encoder   = ProteinEncoder()
         self.condition_encoder = ConditionEncoder()
-        self.cross_attention   = SymmetricCrossAttention()
+        self.cross_attention   = SymmetricCrossAttention(dna_embed_dim=dna_embed_dim)
         self.cnn_head          = CNNHead()
         self.dual_head         = DualHead()
 
@@ -79,10 +99,16 @@ class CondAptNet(nn.Module):
     def set_stage1(self) -> None:
         """Stage 1: freeze ESM-2 backbone, train everything else."""
         self.protein_encoder.freeze_esm()
+        # DNABERT-2 branch: freeze its backbone too, leaving only LoRA trainable
+        # (mirrors the ESM-2 convention). The scratch encoder trains fully.
+        if self.dna_encoder_type == "dnabert2":
+            self.dna_encoder.freeze_dnabert()
 
     def set_stage2(self) -> None:
         """Stage 2/3: unfreeze ESM-2 LoRA for target-specific adaptation."""
         self.protein_encoder.unfreeze_lora()
+        if self.dna_encoder_type == "dnabert2":
+            self.dna_encoder.unfreeze_lora()
 
     def trainable_params(self) -> int:
         return sum(p.numel() for p in self.parameters() if p.requires_grad)

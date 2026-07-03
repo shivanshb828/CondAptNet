@@ -83,7 +83,7 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 
 ### Component Rationale
 
-**DNA Encoder:** Transformer with native 3-mer tokenization. No T→U conversion. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count, base pair probabilities).
+**DNA Encoder:** Transformer with native 3-mer tokenization. No T→U conversion. Augmented with ViennaRNA secondary structure features (MFE, stem count, loop count, base pair probabilities). **Switchable** via `DNA_ENCODER_TYPE` in config.py — see [DNA Encoder Ablation](#dna-encoder-ablation-scratch-vs-dnabert-2) below for the pretrained DNABERT-2 alternative.
 
 **Protein Encoder (ESM-2):** Pretrained on 250 million protein sequences. Deeply understands any protein — including ones with zero aptamer training data. Fine-tuned with LoRA (rank=8, α=16). ESM-2 embeddings are pre-cached to disk; the frozen backbone runs only once per unique protein.
 
@@ -91,9 +91,25 @@ DNA Aptamer Sequence     Protein Sequence       Condition Vector
 
 **FiLM Condition Injection:** pH, salt, temperature, Mg²⁺, and buffer modulate cross-attention feature maps via learned scale and shift parameters. First aptamer model to encode physiological context. Physiological defaults: pH 7.4, 150 mM Na⁺, 37°C, 2 mM Mg²⁺, PBS.
 
-**17-block CNN (GroupNorm):** Extracts hierarchical features from the 2D aptamer-protein interaction map. GroupNorm replaces BatchNorm2d for full MPS/CUDA native execution.
+**17-block CNN (GroupNorm):** Extracts hierarchical features from the 2D aptamer-protein interaction map. GroupNorm replaces BatchNorm2d for full MPS/CUDA native execution. Each `ConvBlock` applies channel-wise `Dropout2d` (`CNN_DROPOUT=0.1`) after each GELU — the standard regularizer for spatially correlated conv activations — guarding the deep 256-channel stack against overfitting on the few thousand real training rows.
 
 **Dual Output Head:** Binary binding classification + Kd regression for affinity-ranked candidate generation. Kd head is skippable at inference when no affinity label is available.
+
+### DNA Encoder Ablation (scratch vs. DNABERT-2)
+
+Our protein arm gets transfer learning (ESM-2, pretrained on 250M sequences) while the DNA arm learns from scratch on a small dataset. To test whether a pretrained DNA foundation model closes that asymmetry, the DNA encoder is **switchable** behind a single config flag — an A/B ablation, not a replacement:
+
+| `DNA_ENCODER_TYPE` | Encoder | Output dim | Tokenization | Trainable |
+|---|---|---|---|---|
+| `"scratch"` (default) | 6-layer Transformer, trained from scratch | 128 | 3-mer (66-token vocab) + ViennaRNA bias | full |
+| `"dnabert2"` | [DNABERT-2 117M](https://github.com/MAGICS-LAB/DNABERT_2) (Zhou et al., ICLR 2024) + LoRA | 768 | BPE (multi-species genomic) | LoRA only (0.25%) |
+
+- **Default is unchanged.** With `DNA_ENCODER_TYPE="scratch"` the from-scratch encoder is bit-for-bit identical; DNABERT-2 pulls in no dependency and downloads nothing.
+- **LoRA target:** DNABERT-2 uses a *fused* `Wqkv` projection (`nn.Linear(768→2304)`), not the separate q/v projections ESM-2 exposes, so LoRA (rank 8) adapts Q/K/V jointly. Loading uses a direct-construction pattern (`models/encoders/dna_encoder_pretrained.py`) because the plain `AutoModel.from_pretrained` path is broken on transformers 5.x.
+- **Domain-shift caveat:** DNABERT-2 was pretrained on genomic DNA, not short synthetic ssDNA aptamers (20–120 nt). Whether it beats the from-scratch encoder is an open empirical question — the point of making it benchmarkable. The comparative training run is a follow-up.
+- **BPE ≠ nucleotides:** a 120 nt aptamer is ~27 BPE tokens (dataset max 28), so `DNABERT2_MAX_LEN=32`.
+
+Enable with `DNA_ENCODER_TYPE = "dnabert2"` in config.py (also needs `pip install transformers einops`).
 
 ---
 
@@ -208,6 +224,7 @@ continuitybioML/
 ├── models/
 │   ├── encoders/
 │   │   ├── dna_encoder.py
+│   │   ├── dna_encoder_pretrained.py  # Optional DNABERT-2 + LoRA (A/B ablation)
 │   │   ├── protein_encoder.py
 │   │   └── condition_encoder.py
 │   ├── attention/
@@ -264,9 +281,11 @@ continuitybioML/
 │   │   ├── train.py             # Stage 1 (--resume, --max-batches, CUDA/MPS/CPU)
 │   │   ├── finetune.py          # Stage 2 and 3 (--stage validation|deployment)
 │   │   └── losses.py
-│   └── evaluation/
-│       ├── evaluate.py
-│       └── metrics.py
+│   ├── evaluation/
+│   │   ├── evaluate.py
+│   │   └── metrics.py
+│   └── spikes/
+│       └── inspect_dnabert2.py     # Throwaway DNABERT-2 internals probe (Session 2)
 └── outputs/
     ├── candidates/
     └── motifs/
@@ -414,10 +433,11 @@ Accuracy is not reported as a primary metric — class imbalance makes it mislea
 - [x] config.py — all hyperparams + physiological defaults (37°C, 150mM Na, 2mM Mg)
 - [x] tokenizer.py — DNA 3-mer tokenizer (66-token vocab)
 - [x] dna_encoder.py — 6-layer Transformer [B, L, 128], MPS verified
+- [x] dna_encoder_pretrained.py — optional DNABERT-2 117M + LoRA on fused Wqkv [B, L, 768], MPS verified (gated on `DNA_ENCODER_TYPE="dnabert2"`)
 - [x] protein_encoder.py — ESM-2 + LoRA (0.55% trainable) [B, L, 480], MPS verified
 - [x] condition_encoder.py — FiLM MLP [B, 128], MPS verified
-- [x] cross_attention.py — symmetric bidirectional [B, L, 256], MPS verified
-- [x] cnn_head.py — 17-block CNN with GroupNorm [B, 256], MPS + CUDA verified
+- [x] cross_attention.py — symmetric bidirectional [B, L, 256], MPS verified; DNA embed dim now configurable (128 scratch / 768 dnabert2)
+- [x] cnn_head.py — 17-block CNN with GroupNorm + channel-wise Dropout2d [B, 256], MPS + CUDA verified
 - [x] dual_head.py — binding sigmoid + Kd ReLU
 - [x] condaptnet.py — full assembly + gradient checkpointing, end-to-end verified
 - [x] losses.py — combined BCE + MSE loss

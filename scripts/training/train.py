@@ -136,6 +136,38 @@ class AptamerDataset(Dataset):
         self.seq_to_emb_path = seq_to_emb_path
         self.max_prot_len    = max_prot_len
 
+        # DNA-encoder-dependent aptamer tokenization. Default "scratch" uses the
+        # 3-mer DNATokenizer (unchanged). "dnabert2" needs DNABERT-2's own BPE
+        # tokenizer producing input_ids padded to DNABERT2_MAX_LEN — a parallel
+        # path, NOT the 3-mer pipeline. Config/transformers are imported lazily
+        # here so the scratch path pulls in no extra dependency.
+        from config import DNA_ENCODER_TYPE
+        self.dna_encoder_type = DNA_ENCODER_TYPE
+        self._bpe_tokenizer = None
+        if DNA_ENCODER_TYPE == "dnabert2":
+            from config import DNABERT2_MODEL_NAME, DNABERT2_MAX_LEN
+            from transformers import AutoTokenizer
+            self._bpe_tokenizer = AutoTokenizer.from_pretrained(
+                DNABERT2_MODEL_NAME, trust_remote_code=True)
+            self._bpe_max_len = DNABERT2_MAX_LEN
+
+    def _encode_aptamer(self, seq: str) -> torch.Tensor:
+        """Aptamer -> token ids, per the active DNA encoder.
+
+        scratch  : 3-mer ids padded to DNA_MAX_LEN (via DNATokenizer).
+        dnabert2 : DNABERT-2 BPE input_ids padded to DNABERT2_MAX_LEN.
+        Both return a fixed-length LongTensor so collate_fn can stack them.
+        """
+        if self._bpe_tokenizer is not None:
+            enc = self._bpe_tokenizer(
+                seq.upper(), return_tensors="pt", padding="max_length",
+                truncation=True, max_length=self._bpe_max_len,
+            )
+            return enc["input_ids"].squeeze(0).long()
+        encoded = self.tokenizer.encode_padded(seq, DNA_MAX_LEN)
+        return (encoded.clone().detach() if isinstance(encoded, torch.Tensor)
+                else torch.tensor(encoded, dtype=torch.long))
+
     def _vienna_feats(self, seq: str) -> torch.Tensor:
         if seq in self.vc:
             d = self.vc[seq]
@@ -175,10 +207,8 @@ class AptamerDataset(Dataset):
         seq  = row["aptamer_sequence"]
         prot = row["protein_sequence"]
 
-        # aptamer tokens [apt_token_len] (padded to DNA_MAX_LEN)
-        encoded = self.tokenizer.encode_padded(seq, DNA_MAX_LEN)
-        apt_tok = (encoded.clone().detach() if isinstance(encoded, torch.Tensor)
-                   else torch.tensor(encoded, dtype=torch.long))
+        # aptamer tokens — 3-mer ids (scratch) or DNABERT-2 BPE input_ids (dnabert2)
+        apt_tok = self._encode_aptamer(seq)
 
         # vienna features [6]
         v_feats = self._vienna_feats(seq)
@@ -277,7 +307,8 @@ def split_by_protein_family(
 
 # ── Training / evaluation loops ───────────────────────────────────────────────
 
-def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, use_amp=False):
+def train_epoch(model, loader, optimizer, criterion, device, max_batches=None,
+                use_amp=False, grad_accum=1):
     model.train()
     total_loss = bce_sum = kd_sum = 0.0
     all_labels: list = []
@@ -286,8 +317,10 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, u
     all_kd_pred: list = []
     n_batches = len(loader) if max_batches is None else min(max_batches, len(loader))
     t_batch = time.time()
-    amp_ctx = torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
+    amp_ctx = (torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp
+               else torch.amp.autocast("cpu", enabled=False))
 
+    optimizer.zero_grad(set_to_none=True)
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
             break
@@ -299,7 +332,6 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, u
         labels   = labels.to(device)
         kds      = kds.to(device)
 
-        optimizer.zero_grad()
         with amp_ctx:
             out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
 
@@ -310,9 +342,17 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None, u
             out.kd_pred.float() if out.kd_pred is not None else None,
             kds,
         )
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP)
-        optimizer.step()
+        # Gradient accumulation: scale so summed grads over `grad_accum`
+        # micro-batches equal the gradient of one effective batch.
+        (loss / grad_accum).backward()
+
+        # Step on the last micro-batch of each accumulation window (and on the
+        # final batch of the epoch, so a partial tail window isn't dropped).
+        is_last = (batch_i + 1 == n_batches)
+        if (batch_i + 1) % grad_accum == 0 or is_last:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP)
+            optimizer.step()
+            optimizer.zero_grad(set_to_none=True)
 
         total_loss += loss.item()
         bce_sum    += bce.item()
@@ -343,7 +383,8 @@ def eval_epoch(model, loader, criterion, device, max_batches=None, use_amp=False
     all_probs:  list = []
     all_kd_true: list = []
     all_kd_pred: list = []
-    amp_ctx = torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp else torch.amp.autocast("cpu", enabled=False)
+    amp_ctx = (torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp
+               else torch.amp.autocast("cpu", enabled=False))
 
     for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
@@ -401,6 +442,12 @@ def main() -> None:
                              "(can be smaller than prot-max-tokens; reduces cross-attn memory)")
     parser.add_argument("--max-batches", type=int, default=None,
                         help="Limit batches per epoch (for smoke-testing)")
+    parser.add_argument("--grad-accum", type=int, default=1,
+                        help="Accumulate gradients over this many micro-batches before "
+                             "an optimizer step. Effective batch = batch-size * grad-accum. "
+                             "Use a small --batch-size with --grad-accum>1 to fit long "
+                             "proteins (e.g. --batch-size 8 --grad-accum 4 = effective 32) "
+                             "without the interaction-matrix OOM at --max-prot-len 1024.")
     parser.add_argument("--resume", action="store_true",
                         help="Resume from the latest epoch_*.pt checkpoint in "
                              "--checkpoint-dir, restoring optimizer, scheduler, "
@@ -410,6 +457,9 @@ def main() -> None:
                              "Halves activation memory — enables batch=32 + prot_len=1024 "
                              "on A100 that would OOM without it.")
     args = parser.parse_args()
+
+    if args.grad_accum < 1:
+        parser.error("--grad-accum must be >= 1")
 
     os.makedirs(args.checkpoint_dir, exist_ok=True)
 
@@ -591,7 +641,10 @@ def main() -> None:
                  free / 1e9, total / 1e9)
 
     log.info("=" * 65)
-    log.info("Training for up to %d epochs on device=%s", args.max_epochs, DEVICE)
+    log.info("Training for up to %d epochs on device=%s", args.max_epochs, device)
+    log.info("Micro-batch=%d  grad-accum=%d  → effective batch=%d  | max_prot_len=%d  AMP=%s",
+             args.batch_size, args.grad_accum, args.batch_size * args.grad_accum,
+             args.max_prot_len, use_amp)
     log.info("=" * 65)
 
     for epoch in range(start_epoch, args.max_epochs + 1):
@@ -602,7 +655,8 @@ def main() -> None:
          tr_kd_t, tr_kd_p) = train_epoch(model, train_loader, optimizer,
                                           criterion, device,
                                           max_batches=args.max_batches,
-                                          use_amp=use_amp)
+                                          use_amp=use_amp,
+                                          grad_accum=args.grad_accum)
 
         tr_m = compute_metrics(tr_labels, tr_probs,
                                kd_true=tr_kd_t, kd_pred=tr_kd_p)

@@ -49,11 +49,14 @@ class SymmetricCrossAttention(nn.Module):
     (prot→apt) in parallel, each producing FUSION_DIM-dim output tokens.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, dna_embed_dim: int = DNA_EMBED_DIM) -> None:
         super().__init__()
 
-        # Project both encoder outputs to FUSION_DIM before attention
-        self.apt_proj  = nn.Linear(DNA_EMBED_DIM, FUSION_DIM)
+        # Project both encoder outputs to FUSION_DIM before attention.
+        # `dna_embed_dim` defaults to the from-scratch encoder's 128 so nothing
+        # changes for DNA_ENCODER_TYPE="scratch"; the DNABERT-2 branch passes
+        # DNABERT2_EMBED_DIM (768) here.
+        self.apt_proj  = nn.Linear(dna_embed_dim, FUSION_DIM)
         self.prot_proj = nn.Linear(ESM_EMBED_DIM,  FUSION_DIM)
 
         # Aptamer attends to protein
