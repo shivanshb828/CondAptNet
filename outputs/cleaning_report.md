@@ -181,3 +181,50 @@ prior verification that apparently missed the run:
 2. For the 1,951 extracted rows, schedule a lower-priority verification pass
    (these were not previously claimed as verified, so errors are expected but less urgent).
 3. Only 1 flagged row is locally resolvable (uncertain tier, Li2014 XLSX on disk).
+
+---
+## Task 1 — kd_value=0.0 placeholder fix
+**Date:** 2026-07-06
+**Rows corrected:** 226 → kd_value and kd_unit both blanked
+
+Local source check: none of the 19 source_doi values (all PMIDs) have a local PDF,
+extracted text, or scraper_provenance.jsonl entry on disk. Kd=0 is physically
+impossible. All 226 rows are scraper defaults; sequence and label data remain valid.
+
+| source_doi | rows blanked |
+|------------|-------------|
+| PMID:18426920 | 40 |
+| PMID:20545348 | 34 |
+| PMID:18403417 | 28 |
+| PMID:21238427 | 23 |
+| PMID:20300533 | 17 |
+| PMID:20971648 | 16 |
+| PMID:21531729 | 16 |
+| PMID:20095591 | 11 |
+| PMID:20153201 | 9 |
+| PMID:20843027 | 7 |
+| PMID:20452328 | 6 |
+| PMID:18388495 | 6 |
+| PMID:18302343 | 4 |
+| PMID:20348540 | 3 |
+| PMID:21471212 | 2 |
+| PMID:20093103 | 1 |
+| PMID:21076782 | 1 |
+| PMID:20022942 | 1 |
+| PMID:22927983 | 1 |
+
+Other round-number check: 1.0 (6 rows), 10.0 (22), 100.0 (11), 1000.0 (24) all include
+curated rows and are physically plausible Kd values — left as-is.
+
+---
+## Task 2 — data/ directory consolidation
+**Date:** 2026-07-06
+**Archived to data/archive/:** ~24 MB (8 items)
+**data/processed/ before:** ~24 MB → **after:** 3.2 MB
+
+Reference checks: grepped scripts/ and tests/ before every move.
+- non_dna_entries.csv: written-only by clean_dataset.py (kept in place)
+- checkpoints/phase*.csv: written-only by clean_dataset.py (archived)
+- All other archived files: zero script references
+
+Test suite: 374 passed, 21 pre-existing failures (ModuleNotFoundError: Bio — venv not on shell PATH), 5 skipped. No regressions.
