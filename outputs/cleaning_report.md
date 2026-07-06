@@ -273,3 +273,76 @@ over-round any legitimate precision.
 
 **Post-fix scan:** 0 remaining float-precision artifacts (5+ consecutive zeros
 or nines pattern). Row count: 4499 (unchanged).
+
+---
+## Audit close-out: homopolymer/data-integrity open items
+**Date:** 2026-07-06
+
+### Item 1 — Curated-tier recheck at >=3 threshold
+
+Total curated rows: 595. Flagged at >=3 (excluding 6 already-resolved sequences): 566 (95%).
+The 95% flag rate at >=3 confirms this threshold is still noisy even for the curated tier;
+the task of "manually verifying 562 curated rows needing PDFs" is not feasible without a
+prioritization strategy.
+
+**4 rows are checkable against locally available PDFs:**
+
+| Sequence | Target | Run | Source | Status |
+|----------|--------|-----|--------|--------|
+| CCCGACCACGTCCCTGCCCTTTCCTAACCTGTTTGTTGAT | Cardiac Troponin I (Tro2) | CCC (len=3) | Jo et al. 2015 (10.1021/acs.analchem.5b02312) | Kd filled from correction file (byte-verified vs paper), but sequence itself not individually byte-checked |
+| ATGCGTTGAACCCTCCTGACCGTTTATCACATACTCCAGA | Cardiac Troponin I (Tro3) | CCC (len=3) | Jo et al. 2015 | Same |
+| CAACTGTAATGTACCCTCCTCGATCACGCACCACTTGCAT | Cardiac Troponin I (Tro5) | CCC (len=3) | Jo et al. 2015 | Same |
+| GGCAGGAAGACAAACAGGTCGTAGTGGAAACTGTCCACCGTAGACCGGTTATCTAGTGGTCTGTGGTGCTGT | NT-proBNP | AAA (len=3) | Sinha et al. 2018 (10.1016/j.bios.2018.09.040) | Sequence established in prior metadata correction pass |
+
+**Action required:** Verify Tro2/3/5 sequences character-by-character against Jo et al. 2015
+Table 1 (same table where Tro1 had its 41→40nt correction). The CCC runs in these
+three sequences are at positions that could plausibly have been miscounted during
+transcription. NT-proBNP is lower priority — AAA appears in the middle of ACAAAC,
+a low-risk context, but should be confirmed when Sinha 2018 is open anyway.
+
+The remaining 562 curated rows needing PDFs are not individually actionable without
+a PDF retrieval campaign. Prioritization: same DOI-frequency-first approach as the >=6
+list (top curated DOIs: PMID:15606780, PMID:23387511, PMID:23403083 — 13 rows each).
+
+### Item 2 — >=6 homopolymer list (170 rows, 90 unique sequences)
+
+1 checkable row: IGA3 (GGGGGGG run, Yoshida 2009) — ALREADY RESOLVED this session.
+The 7-G run is the correct byte-verified form. No further action needed.
+
+169 needs-PDF rows remain. Prioritized with G4-forming sequences first (see Item 3):
+
+| Rank | rows | uniq | G4 | max_run | Source |
+|------|------|------|----|---------|--------|
+| 1 | 8 | 8 | 5 | 6 | 020-211-642-872-093 (patent) ← G4 PRIORITY |
+| 2 | 8 | 3 | 1 | 8 | PMID:21204783 ← G4 PRIORITY |
+| 3 | 5 | 5 | 1 | 8 | 109-252-256-022-54X (patent) ← G4 PRIORITY |
+| 4 | 5 | 1 | 1 | 6 | (blank DOI) ← G4 PRIORITY |
+| 5 | 4 | 4 | 1 | 7 | KR101583578B1 ← G4 PRIORITY |
+| 6 | 3 | 1 | 1 | 6 | PMID:19955232 ← G4 PRIORITY |
+| 7 | 2 | 2 | 1 | 6 | 055-805-980-791-147 ← G4 PRIORITY |
+| 8 | 1 | 1 | 1 | 8 | 148-901-319-254-80X ← G4 PRIORITY |
+| 9 | 12 | 3 | 0 | 9 | PMID:7678562 (highest non-G4 row count) |
+| 10 | 12 | 12 | 0 | 8 | KR101200553B1 |
+| 11 | 11 | 4 | 0 | 7 | PMID:18637731 |
+| 12 | 8 | 2 | 0 | 7 | PMID:16397296 |
+| 13–44 | ... | | 0 | | see flagged_homopolymer_review_v2.csv |
+
+### Item 3 — G4 prioritization correction (methodology)
+
+**REVERSAL OF PRIOR RECOMMENDATION.** The earlier audit (>=5 pass) recommended
+deprioritizing G4-forming aptamers on the theory that long G-runs are "expected
+biology" and therefore less likely to represent transcription errors. This recommendation
+was wrong and is retracted.
+
+Evidence from this session: IGA2 and IGA3 are both G4-forming insulin aptamers. Both
+had real transcription errors (extra nucleotides in G-runs) that were caught precisely
+because they were manually checked. The long G-run did not protect them from errors —
+if anything, a long homopolymer run is a harder target for manual transcription,
+making errors more likely, not less.
+
+**New rule:** G4-forming sequences (defined as: aptamer_sequence containing 2+ separate
+runs of 4+ consecutive G's) are sorted to the TOP of any homopolymer verification queue,
+not the bottom. The risk of a miscounted G in a GGGG+ context is higher than average,
+not lower.
+
+This correction is logged here so it cannot be silently reintroduced in future audit passes.
