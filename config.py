@@ -43,6 +43,15 @@ DNA_MAX_LEN     = 120      # max aptamer nucleotides
 # remains the default and is bit-for-bit unchanged when this stays "scratch".
 DNA_ENCODER_TYPE    = "scratch"
 DNABERT2_MODEL_NAME = "zhihan1996/DNABERT-2-117M"
+# Pin to an exact commit SHA — never resolve the HF repo's moving default branch
+# at runtime. This matters because loading DNABERT-2 uses trust_remote_code=True,
+# which executes arbitrary Python fetched from the repo (bert_layers.py etc.);
+# an unpinned ref would run whatever upstream pushes next. This SHA was the
+# repo's main-branch HEAD as of 2026-07-04 and is the exact revision this
+# codebase was built and smoke-tested against (bundles bert_layers.py +
+# pytorch_model.bin + tokenizer). Bumping it must be a deliberate, re-verified
+# change, not an accident.
+DNABERT2_REVISION   = "7bce263b15377fc15361f52cfab88f8b586abda0"
 DNABERT2_EMBED_DIM  = 768
 # Session-2 spike measured BPE token counts on the real cleaned dataset:
 # 120 nt -> 27 tokens, dataset-wide max 28 (BPE != nt count). 32 gives headroom.

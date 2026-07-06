@@ -51,7 +51,7 @@ import torch.nn as nn
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
     DEVICE,
-    DNABERT2_MODEL_NAME, DNABERT2_EMBED_DIM, DNABERT2_MAX_LEN,
+    DNABERT2_MODEL_NAME, DNABERT2_REVISION, DNABERT2_EMBED_DIM, DNABERT2_MAX_LEN,
     DNABERT2_LORA_RANK, DNABERT2_LORA_ALPHA, DNABERT2_LORA_DROPOUT,
 )
 # Reuse the exact LoRA implementation the protein encoder uses — do not duplicate.
@@ -78,9 +78,14 @@ def _ensure_triton_stub() -> None:
     sys.modules.setdefault("triton", stub)
 
 
-def _load_dnabert2(model_name: str) -> tuple[nn.Module, object]:
+def _load_dnabert2(model_name: str, revision: str = DNABERT2_REVISION) -> tuple[nn.Module, object]:
     """
     Load DNABERT-2's base BertModel + tokenizer on transformers 5.x.
+
+    `revision` pins EVERY fetch (remote code, config, tokenizer, weights) to one
+    immutable commit SHA. This is a security control, not a convenience: because
+    trust_remote_code=True runs arbitrary Python from the repo, an unpinned ref
+    would execute whatever upstream pushes to the default branch next.
 
     The plain `AutoModel.from_pretrained(model_name, trust_remote_code=True)`
     path fails three ways on transformers 5.9.0 (all confirmed by the Session-2
@@ -110,17 +115,20 @@ def _load_dnabert2(model_name: str) -> tuple[nn.Module, object]:
             "Install with: pip install transformers einops huggingface_hub"
         ) from e
 
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-    cfg = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name, revision=revision, trust_remote_code=True)
+    cfg = AutoConfig.from_pretrained(
+        model_name, revision=revision, trust_remote_code=True)
     if getattr(cfg, "pad_token_id", None) is None:
         cfg.pad_token_id = tokenizer.pad_token_id
 
+    # Pinning this call matters most: it fetches and executes bert_layers.py.
     model_cls = get_class_from_dynamic_module(
-        "bert_layers.BertModel", model_name, trust_remote_code=True
+        "bert_layers.BertModel", model_name, revision=revision, trust_remote_code=True
     )
     model = model_cls(cfg)  # direct construction — sidesteps 5.x meta-init
 
-    weights_path = hf_hub_download(model_name, "pytorch_model.bin")
+    weights_path = hf_hub_download(model_name, "pytorch_model.bin", revision=revision)
     raw_sd = torch.load(weights_path, map_location="cpu", weights_only=True)
     remapped = {}
     for k, v in raw_sd.items():

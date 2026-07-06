@@ -145,10 +145,12 @@ class AptamerDataset(Dataset):
         self.dna_encoder_type = DNA_ENCODER_TYPE
         self._bpe_tokenizer = None
         if DNA_ENCODER_TYPE == "dnabert2":
-            from config import DNABERT2_MODEL_NAME, DNABERT2_MAX_LEN
+            from config import DNABERT2_MODEL_NAME, DNABERT2_REVISION, DNABERT2_MAX_LEN
             from transformers import AutoTokenizer
+            # Pin to an immutable commit SHA — trust_remote_code=True executes
+            # repo code, so never resolve the moving default branch at runtime.
             self._bpe_tokenizer = AutoTokenizer.from_pretrained(
-                DNABERT2_MODEL_NAME, trust_remote_code=True)
+                DNABERT2_MODEL_NAME, revision=DNABERT2_REVISION, trust_remote_code=True)
             self._bpe_max_len = DNABERT2_MAX_LEN
 
     def _encode_aptamer(self, seq: str) -> torch.Tensor:
@@ -609,7 +611,10 @@ def main() -> None:
         if ckpts:
             resume_path = ckpts[-1]
             log.info("Resuming from %s", resume_path)
-            ckpt = torch.load(resume_path, map_location=device)
+            # weights_only=True: refuse to unpickle arbitrary objects from a
+            # checkpoint (pickle-deserialization RCE surface). Our checkpoints
+            # hold only tensors / plain dicts / numbers / strings, so this is safe.
+            ckpt = torch.load(resume_path, map_location=device, weights_only=True)
             # strict=False tolerates new keys added by lazy-init modules (e.g.
             # condition_encoder._film_heads) that weren't exercised when the
             # checkpoint was saved.  We explicitly verify critical keys were loaded.

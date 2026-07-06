@@ -34,6 +34,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 MODEL_NAME = "zhihan1996/DNABERT-2-117M"
+# Pin every fetch to an immutable commit SHA — trust_remote_code=True executes
+# repo code, so we never resolve the moving default branch. Mirrors
+# config.DNABERT2_REVISION (kept as a literal so this throwaway spike stays
+# self-contained and importable even without the package on sys.path).
+MODEL_REVISION = "7bce263b15377fc15361f52cfab88f8b586abda0"
 CLEANED_CSV = ROOT / "data" / "processed" / "master_dataset_cleaned.csv"
 
 
@@ -97,7 +102,8 @@ def main() -> None:
 
     # ── Load tokenizer ────────────────────────────────────────────────────────
     print(f"\n[spike] loading tokenizer for {MODEL_NAME} ...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        MODEL_NAME, revision=MODEL_REVISION, trust_remote_code=True)
 
     # ── Load model ────────────────────────────────────────────────────────────
     # The plain `AutoModel.from_pretrained(..., trust_remote_code=True)` path does
@@ -117,7 +123,7 @@ def main() -> None:
     plain_path_error = None
     print("[spike] probing the plain AutoModel.from_pretrained path (expected to fail on 5.x) ...")
     try:
-        AutoModel.from_pretrained(MODEL_NAME, trust_remote_code=True)
+        AutoModel.from_pretrained(MODEL_NAME, revision=MODEL_REVISION, trust_remote_code=True)
         plain_path_error = None
         print("[spike]   -> plain path SUCCEEDED (unexpected on 5.x — good news)")
     except Exception as e:
@@ -125,15 +131,15 @@ def main() -> None:
         print(f"[spike]   -> plain path FAILED as expected: {plain_path_error}")
 
     print("[spike] loading via direct-construction pattern ...")
-    cfg = AutoConfig.from_pretrained(MODEL_NAME, trust_remote_code=True)
+    cfg = AutoConfig.from_pretrained(MODEL_NAME, revision=MODEL_REVISION, trust_remote_code=True)
     pad_patched = getattr(cfg, "pad_token_id", None) is None
     if pad_patched:
         cfg.pad_token_id = tokenizer.pad_token_id
         print(f"[spike]   -> patched missing cfg.pad_token_id = {cfg.pad_token_id}")
     model_cls = get_class_from_dynamic_module("bert_layers.BertModel", MODEL_NAME,
-                                              trust_remote_code=True)
+                                              revision=MODEL_REVISION, trust_remote_code=True)
     model = model_cls(cfg)  # plain construction, avoids 5.x meta-init
-    weights_path = hf_hub_download(MODEL_NAME, "pytorch_model.bin")
+    weights_path = hf_hub_download(MODEL_NAME, "pytorch_model.bin", revision=MODEL_REVISION)
     raw_sd = torch.load(weights_path, map_location="cpu", weights_only=True)
     remapped = {}
     for k, v in raw_sd.items():
