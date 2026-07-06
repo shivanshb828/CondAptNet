@@ -84,8 +84,11 @@ def convert_kd(value: float, unit: str) -> KdMeasurement:
             f"Accepted: pM, nM, µM/uM, mM (case-insensitive)."
         )
 
+    # Round to 4 significant figures to prevent IEEE 754 imprecision artifacts
+    # (e.g. 0.015 µM × 1000 = 14.999999999999998 nM without rounding).
+    value_nM = float(f"{value * factor:.4g}")
     return KdMeasurement(
-        value_nM=value * factor,
+        value_nM=value_nM,
         original_value=value,
         original_unit=unit.strip(),
         canonical_unit=_CANONICAL[unit_key],

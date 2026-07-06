@@ -105,7 +105,8 @@ def _to_nM(value: float, unit: str) -> Optional[float]:
     factor = _MOLAR_FACTORS.get(key)
     if factor is None:
         return None
-    return value * factor
+    # Round to 4 significant figures to prevent IEEE 754 imprecision artifacts.
+    return float(f"{value * factor:.4g}")
 
 
 # ── Public API ────────────────────────────────────────────────────────────────

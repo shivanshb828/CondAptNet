@@ -228,3 +228,48 @@ Reference checks: grepped scripts/ and tests/ before every move.
 - All other archived files: zero script references
 
 Test suite: 374 passed, 21 pre-existing failures (ModuleNotFoundError: Bio — venv not on shell PATH), 5 skipped. No regressions.
+
+---
+## Task 1 — PMID:18187506 Kd copy bug (label=0 rows)
+**Date:** 2026-07-06
+
+**Pattern:** 33 label=0 rows from PMID:18187506 had kd_value copied from the
+label=1 row with the same aptamer_sequence. Every sequence × target pair where
+label=0 had the EXACT same Kd as the label=1 row (verified programmatically: 100%
+match rate across all 6 sequences with co-occurring binder/non-binder rows).
+Non-binder rows should never have a Kd — Kd is undefined for a non-interaction.
+
+**Action:** Blanked kd_value + kd_unit for all 33 label=0 rows.
+8 label=1 rows (all targeting Special AT-rich sequence-binding protein / SATB1)
+retained their Kd values (10–1000 nM range). These are round-number order-of-magnitude
+estimates consistent with ~2008 gel-shift methodology; cannot confirm exact values
+without PDF. confidence_score='extracted', so no false-curated claim.
+
+Note: 2 sequences (TATTAATAATAATATTAATAATAA, TATTAGCAATAATATTAGCAATAA) had only
+label=0 rows with Kd values and no corresponding binder row — Kd was also wrong
+for these; blanked with the same pass.
+
+## Task 2 — Float-precision artifact fix (122 rows)
+**Date:** 2026-07-06
+
+**Root cause:** `kd_converter.py convert_kd()` and `kd_extractor.py _to_nM()`
+performed unit-conversion multiplications (e.g. pM×1e-3, µM×1e3) without
+rounding, producing IEEE 754 imprecision strings like '239.99999999999997' (should
+be 240.0) and '14.999999999999998' (should be 15.0).
+
+**Code fix:** Both functions now round to 4 significant figures via
+`float(f"{value * factor:.4g}")` before returning. Affects future scraper runs;
+does not retroactively affect rows already in master.
+
+**Data fix:** 122 rows corrected to 4 sig-fig rounded values. Original
+pre-conversion values are not recoverable from provenance (scraper_provenance.jsonl
+does not retain pre-conversion raw values). Rounded in place — these rows should
+be treated as "reconstructed precision, not re-derived" if used in precision-sensitive
+downstream analysis.
+
+**Curated convention check:** curated Kd values in this dataset use 2–3 sig figs
+(0.27, 0.317, 1.13, 2.89, 3.25 nM). 4 sig figs is a safe maximum that won't
+over-round any legitimate precision.
+
+**Post-fix scan:** 0 remaining float-precision artifacts (5+ consecutive zeros
+or nines pattern). Row count: 4499 (unchanged).
