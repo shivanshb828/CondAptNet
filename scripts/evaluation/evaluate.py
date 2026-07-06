@@ -129,7 +129,9 @@ def main() -> None:
 
     # ── Build model and load checkpoint ──────────────────────────────────────
     model = CondAptNet(predict_kd=True)
-    ckpt = torch.load(args.checkpoint, map_location=device)
+    # weights_only=True: block pickle-deserialization RCE from a malicious
+    # checkpoint. Our checkpoints hold only tensors/dicts/numbers/strings.
+    ckpt = torch.load(args.checkpoint, map_location=device, weights_only=True)
     # strict=False tolerates lazily-init keys (e.g. condition_encoder._film_heads)
     missing, unexpected = model.load_state_dict(ckpt["model"], strict=False)
     real_missing = [k for k in missing if "_film_heads" not in k]

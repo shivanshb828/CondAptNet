@@ -327,7 +327,9 @@ def main() -> None:
     # Load Stage 1 pretrained weights
     if os.path.exists(args.pretrain_checkpoint):
         log.info("Loading Stage 1 checkpoint: %s", args.pretrain_checkpoint)
-        ckpt_pretrain = torch.load(args.pretrain_checkpoint, map_location="cpu")
+        # weights_only=True: block pickle-deserialization RCE from a malicious
+        # checkpoint. Our checkpoints hold only tensors/dicts/numbers/strings.
+        ckpt_pretrain = torch.load(args.pretrain_checkpoint, map_location="cpu", weights_only=True)
         state = ckpt_pretrain.get("model", ckpt_pretrain)
         missing, unexpected = model.load_state_dict(state, strict=False)
         if missing:
@@ -408,7 +410,9 @@ def main() -> None:
         if ckpts:
             resume_path = ckpts[-1]
             log.info("Resuming from %s", resume_path)
-            ckpt = torch.load(resume_path, map_location=device)
+            # weights_only=True: block pickle-deserialization RCE from a malicious
+            # checkpoint. Our checkpoints hold only tensors/dicts/numbers/strings.
+            ckpt = torch.load(resume_path, map_location=device, weights_only=True)
             missing, unexpected = model.load_state_dict(ckpt["model"], strict=False)
             benign_missing = [k for k in missing if "_film_heads" in k]
             real_missing   = [k for k in missing if k not in benign_missing]
