@@ -83,13 +83,46 @@ Output files: `data/processed/leakage_near_dupes.csv` (867 rows)
 
 ## 4. Split Assignment Summary
 
-*(To be populated after commit 4)*
+Script: `scripts/data/assign_splits.py`
+
+**Steps applied:**
+1. All existing train/val/test assignments preserved (3344 train, 159 val, 136 test).
+2. **5 cross-split near-dupe pairs resolved:** the train-side row in each pair was moved to test, co-locating both members in the held-out cluster. Affected: 3 PDGF receptor variants + 2 Streptavidin/SECIS-binding-protein-2 sequences.
+3. **4 Tier-2 unassigned rows assigned → val:** Insulin ×2 (NaN split), glycated albumin (GHSA), AGE/albumin complex.
+4. **856 remaining unassigned rows** grouped by `target_name` (protein-family proxy) and near-dupe component (Union-Find), then assigned greedily to fill the 80/10/10 budget.
+
+**Final distribution (4499 rows total, row count unchanged):**
+
+| Split | Rows | % |
+|---|---|---|
+| train | 3600 | 80.0% |
+| val | 450 | 10.0% |
+| test | 449 | 10.0% |
+| **Total** | **4499** | **100%** |
+
+Zero blank splits remaining.
 
 ---
 
 ## 5. Target Coverage Audit
 
-*(To be populated after commit 5)*
+Priority Tier-2 validation targets: insulin, myoglobin, NT-proBNP, troponin I/T, albumin.
+
+| Target | Total rows | Train rows | Train Kd | Val rows | Val Kd | Test rows | Test Kd | Flags |
+|---|---|---|---|---|---|---|---|---|
+| Insulin | 4 | 1 | 0 | 3 | 1 | 0 | 0 | ⚠ zero test |
+| Myoglobin | 5 | 5 | 4 | 0 | 0 | 0 | 0 | ⚠ zero val+test |
+| NT-proBNP | 1 | 1 | 1 | 0 | 0 | 0 | 0 | ⚠ zero val+test (only 1 row exists) |
+| Troponin I/T | 10 | 10 | 5 | 0 | 0 | 0 | 0 | ⚠ zero val+test |
+| Albumin | 52 | 0 | 0 | 2 | 2 | 50 | 0 | ⚠ zero train |
+
+**Flagged targets:**
+
+- **Myoglobin, NT-proBNP, Troponin** — all rows land in train. With so few rows per target (1–10) and the mandatory protein-family split rule (all rows for one protein → same split), zero holdout coverage is structurally unavoidable. These targets cannot be placed into val/test without violating the no-random-split invariant. For Stage 2 fine-tuning evaluation, use leave-one-out cross-validation within the tier-2 rows or accept train-only evaluation for these three targets.
+
+- **Insulin** — 3 of 4 rows are in val (the two NaN-split rows were assigned to val per step 3 above, plus one originally-assigned val row). Only 1 row is in train. Zero test coverage. With 4 rows total, this is the maximum achievable balance without violating the protein-family rule.
+
+- **Albumin** — 50 of 52 rows are in test, 2 in val, 0 in train. The original protein-family assignment put the albumin cluster into test. This means the Stage 1 general model receives **no albumin anti-target training signal**, which may affect its ability to filter non-specific albumin binders. Recommended: either (a) add more albumin rows to the dataset before Stage 1, or (b) note this gap in the Stage 1 evaluation and compensate in Stage 2 fine-tuning.
 
 ---
 
