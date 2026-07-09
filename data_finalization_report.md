@@ -21,7 +21,17 @@ Resolving these rows requires fetching original paper PDFs to verify sequences �
 
 ## 2. NT-proBNP Confidence Score Decision
 
-*(To be populated after commit 2)*
+**Row:** aptamer_sequence = `GGCAGGAAGACAAACAGGTCGTAGTGGAAACTGTCCACCGTAGACCGGTTATCTAGTGGTCTGTGGTGCTGT`  
+**Target:** NT-proBNP  
+**Source DOI:** 10.1016/j.bios.2018.09.040  
+**Kd value in dataset:** 2.89 nM  
+
+**Decision:** Confidence score downgraded from `curated` → `curated_unverified_sequence`.
+
+**Rationale:**  
+This row was manually curated from Biosensors & Bioelectronics 2018 (DOI 10.1016/j.bios.2018.09.040). The paper reports binding via a fold-structure diagram only — no plain-text DNA sequence is printed in the main text or supplementary material. The sequence in the dataset cannot be independently verified against the source without the original authors' primary data. "Curated" implies the sequence was confirmed from a primary source; since this specific sequence cannot be confirmed from locally available materials, the score is downgraded to `curated_unverified_sequence` to flag this caveat without discarding the row entirely (the Kd value is still usable if the sequence is later confirmed).
+
+**Impact:** This row remains in the training set (split=train, training_tier=2). Downstream evaluation should treat any model performance on this specific aptamer with lower confidence than other curated Tier-2 entries.
 
 ---
 
