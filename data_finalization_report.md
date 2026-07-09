@@ -37,7 +37,47 @@ This row was manually curated from Biosensors & Bioelectronics 2018 (DOI 10.1016
 
 ## 3. Leakage Detection Results
 
-*(To be populated after commit 3)*
+Script: `scripts/data/detect_leakage.py`  
+Method: (1) exact-conflict scan over all rows; (2) 6-mer inverted index prunes 10.1M candidate pairs down to 3.5M, then Levenshtein ≤ 2 checked on those candidates only.
+
+### 3a. Exact-Sequence Label Conflicts
+
+**Found: 0** — no pair of rows with the same `(aptamer_sequence, target_name)` has contradictory labels. The dataset is internally consistent on label assignments.
+
+### 3b. Near-Duplicate Pairs (Levenshtein ≤ 2)
+
+**Total near-dupe pairs: 867**
+- Distance = 1: 376 pairs
+- Distance = 2: 491 pairs
+- Unique sequences involved in at least one near-dupe pair: 269
+
+Split-pair distribution of the 867 pairs:
+
+| Split combination | Count | Action required |
+|---|---|---|
+| train – train | 628 | None — both in train, no leakage |
+| unassigned – unassigned | 138 | None — both fold into train |
+| train – unassigned | 76 | None — unassigned folds into train |
+| val – val | 14 | None — both in val |
+| test – test | 6 | None — both in test |
+| **test – train** | **5** | **⚠ Must resolve — see below** |
+
+### 3c. Cross-Split Near-Dupe Pairs (Action Required)
+
+5 pairs span a train/test boundary. All 5 have `label=1` on both sides (no label conflict). The resolution applied in step 4 is: move the **train** sequence into the **test** split (matches the held-out cluster).
+
+| Pair | Target A (test) | Target B (train) | Dist | Resolution |
+|---|---|---|---|---|
+| PDGF-AB sequence vs PDGF-β receptor | PDGF-AB | PDGF receptor beta | 2 | Train seq → test |
+| Streptavidin aptamer | Streptavidin | Streptavidin | 1 | Train seq → test |
+| PDGF-AB sequence vs PDGF-α receptor | PDGF-AB | PDGF receptor alpha | 2 | Train seq → test |
+| PDGF-AB sequence vs PDGF | PDGF-AB | Platelet-derived growth factor | 2 | Train seq → test |
+| Streptavidin vs SECIS binding protein 2 | Streptavidin (label=1) | SECIS bp2 (label=0) | 1 | Train seq → test |
+
+**Exact conflicts: 0 — no manual resolution needed.**  
+**Cross-split near-dupes: 5 pairs — resolved programmatically in step 4 (train member moved to test cluster).**
+
+Output files: `data/processed/leakage_near_dupes.csv` (867 rows)
 
 ---
 
