@@ -95,12 +95,14 @@ Script: `scripts/data/assign_splits.py`
 
 | Split | Rows | % |
 |---|---|---|
-| train | 3600 | 80.0% |
-| val | 450 | 10.0% |
-| test | 449 | 10.0% |
+| train | 3522 | 78.3% |
+| val | 519 | 11.5% |
+| test | 458 | 10.2% |
 | **Total** | **4499** | **100%** |
 
-Zero blank splits remaining.
+Zero blank splits. Zero cross-split near-dupe pairs.
+
+**Note on 78.3% train (target was 80%):** After initial 80/10/10 assignment, a post-pass moved 78 additional train rows into val/test to match their near-duplicate neighbors in those splits (required to satisfy the no-leakage constraint). The 1.7 percentage point train reduction is structurally unavoidable — these 78 rows have near-duplicate sequences already in val/test, so keeping them in train would constitute ground-truth leakage. Acceptable trade-off.
 
 ---
 
@@ -128,4 +130,22 @@ Priority Tier-2 validation targets: insulin, myoglobin, NT-proBNP, troponin I/T,
 
 ## 6. Final Checks
 
-*(To be populated after commit 6)*
+| Check | Result |
+|---|---|
+| Total row count | 4499 ✓ (unchanged from start) |
+| Split column null count | 0 ✓ |
+| Split column "unassigned" count | 0 ✓ |
+| Cross-split near-dupe pairs (Lev ≤ 2) | 0 ✓ |
+| Exact-sequence label conflicts | 0 ✓ |
+| NT-proBNP confidence_score | `curated_unverified_sequence` ✓ |
+| Homopolymer queue (≥6 run) | 170 rows deferred, in dataset as-is ✓ |
+
+**Final split distribution:**  
+train = 3522 (78.3%) | val = 519 (11.5%) | test = 458 (10.2%) | **total = 4499**
+
+**Files produced this branch:**
+- `data/processed/master_dataset_v2.csv` — all splits assigned, NT-proBNP confidence fixed
+- `data/processed/leakage_near_dupes.csv` — 867 near-dupe pairs for reference
+- `scripts/data/detect_leakage.py` — leakage detection (6-mer index + Levenshtein)
+- `scripts/data/assign_splits.py` — split assignment with leakage-enforced clustering
+- `data_finalization_report.md` — this report
