@@ -449,14 +449,18 @@ source condaptnet_env/bin/activate
 # Verified working
 # Python 3.11.3, PyTorch 2.11.0, MPS=True, ESM-2=OK, ViennaRNA=OK
 
-# MPS training
+# MPS training (local)
 PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
+
+# GCP/CUDA training
+PYTORCH_ALLOC_CONF=expandable_segments:True python scripts/training/train.py
 ```
 
 MPS rules:
 - Always use float32 (float64 unreliable on MPS)
 - Use `torch.device("mps")` explicitly
-- Add PYTORCH_ENABLE_MPS_FALLBACK=1 if NotImplementedError occurs
+- Add PYTORCH_ENABLE_MPS_FALLBACK=1 only on Apple MPS; do NOT copy this flag to GCP
+- On GCP/CUDA use PYTORCH_ALLOC_CONF=expandable_segments:True (already set in train.py)
 
 ---
 
@@ -548,7 +552,7 @@ MPS rules:
   - condition_encoder.py — docstring corrected (5-dim input incl. mg_mM, was stale 4-dim).
 
 ### Next Up (in order)
-1. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py` (reads data/augmented/; run `python scripts/data/augment.py` first if splits are stale)
+1. Run Stage 1 training: `PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py` on MPS, or `PYTORCH_ALLOC_CONF=expandable_segments:True python scripts/training/train.py` on GCP/CUDA (reads data/augmented/; run `python scripts/data/augment.py` first if splits are stale)
 2. Evaluate on test set: `python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt`
 3. Run Stage 2 fine-tuning: `python scripts/training/finetune.py --stage validation`
 
@@ -566,7 +570,8 @@ source condaptnet_env/bin/activate
 python scripts/verify_env.py
 python scripts/data/collect_aptamers.py
 python models/encoders/dna_encoder.py
-PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py
+PYTORCH_ENABLE_MPS_FALLBACK=1 python scripts/training/train.py         # MPS (Apple Silicon)
+PYTORCH_ALLOC_CONF=expandable_segments:True python scripts/training/train.py  # GCP/CUDA
 python scripts/evaluation/evaluate.py --checkpoint models/checkpoints/pretrain/best.pt
 ```
 
