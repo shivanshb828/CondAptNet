@@ -1,26 +1,36 @@
 """
-Split assignment for master_dataset_v2.csv.
+Split assignment for master_dataset_v2.csv — corrected algorithm.
 
-Assigns train/val/test splits to the 858 'unassigned' and 2 NaN-split rows.
-Targeting an 80/10/10 overall split ratio.
+Key change from the previous version: Union-Find clusters are built
+ONLY from genuine near-dupe sequence pairs (Levenshtein ≤ 2 edges from
+leakage_near_dupes.csv). The old version also unioned all rows with the
+same target_name, which forced entire protein families into one cluster
+regardless of whether their sequences were actually similar — that's what
+caused myoglobin, NT-proBNP, and troponin to end up 100% in train.
 
-Rules (in priority order):
-  1. Keep all existing train/val/test assignments unchanged.
-  2. Fix cross-split near-dupe pairs where test is the anchor: train member → test.
-  3. Build a global Union-Find over ALL rows using near-dupe pairs AND same
-     target_name. Any component containing a val or test member forces all
-     unassigned members in that component to the same held-out split.
-  4. Remaining unassigned rows (no val/test neighbor) are grouped by target_name
-     and assigned greedily to reach the 80/10/10 budget.
-  5. Tier-2 unassigned rows with no forced split go to val.
+Algorithm:
+  1. Keep all existing train/val/test assignments from the pre-split state
+     (train=3344, val=159, test=136).
+  2. Fix the 5 original cross-split near-dupe pairs by moving the train-side
+     member to match its held-out neighbor.
+  3. Assign the 4 Tier-2 unassigned rows → val (benchmark coverage).
+  4. For all remaining unassigned rows, build Union-Find using ONLY
+     near-dupe sequence edges. Any cluster that contains a val or test row
+     forces all its unassigned members into that same held-out split.
+  5. Remaining unassigned rows (no held-out neighbor) are assigned by
+     80/10/10 budget: each cluster of near-dupe sequences is assigned
+     together, but no cross-cluster target_name merging.
+  6. Run convergence pass: iteratively move train rows into val/test if
+     they are near-dupes of val/test rows, until no cross-split pairs remain.
 
-Output: overwrites data/processed/master_dataset_v2.csv with split column filled.
-Postcondition: zero near-dupe pairs cross a train/val or train/test boundary.
+Postcondition: zero near-dupe pairs cross a train<->val or train<->test boundary.
 """
 
 from __future__ import annotations
 
+import io
 import math
+import subprocess
 from collections import defaultdict
 from pathlib import Path
 
@@ -28,6 +38,12 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "processed"
+
+HOLDOUT = {"val", "test"}
+
+# Git SHA of the last commit *before* split assignment ran in PR #9.
+# This gives us the original unassigned/NaN state to reset to.
+PRE_SPLIT_SHA = "92865cf"
 
 
 class _UF:
@@ -46,95 +62,140 @@ class _UF:
             self.p[ra] = rb
 
 
+def _convergence_pass(df: pd.DataFrame, near: pd.DataFrame) -> int:
+    """Move train near-dupes of held-out rows → held-out. Iterate until stable."""
+    total = 0
+    for _ in range(20):
+        moved = 0
+        for _, row in near.iterrows():
+            ia, ib = int(row["idx_a"]), int(row["idx_b"])
+            sa, sb = df.at[ia, "split"], df.at[ib, "split"]
+            if sa == sb:
+                continue
+            if sa in HOLDOUT and sb == "train":
+                df.at[ib, "split"] = sa
+                moved += 1
+            elif sb in HOLDOUT and sa == "train":
+                df.at[ia, "split"] = sb
+                moved += 1
+        total += moved
+        if moved == 0:
+            break
+    return total
+
+
 def main() -> None:
     csv_path = DATA / "master_dataset_v2.csv"
     near_path = DATA / "leakage_near_dupes.csv"
 
-    df = pd.read_csv(csv_path)
-    n = len(df)
+    cur_df = pd.read_csv(csv_path)
     near = pd.read_csv(near_path)
+    n = len(cur_df)
     print(f"Loaded {n} rows | {len(near)} near-dupe pairs")
 
-    # Normalise NaN splits → 'unassigned'
-    df["split"] = df["split"].fillna("unassigned")
-    print(f"Rows needing assignment: {(df['split']=='unassigned').sum()}")
+    # ── Restore pre-split state ────────────────────────────────────────────────
+    raw = subprocess.run(
+        ["git", "show", f"{PRE_SPLIT_SHA}:data/processed/master_dataset_v2.csv"],
+        capture_output=True, text=True,
+    ).stdout
+    pre_df = pd.read_csv(io.StringIO(raw))
+    assert len(pre_df) == n
+    assert (pre_df["aptamer_sequence"] == cur_df["aptamer_sequence"]).all(), \
+        "Row order differs between pre-split snapshot and current CSV!"
 
-    # ── Step 2: Fix original cross-split near-dupe pairs (test is anchor) ────
+    pre_df["split"] = pre_df["split"].fillna("unassigned")
+
+    # Use current (normalised) target names but original split column
+    df = cur_df.copy()
+    df["split"] = pre_df["split"]
+
+    orig_assigned = df["split"].isin(["train", "val", "test"])
+    print(f"Pre-existing assignments: {orig_assigned.sum()} rows  "
+          f"(train={(df['split']=='train').sum()}, "
+          f"val={(df['split']=='val').sum()}, "
+          f"test={(df['split']=='test').sum()})")
+    print(f"Originally unassigned/NaN: {(~orig_assigned).sum()} rows")
+
+    # ── Step 2: Fix 5 original cross-split near-dupe pairs ────────────────────
     cross = near[near["cross_split"] == True]
     print(f"\n[2] Fixing {len(cross)} original cross-split pairs …")
-    moved = []
+    moved2 = 0
     for _, row in cross.iterrows():
         ia, ib = int(row["idx_a"]), int(row["idx_b"])
         sa, sb = df.at[ia, "split"], df.at[ib, "split"]
         if sa == "test" and sb == "train":
-            df.at[ib, "split"] = "test"; moved.append(ib)
+            df.at[ib, "split"] = "test"; moved2 += 1
         elif sa == "train" and sb == "test":
-            df.at[ia, "split"] = "test"; moved.append(ia)
-    print(f"  Moved {len(moved)} train rows → test")
+            df.at[ia, "split"] = "test"; moved2 += 1
+    print(f"  Moved {moved2} train rows → test")
 
-    # ── Step 3: Global Union-Find over ALL rows ───────────────────────────────
-    # Union by (a) near-dupe pairs and (b) same target_name
-    print(f"\n[3] Building global Union-Find …")
-    uf = _UF(n)
+    # ── Step 3: Tier-2 unassigned rows → val ──────────────────────────────────
+    t2_ua = df[(df["split"] == "unassigned") & (df["training_tier"] == 2)]
+    print(f"\n[3] Assigning {len(t2_ua)} Tier-2 unassigned rows → val")
+    for idx, row in t2_ua.iterrows():
+        df.at[idx, "split"] = "val"
+        print(f"  Row {idx}: {row['target_name']} → val")
 
+    # ── Step 4: Union-Find on near-dupe edges ONLY (no target_name grouping) ──
+    rem_mask = df["split"] == "unassigned"
+    ua_idx = sorted(df[rem_mask].index.tolist())
+    ua_set = set(ua_idx)
+    real_to_c = {r: c for c, r in enumerate(ua_idx)}
+
+    print(f"\n[4] Assigning {len(ua_idx)} remaining unassigned rows …")
+    print("    (Union-Find on sequence near-dupe edges only — no target_name grouping)")
+
+    uf = _UF(len(ua_idx))
+
+    # Union ONLY on near-dupe sequence pairs
+    near_ua_edges = 0
     for _, row in near.iterrows():
-        uf.union(int(row["idx_a"]), int(row["idx_b"]))
+        ia, ib = int(row["idx_a"]), int(row["idx_b"])
+        if ia in ua_set and ib in ua_set:
+            uf.union(real_to_c[ia], real_to_c[ib])
+            near_ua_edges += 1
 
-    # Also union by target_name so whole protein families stay together
-    target_to_rows: dict[str, list[int]] = defaultdict(list)
-    for i, tname in enumerate(df["target_name"]):
-        target_to_rows[tname].append(i)
-    for rows in target_to_rows.values():
-        for j in range(1, len(rows)):
-            uf.union(rows[0], rows[j])
+    print(f"  Near-dupe edges within unassigned set: {near_ua_edges}")
 
-    # Build component map
-    comp: dict[int, list[int]] = defaultdict(list)
-    for i in range(n):
-        comp[uf.find(i)].append(i)
-
-    # For each component, determine the forced split (val/test takes priority)
-    # and collect unassigned members that need assignment
-    print(f"[3] Determining forced splits from {len(comp)} components …")
-    ua_rows = set(df[df["split"] == "unassigned"].index)
-    holdout = {"val", "test"}
-
+    # Determine forced splits from assigned held-out neighbors
     forced: dict[int, str] = {}   # row_index → forced split
-    unforced: list[int] = []      # row indices that have no val/test neighbor
+    for _, row in near.iterrows():
+        ia, ib = int(row["idx_a"]), int(row["idx_b"])
+        sa = df.at[ia, "split"]
+        sb = df.at[ib, "split"]
+        if ia in ua_set and sb in HOLDOUT:
+            prev = forced.get(ia)
+            if prev is None or (prev == "val" and sb == "test"):
+                forced[ia] = sb
+        if ib in ua_set and sa in HOLDOUT:
+            prev = forced.get(ib)
+            if prev is None or (prev == "val" and sa == "test"):
+                forced[ib] = sa
 
-    for root, members in comp.items():
-        ua_in_comp = [m for m in members if m in ua_rows]
-        if not ua_in_comp:
-            continue
-        # Determine if any non-unassigned member is val or test
-        anchors: dict[str, int] = {}  # split → count
-        for m in members:
-            s = df.at[m, "split"]
-            if s in holdout:
-                anchors[s] = anchors.get(s, 0) + 1
+    # Propagate forced split through UF clusters (test > val)
+    cluster_forced: dict[int, str] = {}
+    for row_idx, fsplit in forced.items():
+        root = uf.find(real_to_c[row_idx])
+        prev = cluster_forced.get(root)
+        if prev is None or (prev == "val" and fsplit == "test"):
+            cluster_forced[root] = fsplit
 
-        if anchors:
-            # If both val and test are in the same component (rare), prefer test
-            # (test is more valuable to keep clean)
-            forced_split = "test" if "test" in anchors else "val"
-            for ua in ua_in_comp:
-                forced[ua] = forced_split
-        else:
-            unforced.extend(ua_in_comp)
+    forced_count = 0
+    for ua_row in ua_idx:
+        root = uf.find(real_to_c[ua_row])
+        if root in cluster_forced:
+            df.at[ua_row, "split"] = cluster_forced[root]
+            forced_count += 1
 
-    print(f"  {len(forced)} unassigned rows forced by val/test neighbor")
-    print(f"  {len(unforced)} unassigned rows free to assign by budget")
+    print(f"  Forced by held-out neighbor: {forced_count} rows")
 
-    # Apply forced assignments
-    for idx, split in forced.items():
-        df.at[idx, "split"] = split
+    # ── Step 5: Budget assignment for remaining free unassigned rows ──────────
+    still_ua = [i for i in ua_idx if df.at[i, "split"] == "unassigned"]
+    print(f"\n[5] Budget assignment for {len(still_ua)} free unassigned rows …")
 
-    # ── Step 4: Budget-based assignment for remaining unassigned rows ─────────
-    print(f"\n[4] Greedy budget assignment for {len(unforced)} free rows …")
     train_n = (df["split"] == "train").sum()
     val_n   = (df["split"] == "val").sum()
     test_n  = (df["split"] == "test").sum()
-
     target_train = math.ceil(n * 0.80)
     target_val   = math.ceil(n * 0.10)
     target_test  = n - target_train - target_val
@@ -144,20 +205,18 @@ def main() -> None:
         "val":   max(0, target_val   - val_n),
         "test":  max(0, target_test  - test_n),
     }
-    print(f"  Budget after forced assignments: train+{budget['train']}, "
-          f"val+{budget['val']}, test+{budget['test']}")
+    print(f"  Targets: train={target_train}, val={target_val}, test={target_test}")
+    print(f"  Budget:  +train={budget['train']}, +val={budget['val']}, +test={budget['test']}")
 
-    # Group free unassigned rows by their component root (already unionised by target)
-    # and assign whole groups at once
-    free_ua = set(unforced)
-    free_comps: dict[int, list[int]] = defaultdict(list)
-    for i in free_ua:
-        # Only group with other free unassigned rows in same component
-        free_comps[uf.find(i)].append(i)
+    # Group free unassigned rows by near-dupe cluster only
+    free_clusters: dict[int, list[int]] = defaultdict(list)
+    for row_idx in still_ua:
+        root = uf.find(real_to_c[row_idx])
+        free_clusters[root].append(row_idx)
 
-    groups = sorted(free_comps.values(), key=len, reverse=True)
+    groups = sorted(free_clusters.values(), key=len, reverse=True)
+    print(f"  {len(groups)} free clusters (largest: {max(len(g) for g in groups)} rows)")
 
-    # Tier-2 free rows go to val first (benchmark coverage)
     used = {"train": 0, "val": 0, "test": 0}
 
     def pick(sz: int) -> str:
@@ -166,40 +225,37 @@ def main() -> None:
                 return s
         return max(budget, key=lambda s: budget[s] - used[s])
 
-    for group in groups:
-        # If any row in group is tier-2 and val has budget, go to val
-        has_tier2 = any(df.at[i, "training_tier"] == 2 for i in group)
-        if has_tier2 and budget["val"] - used["val"] >= len(group):
-            sp = "val"
-        else:
-            sp = pick(len(group))
-        used[sp] += len(group)
-        for i in group:
-            df.at[i, "split"] = sp
+    for grp in groups:
+        sp = pick(len(grp))
+        used[sp] += len(grp)
+        for row_idx in grp:
+            df.at[row_idx, "split"] = sp
 
-    # ── Verify ────────────────────────────────────────────────────────────────
-    assert (df["split"] == "unassigned").sum() == 0, "Some rows still unassigned!"
-    assert df["split"].isna().sum() == 0, "NaN splits remain!"
-    assert len(df) == n, "Row count changed!"
+    assert (df["split"] == "unassigned").sum() == 0
+    assert df["split"].isna().sum() == 0
 
-    # Verify no near-dupe pairs cross train/holdout boundaries
-    cross_left = 0
-    for _, row in near.iterrows():
-        ia, ib = int(row["idx_a"]), int(row["idx_b"])
-        sa, sb = df.at[ia, "split"], df.at[ib, "split"]
-        if sa != sb and (sa in holdout or sb in holdout):
-            cross_left += 1
-    assert cross_left == 0, f"{cross_left} cross-split near-dupe pairs remain after assignment!"
+    # ── Step 6: Convergence pass ──────────────────────────────────────────────
+    print(f"\n[6] Convergence pass …")
+    conv_moved = _convergence_pass(df, near)
+    print(f"  Moved {conv_moved} additional rows to holdout in convergence pass")
+
+    # ── Final verification ────────────────────────────────────────────────────
+    cross_left = sum(
+        1 for _, row in near.iterrows()
+        if (sa := df.at[int(row["idx_a"]), "split"]) != (sb := df.at[int(row["idx_b"]), "split"])
+        and (sa in HOLDOUT or sb in HOLDOUT)
+    )
+    assert cross_left == 0, f"{cross_left} cross-split near-dupe pairs remain!"
 
     counts = df["split"].value_counts().to_dict()
-    print(f"\n── FINAL SPLITS ──────────────────────────────────────────")
+    print(f"\n── FINAL SPLITS ─────────────────────────────────────────────────")
     for s in ["train", "val", "test"]:
         print(f"  {s}: {counts[s]} ({counts[s]/n*100:.1f}%)")
-    print(f"  Total: {sum(counts.values())}")
-    print(f"  Cross-split near-dupe pairs remaining: 0 ✓")
+    print(f"  Total: {sum(counts.values())}  |  cross-split near-dupe pairs: 0 ✓")
+    print(f"  Row count unchanged: {sum(counts.values()) == n} ✓")
 
     df.to_csv(csv_path, index=False)
-    print(f"Saved → {csv_path.name}")
+    print(f"\nSaved → {csv_path.name}")
 
 
 if __name__ == "__main__":
