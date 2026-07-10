@@ -149,3 +149,57 @@ train = 3522 (78.3%) | val = 519 (11.5%) | test = 458 (10.2%) | **total = 4499**
 - `scripts/data/detect_leakage.py` — leakage detection (6-mer index + Levenshtein)
 - `scripts/data/assign_splits.py` — split assignment with leakage-enforced clustering
 - `data_finalization_report.md` — this report
+
+---
+
+## 7. CORRECTED SPLIT ASSIGNMENT (branch: data/fix-target-casing-and-resplit)
+
+### 7a. Bug Fixed: Target-Name Over-Merge in Union-Find
+
+The previous `assign_splits.py` (PR #9) unioned **all rows sharing the same `target_name`** in the Union-Find, in addition to near-dupe sequence edges. This forced entire protein families into a single cluster regardless of actual sequence similarity, which is why myoglobin (5 rows), NT-proBNP (1 row), and troponin I/T (10 rows) ended up 100% in train — not because their sequences were near-duplicates of each other, but because the algorithm's design guaranteed co-location.
+
+The corrected `assign_splits.py` uses **near-dupe sequence edges only** (Levenshtein ≤ 2 from `leakage_near_dupes.csv`). No target_name grouping.
+
+### 7b. Additional Fix: Target-Name Casing Collisions (8 groups, 61 rows)
+
+The 8 case-collision groups described in `data/processed/casing_audit_report.md` caused same-protein rows (e.g., `Streptavidin` vs `streptavidin`, 40+81=121 rows) to be placed in different protein-family clusters during the previous split assignment. These are now unified under canonical names before split assignment runs.
+
+### 7c. Manual Priority-Target Moves
+
+After the corrected algorithm ran, 4 priority-target rows were manually moved to holdout sets. Each was confirmed to have no near-dupe links to other holdout rows:
+
+| Row | Target | Old split | New split | Kd (nM) | Reason |
+|---|---|---|---|---|---|
+| 4493 | Myoglobin | train | val | 4.93 | Best Kd row for val benchmark |
+| 4494 | Myoglobin | train | test | 6.38 | Best Kd row for test benchmark |
+| 4487 | Cardiac Troponin I | train | val | 0.27 | Best Kd row for val benchmark |
+| 4485 | Cardiac Troponin I | train | test | 1.13 | Best Kd row for test benchmark |
+
+### 7d. Final Split Distribution
+
+| Split | Rows | % |
+|---|---|---|
+| train | 3512 | 78.1% |
+| val | 476 | 10.6% |
+| test | 511 | 11.4% |
+| **Total** | **4499** | **100%** |
+
+Zero null splits. Zero cross-split near-dupe pairs.
+
+### 7e. Priority Target Coverage — Final Corrected Table
+
+| Target | Total | Train | Tr Kd | Val | Val Kd | Test | Test Kd | Notes |
+|---|---|---|---|---|---|---|---|---|
+| insulin | 4 | 1 | 0 | 3 | 1 | 0 | 0 | ⚠ zero test; 3 val rows from prior Tier-2 assignment |
+| myoglobin | 5 | 3 | 2 | 1 | 1 | 1 | 1 | ✓ all splits covered |
+| NT-proBNP | 1 | 1 | 1 | 0 | 0 | 0 | 0 | ⚠ GENUINE SCARCITY — see below |
+| troponin I/T | 10 | 8 | 3 | 1 | 1 | 1 | 1 | ✓ all splits covered |
+| albumin | 52 | 0 | 0 | 2 | 2 | 50 | 0 | ⚠ zero train; pre-existing protein-family assignment |
+
+### 7f. Remaining Known Limitations (Documented, Not Buried)
+
+**NT-proBNP — genuine scarcity:** Only 1 row exists in the entire dataset. The sequence comes from a source paper that shows only a fold-structure diagram (confidence = `curated_unverified_sequence`). With one row, any train/holdout split leaves one set empty — this is not an artifact of any algorithm choice. The model's performance on NT-proBNP cannot be directly evaluated via held-out data. Mitigation: when Stage 2 fine-tuning data is expanded (additional SELEX papers for NT-proBNP), at least 2–3 rows should be reserved for holdout before training.
+
+**Insulin — zero test:** 4 rows total; the 3 val rows were placed there by the prior Tier-2 assignment. Moving one val row to test is possible (no near-dupe links), but 3 val rows for a validation-tier target is already thin. Zero test means test-set evaluation cannot include insulin. Acceptable for now; flag for the next data collection pass.
+
+**Albumin — zero train:** 50 of 52 albumin rows were assigned to test by the 7-phase cleaning pipeline (protein-family split). The model receives no albumin anti-target training signal. The 2 val rows (glycated albumin variants) are from different UniProt entries. Mitigation: add albumin non-binder rows from a broader SELEX-negative dataset before Stage 1 retraining.
