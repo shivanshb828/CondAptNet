@@ -157,10 +157,11 @@ def main() -> None:
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
-    if "sequence" not in df.columns:
-        sys.exit("Input CSV must have a 'sequence' column")
+    seq_col = "aptamer_sequence" if "aptamer_sequence" in df.columns else "sequence"
+    if seq_col not in df.columns:
+        sys.exit("Input CSV must have an 'aptamer_sequence' or 'sequence' column")
 
-    sequences = df["sequence"].dropna().tolist()
+    sequences = df[seq_col].dropna().tolist()
     log.info("Processing %d sequences", len(sequences))
     build_cache(sequences, args.cache)
 

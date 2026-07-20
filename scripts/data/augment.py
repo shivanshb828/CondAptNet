@@ -198,7 +198,7 @@ def augment_train(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="CondAptNet data augmentation")
-    parser.add_argument("--data",         default=os.path.join(DATA_PROCESSED, "master_dataset_cleaned.csv"))
+    parser.add_argument("--data",         default=os.path.join(DATA_PROCESSED, "master_dataset_v2.csv"))
     parser.add_argument("--output-dir",   default=DATA_AUGMENTED)
     parser.add_argument("--no-cross-neg", action="store_true", help="Skip cross-target negatives")
     parser.add_argument("--dry-run",      action="store_true")
