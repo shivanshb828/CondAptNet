@@ -1,145 +1,167 @@
 dataset_name,uniprot_id
-"hnps PLA2",P14555
-"σ70 subunit Escherichia coli RNA polymerase",P00579
+hnps PLA2,P14555
+σ70 subunit Escherichia coli RNA polymerase,P00579
 "Immunoglobulin E (IgE), Human",P01854
-"E7 papillomavirus oncoprotein",P03129
-"MS2CoatProtein",P03612
-"Recombinant CUG-binding protein 1 Open Reading Frame ORF",Q92879
-"NFkappaB p65",Q04206
-"Vascular endothelial growth factor",P15692
-"CD4",P01730
-"Taq polymerase",P19821
-"platelet-derived growth factor BB",P01127
-"Muscleblind-like 1 protein (MBNL1)",Q9NR56
-"L-selectin",P14151
-"thyroid transcription factor 1",P43699
+E7 papillomavirus oncoprotein,P03129
+MS2CoatProtein,P03612
+Recombinant CUG-binding protein 1 Open Reading Frame ORF,Q92879
+NFkappaB p65,Q04206
+Vascular endothelial growth factor,P15692
+CD4,P01730
+Taq polymerase,P19821
+platelet-derived growth factor BB,P01127
+Muscleblind-like 1 protein (MBNL1),Q9NR56
+L-selectin,P14151
+thyroid transcription factor 1,P43699
 "Leptin protein, Human",P41159
-"Mammaglobin A (MGB1)",Q13296
-"interleukin 17 RA",Q96F46
-"Interleukin 17 RA",Q96F46
-"NTS 1",P30989
-"SECIS binding protein 2",Q96T21
-"Variant surface glycoprotein",P26332
-"HumanComplementC5",P01031
-"HumanAngiogenin",P03950
-"Cell division cycle 42 GTP-binding protein",P60953
-"Zinc finger protein TFIIIA",P20018
-"high mobility group protein AT-hook 2",P52926
-"recombinant mouse prion protein amino acids 23-230",P04925
-"His-tagged truncated murine prion protein (H-MoPrP90-231)",P04925
-"full-length sheep prion protein PrP23-234 V136 R154 Q171",P23907
-"Proteinase K-resistant isoform (PrPSc)",P04156
-"MUC1-5TR",P15941
-"NFkappaB p50",P19838
-"Recombinant Human Erythropoietin-a",P01588
-"Special AT-rich sequence-binding protein1 SATB1 Homeodomain HD",Q01826
-"Special AT-rich sequence-binding protein1 SATB1 Cut Domain CD and Homeodomain HD",Q01826
+Mammaglobin A (MGB1),Q13296
+interleukin 17 RA,Q96F46
+Interleukin 17 RA,Q96F46
+NTS 1,P30989
+SECIS binding protein 2,Q96T21
+Variant surface glycoprotein,P26332
+HumanComplementC5,P01031
+HumanAngiogenin,P03950
+Cell division cycle 42 GTP-binding protein,P60953
+Zinc finger protein TFIIIA,P20018
+high mobility group protein AT-hook 2,P52926
+recombinant mouse prion protein amino acids 23-230,P04925
+His-tagged truncated murine prion protein (H-MoPrP90-231),P04925
+full-length sheep prion protein PrP23-234 V136 R154 Q171,P23907
+Proteinase K-resistant isoform (PrPSc),P04156
+MUC1-5TR,P15941
+NFkappaB p50,P19838
+Recombinant Human Erythropoietin-a,P01588
+Special AT-rich sequence-binding protein1 SATB1 Homeodomain HD,Q01826
+Special AT-rich sequence-binding protein1 SATB1 Cut Domain CD and Homeodomain HD,Q01826
 "Glutamate receptor, AMPA type, Glur2 subunit",P42262
-"EFTuGDP",P0A6N3
+EFTuGDP,P0A6N3
 "Pro‐urokinase (PLAU), Human",P00749
 "Pro-urokinase (PLAU), Human",P00749
-"HIVgp120",P04578
-"HIV gp120 V3",P04578
-"HIV_1 RNase H",P04585
-"Reverse Transcriptase of Type 1 Human Immunodeficiency Virus (HIV-1 RT)",P04585
-"M3-HIV-1-RT",P04585
-"Phosphatase and Tensin Homologue",P60484
-"Human Activated Protein C",P04070
-"APCexosite",P04070
-"Human Nuclear Factor kB RelA p65",Q04206
-"Recombinant human 14-3-3gamma protein",P61981
-"Neutrophil elastase (NE)",P08246
-"Ara h 1 (peanut allergen)",Q43359
-"CD44-Fc",P16070
+HIVgp120,P04578
+HIV gp120 V3,P04578
+HIV_1 RNase H,P04585
+Reverse Transcriptase of Type 1 Human Immunodeficiency Virus (HIV-1 RT),P04585
+M3-HIV-1-RT,P04585
+Phosphatase and Tensin Homologue,P60484
+Human Activated Protein C,P04070
+APCexosite,P04070
+Human Nuclear Factor kB RelA p65,Q04206
+Recombinant human 14-3-3gamma protein,P61981
+Neutrophil elastase (NE),P08246
+Ara h 1 (peanut allergen),Q43359
+CD44-Fc,P16070
 "DNA polymerase (Taq pol), Thermus acquaticus",P19821
-"L-selectin–IgG fusion protein (LS-Rg)",P14151
-"Autonomously replicating sequence‐binding factor 1 (ABF1) protein",P14265
-"Autonomously replicating sequence-binding factor 1 (ABF1) protein",P14265
-"PotatoVirusXCoatProtein",P13533
-"Wild type KRAS protein",P01116
-"KRAS (G12V) protein",P01116
-"farnesylated Kras peptide",P01116
-"recombinant human h-Ras protein",P01112
-"Human CXCL 10 Chemokine",P02778
-"mouse CXCL 10 Chemokine",P17515
-"Anterior gradient homolog 2 (AGR2)",O95994
-"anterior gradient homolog 2 (AGR2)",O95994
-"Mammaglobin B (MGB2)",Q9GZZ8
-"ERBB2 Receptor Protein-Tyrosine Kinase",P04626
-"Epitope peptide of human epithelial growth factor receptor 2 (HER2)",P04626
-"Extracellular domain (ECD) of human epithelial growth factor receptor 2 (HER2) protein",P04626
-"human epidermal growth factor receptor 3 HER3",P21860
+L-selectin–IgG fusion protein (LS-Rg),P14151
+Autonomously replicating sequence‐binding factor 1 (ABF1) protein,P14265
+Autonomously replicating sequence-binding factor 1 (ABF1) protein,P14265
+PotatoVirusXCoatProtein,P13533
+Wild type KRAS protein,P01116
+KRAS (G12V) protein,P01116
+farnesylated Kras peptide,P01116
+recombinant human h-Ras protein,P01112
+Human CXCL 10 Chemokine,P02778
+mouse CXCL 10 Chemokine,P17515
+Anterior gradient homolog 2 (AGR2),O95994
+anterior gradient homolog 2 (AGR2),O95994
+Mammaglobin B (MGB2),Q9GZZ8
+ERBB2 Receptor Protein-Tyrosine Kinase,P04626
+Epitope peptide of human epithelial growth factor receptor 2 (HER2),P04626
+Extracellular domain (ECD) of human epithelial growth factor receptor 2 (HER2) protein,P04626
+human epidermal growth factor receptor 3 HER3,P21860
 "Alpha thrombin (α-thrombin), Human",P00734
 "Thrombin (Sigma), Human",P00734
-"Alpha-synuclein (α-syn) with Glutathione S-transferase (GST) tag",P37840
+Alpha-synuclein (α-syn) with Glutathione S-transferase (GST) tag,P37840
 "Angiopoietin-2 (Ang2), Human",O15123
 "Angiotensin converting enzyme 2 (hACE2), Human",Q9BYF1
 "Basic fibroblast growth factor (bFGF(155)), Human",P09038
-"Beta-site amyloid precursor protein cleaving enzyme 1 (BACE-1)",P56817
-"Carbonic anhydrase IX (CAIX)",Q16790
-"Cluster of differentiation 70 (CD70) protein",P32970
-"DC-specific intercellular adhesion molecule (ICAM)-3 grabbing non-integrin (DC-SIGN)",Q9NNX6
-"Dickkopf-1(DKK1)",O94907
-"Fc-gamma receptor III (FcγRIII) (CD16α)",P08637
-"Forkhead box protein M1 (FOXMI) DNA-binding domain (DBD)",Q08050
-"Fractalkine (FKN)",P78552
-"G-protein-coupled cholecystokinin B receptor (CCKBR)",P28336
-"Golgi protein-73 (GP 73)",O95274
-"Human toll-like receptor 3 ectodomain",O15455
-"HIV-1nucleocapsidProtein",P04591
-"Human immunodeficiency virus reverse transcriptase (HIVRT)",P04585
-"Human immunodeficiency virus type 1 reverse transcriptase (HIV-1 RT)",P04585
-"Human immunodifficiency virus type 1 (HIV-1) p24 Recombinant Protein",P04591
-"Influenza virus non-structural protein 1 (NS1) protein",P03490
+Beta-site amyloid precursor protein cleaving enzyme 1 (BACE-1),P56817
+Carbonic anhydrase IX (CAIX),Q16790
+Cluster of differentiation 70 (CD70) protein,P32970
+DC-specific intercellular adhesion molecule (ICAM)-3 grabbing non-integrin (DC-SIGN),Q9NNX6
+Dickkopf-1(DKK1),O94907
+Fc-gamma receptor III (FcγRIII) (CD16α),P08637
+Forkhead box protein M1 (FOXMI) DNA-binding domain (DBD),Q08050
+Fractalkine (FKN),P78552
+G-protein-coupled cholecystokinin B receptor (CCKBR),P28336
+Golgi protein-73 (GP 73),O95274
+Human toll-like receptor 3 ectodomain,O15455
+HIV-1nucleocapsidProtein,P04591
+Human immunodeficiency virus reverse transcriptase (HIVRT),P04585
+Human immunodeficiency virus type 1 reverse transcriptase (HIV-1 RT),P04585
+Human immunodifficiency virus type 1 (HIV-1) p24 Recombinant Protein,P04591
+Influenza virus non-structural protein 1 (NS1) protein,P03496
 "Insulin like growth factor II receptor (IGFIIR), Homo sapien",P11717
-"Interleukin 2 receptor alpha (IL2Rα CD25)",P01589
+Interleukin 2 receptor alpha (IL2Rα CD25),P01589
 "Lactate dehydrogenase (LDH), Human",P00338
-"Lethal factor (LF): one of three toxins produced by Bacillus anthracis (B. anthracis)",P15917
+Lethal factor (LF): one of three toxins produced by Bacillus anthracis (B. anthracis),P15917
 "Liver X receptors alpha (LXRalpha, LXRα)",Q13133
 "Liver X receptors beta (LXRbeta, LXRβ)",P55055
-"Melanoma‐associated antigen A3 (MAGE‐A3)",P43357
-"Mucin 1 (MUC1) recombinant protein MUC1-5TR",P15941
-"Nuclear factor for human IL6 (NF-IL6)",P17676
+Melanoma‐associated antigen A3 (MAGE‐A3),P43357
+Mucin 1 (MUC1) recombinant protein MUC1-5TR,P15941
+Nuclear factor for human IL6 (NF-IL6),P17676
 "Osteoponin (OPN), Human",P10451
-"Platelet-derived growth factor (PDGF)-AB",P01127
+Platelet-derived growth factor (PDGF)-AB,P01127
 "platelet-derived growth factor receptor, alpha polypeptide",P16234
-"Pro-gastrin-Releasing Peptide (proGRP)",P07492
-"Protective antigen (PA) PA63",P13423
-"Recombinant Human G-protein-coupled receptor kinase 2",P25098
-"Recombinant Human TLR4",O00206
-"Recombinant human erythropoietin-alpha (rHuEPO-α)",P01588
+Pro-gastrin-Releasing Peptide (proGRP),P07492
+Protective antigen (PA) PA63,P13423
+Recombinant Human G-protein-coupled receptor kinase 2,P25098
+Recombinant Human TLR4,O00206
+Recombinant human erythropoietin-alpha (rHuEPO-α),P01588
 "Ribonucleases (RNase) H1, Human",O60930
 "Ribonucleases (RNase) H2, Human",O75792
-"SARS CoV N protein",P59595
-"SARS-CoV N protein",P59595
-"SARS-CoV-2 [2019-nCoV (novel coronavirus 2019)] nucleocapsid-his recombinant protein",P0DTC9
-"Receptor-binding domain (RBD) of the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) spike (S) protein (S/RBD)",P0DTC2
-"SRP19 protein",P09132
-"Sonic hedgehog ligand (SHh)",Q15465
-"Staphylococcal enterotoxin B (SEB)",P01553
-"Hepatitis B surface antigen (HBsAg)",P03140
-"Hepatitis B virus (HBV) core protein (HBc)",P04530
+SARS CoV N protein,P59595
+SARS-CoV N protein,P59595
+SARS-CoV-2 [2019-nCoV (novel coronavirus 2019)] nucleocapsid-his recombinant protein,P0DTC9
+Receptor-binding domain (RBD) of the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) spike (S) protein (S/RBD),P0DTC2
+SRP19 protein,P09132
+Sonic hedgehog ligand (SHh),Q15465
+Staphylococcal enterotoxin B (SEB),P01553
+Hepatitis B surface antigen (HBsAg),P03140
+Hepatitis B virus (HBV) core protein (HBc),P04530
 "Vaccinia-related kinase (VRK1), Human",Q99986
-"Vascular endothelial growth factor 165 (VEGF165)",P15692
-"Receptor-binding domain (RBD) of vascular endothelial growth factor 121 (VEGF121)",P15692
-"Receptor-binding domain (RBD) of vascular endothelial growth factor 165 (VEGF165)",P15692
-"Wilms' tumour suppressor gene WT1",P19544
+Vascular endothelial growth factor 165 (VEGF165),P15692
+Receptor-binding domain (RBD) of vascular endothelial growth factor 121 (VEGF121),P15692
+Receptor-binding domain (RBD) of vascular endothelial growth factor 165 (VEGF165),P15692
+Wilms' tumour suppressor gene WT1,P19544
 "nuclear factor of activated T-cells, cytoplasmic, calcineurin-dependent 1",O95644
-"Antigen 85 (Ag85A) (FbpA)",O53280
-"Mycobacterium tuberculosis HspX antigen",P9WGO5
+Antigen 85 (Ag85A) (FbpA),O53280
+Mycobacterium tuberculosis HspX antigen,P9WGO5
 "DNA polymerase (Tth pol), Thermus thermophilus (Tth)",P20922
-"Thermus aquaticus DNA polymerase (Taq pol)",P19821
-"AIB1 CBP/p300-interaction domain",Q9Y6Q9
-"Yersinia PTPase",P06287
-"full length sheep prion protein PrP23-234 A136 R154 R171",P23907
+Thermus aquaticus DNA polymerase (Taq pol),P19821
+AIB1 CBP/p300-interaction domain,Q9Y6Q9
+Yersinia PTPase,P06287
+full length sheep prion protein PrP23-234 A136 R154 R171,P23907
 "platelet-derived growth factor receptor, beta polypeptide",P09619
-"165 amino acid form of Vascular Endothelial Growth Factor",P15692
-"Closed-channel conformation of GluA2Qflip AMPA receptor subunit",P42262
-"Open-channel conformation of GluA2Qflip AMPA receptor subunit",P42262
-"GluR2Qflip Glutamate receptor channel",P42262
-"Closed-channel conformation of GluA2Qflip",P42262
-"Open-channel conformation of GluA2Qflip",P42262
-"Recombinant human (rhu) cellular prlon protein (Prpc)",P04156
+165 amino acid form of Vascular Endothelial Growth Factor,P15692
+Closed-channel conformation of GluA2Qflip AMPA receptor subunit,P42262
+Open-channel conformation of GluA2Qflip AMPA receptor subunit,P42262
+GluR2Qflip Glutamate receptor channel,P42262
+Closed-channel conformation of GluA2Qflip,P42262
+Open-channel conformation of GluA2Qflip,P42262
+Recombinant human (rhu) cellular prlon protein (Prpc),P04156
 "Prion protein (PrP), Mouse",P04925
-"SARS-CoV-2 spike protein",P0DTC2
-"Zika non-structural 1 (NS1) protein",A0A024B7W1
+SARS-CoV-2 spike protein,P0DTC2
+Zika non-structural 1 (NS1) protein,A0A024B7W1
+"Epidermal growth factor receptor 2, Human (ErbB-2/HER2)",P04626
+Mucin 1 (MUC1),P15941
+CD44 glycoprotein HABD,P16070
+Recombinant human 14-3-3 gamma (14-3-3γ),P61981
+Receptor-binding domain (RBD) of SARS-CoV-2 spike protein (S protein),P0DTC2
+CD63 protein,P08962
+Mouse transferrin receptor (TfR-ECD),Q62351
+Interleukin 17 A A,Q16552
+Interleukin 17 F F,Q96PD4
+rat neurotensin receptor 1,P20789
+Osteocalcin (OC) - osteoporosis biomarker,P02818
+Olive (Olea europaea L.) pollen 1 (Ole e 1),P19963
+Aspergillus fumigatus f1 allergen,P67875
+Mammalian cell-expressed human recombinant low-density lipoprotein receptor (LDL-R) protein,P01130
+coagulation factor VIIa activity,P08709
+Thermus aquaticus σA subunit,Q9EZJ8
+tet repressor protein (tetR),P04483
+selB protein (Escherichia coli),P14081
+Escherichia coli release factor 1,P0A7I0
+Ff gene 5 protein (g5p),P69544
+mouse CCL1 chemokine mCCL1,P10146
+Ebola virus (EBOV) recombinant NP his-tagged,P18272
