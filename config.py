@@ -122,6 +122,13 @@ LEARNING_RATE_LORA      = 1e-5
 WEIGHT_DECAY            = 1e-4
 MAX_EPOCHS              = 100
 EARLY_STOPPING_PATIENCE = 10
+# Metric used for early stopping and best-checkpoint selection.
+# "auroc"  — recommended while model is threshold-collapsed (all-positive predictions);
+#            non-degenerate by construction, tracks real ranking improvement.
+# "mcc"    — threshold=0.5 MCC; appropriate once model produces mixed predictions,
+#            but returns a degenerate -1.0 sentinel when all-positive, silently
+#            consuming patience even while AUC improves.
+EARLY_STOPPING_METRIC   = "auroc"
 GRAD_CLIP               = 1.0
 
 # Class imbalance — positives weighted 3× in BCE loss
