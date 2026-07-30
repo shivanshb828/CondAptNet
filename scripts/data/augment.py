@@ -280,6 +280,13 @@ def main() -> None:
     val_df.to_csv(os.path.join(args.output_dir, "val.csv"),             index=False)
     test_df.to_csv(os.path.join(args.output_dir, "test.csv"),           index=False)
     log.info("Saved to %s", args.output_dir)
+    log.warning(
+        "NEXT STEP REQUIRED: rebuild the Vienna cache for any new sequences. "
+        "Run: python scripts/data/vienna_features.py --input %s "
+        "(incremental — skips already-cached sequences, ~2-7 min). "
+        "train.py will refuse to start if >1%% of sequences are uncached.",
+        os.path.join(args.output_dir, "tier1_train.csv"),
+    )
 
 
 if __name__ == "__main__":

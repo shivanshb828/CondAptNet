@@ -526,6 +526,33 @@ def main() -> None:
     else:
         log.warning("Vienna cache not found — features will be computed on-the-fly")
 
+    # ── Vienna cache coverage guard ───────────────────────────────────────────
+    # Abort if > 1% of sequences across any split are missing from the cache.
+    # Missing sequences get zero ViennaRNA features, which the model can learn
+    # as a spurious "non-binder" signal. Run scripts/data/vienna_features.py
+    # first to fix: python scripts/data/vienna_features.py --input data/augmented/tier1_train.csv
+    _CACHE_THRESHOLD = 0.01
+    _splits_to_check = [(train_df, "train"), (val_df, "val")]
+    _guard_failed = False
+    for _split_df, _split_name in _splits_to_check:
+        if len(_split_df) == 0:
+            continue
+        _missing = [s for s in _split_df["aptamer_sequence"].dropna()
+                    if str(s).strip().upper() not in vienna_cache]
+        _rate = len(_missing) / len(_split_df)
+        if _rate > _CACHE_THRESHOLD:
+            log.error(
+                "Vienna cache gap in %s split: %d / %d sequences missing (%.1f%%) — "
+                "threshold is %.0f%%. Fix: run `python scripts/data/vienna_features.py "
+                "--input data/augmented/tier1_train.csv` (incremental, skips cached). "
+                "First 5 missing: %s",
+                _split_name, len(_missing), len(_split_df), 100 * _rate,
+                100 * _CACHE_THRESHOLD, [s[:30] for s in _missing[:5]],
+            )
+            _guard_failed = True
+    if _guard_failed:
+        sys.exit(1)
+
     # ── Build model ───────────────────────────────────────────────────────────
     log.info("Building CondAptNet...")
     model = CondAptNet(predict_kd=True)
@@ -676,30 +703,39 @@ def main() -> None:
                                              use_amp=use_amp)
             va_m = compute_metrics(va_labels, va_probs,
                                    kd_true=va_kd_t, kd_pred=va_kd_p)
-            val_mcc = va_m["mcc"]
+            # Use NaN sentinel for degenerate MCC (0/0 — all-positive or
+            # all-negative predictions); early stopping compares against -1.0
+            # baseline so NaN must not propagate — treat as -1.0 for that purpose.
+            val_mcc = va_m["mcc"] if not va_m["mcc_degenerate"] else -1.0
 
+            va_mcc_str = ("UNDEF(0/0-all-pos/neg)"
+                          if va_m["mcc_degenerate"] else f"{va_m['mcc']:.3f}")
+            tr_mcc_str = ("UNDEF(0/0)"
+                          if tr_m["mcc_degenerate"] else f"{tr_m['mcc']:.3f}")
             log.info(
                 "Epoch %3d/%d | "
                 "loss=%.4f (bce=%.4f kd=%.4f) | "
-                "train MCC=%.3f AUC=%.3f | "
-                "val loss=%.4f MCC=%.3f AUC=%.3f | "
+                "train AUC=%.3f MCC=%s | "
+                "val loss=%.4f AUC=%.3f MCC=%s | "
                 "%.0fs",
                 epoch, args.max_epochs,
                 tr_loss, tr_bce, tr_kd,
-                tr_m["mcc"], tr_m["auroc"],
-                va_loss, va_m["mcc"], va_m["auroc"],
+                tr_m["auroc"], tr_mcc_str,
+                va_loss, va_m["auroc"], va_mcc_str,
                 elapsed,
             )
         else:
-            val_mcc = tr_m["mcc"]
+            val_mcc = tr_m["mcc"] if not tr_m["mcc_degenerate"] else -1.0
+            tr_mcc_str = ("UNDEF(0/0)"
+                          if tr_m["mcc_degenerate"] else f"{tr_m['mcc']:.3f}")
             log.info(
                 "Epoch %3d/%d | "
                 "loss=%.4f (bce=%.4f kd=%.4f) | "
-                "train MCC=%.3f AUC=%.3f | "
+                "train AUC=%.3f MCC=%s | "
                 "(no val split) | %.0fs",
                 epoch, args.max_epochs,
                 tr_loss, tr_bce, tr_kd,
-                tr_m["mcc"], tr_m["auroc"],
+                tr_m["auroc"], tr_mcc_str,
                 elapsed,
             )
 
@@ -720,6 +756,8 @@ def main() -> None:
         if val_mcc > best_val_mcc:
             best_val_mcc = val_mcc
             patience_count = 0
+            ckpt["best_val_mcc"]  = best_val_mcc
+            ckpt["patience_count"] = patience_count
             torch.save(ckpt, best_ckpt_path)
             log.info("  → New best MCC=%.3f  saved to %s", best_val_mcc, best_ckpt_path)
         else:
