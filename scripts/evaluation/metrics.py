@@ -58,9 +58,17 @@ def compute_metrics(
     y_pred = (y_prob >= threshold).astype(float)
 
     # ── Threshold-dependent ───────────────────────────────────────────────────
-    mcc = matthews_corrcoef(y_true, y_pred)
-
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
+
+    # Detect degenerate MCC: sklearn returns 0.0 *silently* when the denominator
+    # is zero (any of the four marginals is zero). This is mathematically undefined
+    # (0/0), not a genuine "no correlation" result — it looks identical to a real
+    # MCC=0.0 in logs and is impossible to distinguish without this flag.
+    # Common when the model predicts all-positive (TN=FN=0) or all-negative (TP=FP=0).
+    mcc_degenerate = int((tn + fn) == 0 or (tn + fp) == 0 or
+                         (tp + fp) == 0 or (tp + fn) == 0)
+    mcc = matthews_corrcoef(y_true, y_pred) if not mcc_degenerate else float("nan")
+
     sensitivity = tp / (tp + fn) if (tp + fn) > 0 else 0.0
     specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
 
@@ -87,27 +95,32 @@ def compute_metrics(
             pearson_p = float(p)
 
     return {
-        "mcc":          float(mcc),
-        "auroc":        float(auroc),
-        "auprc":        float(auprc),
-        "sensitivity":  float(sensitivity),
-        "specificity":  float(specificity),
-        "pearson_r_kd": pearson_r,
-        "pearson_p_kd": pearson_p,
-        "n_kd_pairs":   n_kd,
+        "mcc":            float(mcc) if not mcc_degenerate else float("nan"),
+        "mcc_degenerate": bool(mcc_degenerate),
+        "auroc":          float(auroc),
+        "auprc":          float(auprc),
+        "sensitivity":    float(sensitivity),
+        "specificity":    float(specificity),
+        "pearson_r_kd":   pearson_r,
+        "pearson_p_kd":   pearson_p,
+        "n_kd_pairs":     n_kd,
     }
 
 
 def print_metrics(m: dict, prefix: str = "") -> None:
-    """Pretty-print the metrics dict."""
+    """Pretty-print the metrics dict. AUC-ROC leads; MCC flagged if degenerate."""
     prefix = f"{prefix} | " if prefix else ""
     kd_str = (f"  Kd Pearson r={m['pearson_r_kd']:.3f} (n={m['n_kd_pairs']})"
                if m.get("n_kd_pairs", 0) >= 3 else "")
+    if m.get("mcc_degenerate"):
+        mcc_str = "MCC=UNDEF(0/0 — all-pos or all-neg predictions)"
+    else:
+        mcc_str = f"MCC={m['mcc']:.3f}"
     print(
         f"{prefix}"
-        f"MCC={m['mcc']:.3f}  "
         f"AUC-ROC={m['auroc']:.3f}  "
         f"AUC-PR={m['auprc']:.3f}  "
+        f"{mcc_str}  "
         f"Sens={m['sensitivity']:.3f}  "
         f"Spec={m['specificity']:.3f}"
         f"{kd_str}"

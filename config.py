@@ -122,9 +122,19 @@ LEARNING_RATE_LORA      = 1e-5
 WEIGHT_DECAY            = 1e-4
 MAX_EPOCHS              = 100
 EARLY_STOPPING_PATIENCE = 10
+# Metric used for early stopping and best-checkpoint selection.
+# "auroc"  — recommended while model is threshold-collapsed (all-positive predictions);
+#            non-degenerate by construction, tracks real ranking improvement.
+# "mcc"    — threshold=0.5 MCC; appropriate once model produces mixed predictions,
+#            but returns a degenerate -1.0 sentinel when all-positive, silently
+#            consuming patience even while AUC improves.
+EARLY_STOPPING_METRIC   = "auroc"
 GRAD_CLIP               = 1.0
 
-# Class imbalance — positives weighted 3× in BCE loss
+# Class imbalance — applied to NEGATIVES (minority class) in BCE loss.
+# Train is 57% positive / 43% negative; negatives are the minority.
+# Phase 2 fix: was incorrectly applied to positives (majority), amplifying
+# existing positive bias. Now flipped to weight the minority class.
 POSITIVE_CLASS_WEIGHT   = 3.0
 # Loss component weights — total = BCE_WEIGHT*bce + KD_WEIGHT*mse_kd
 BCE_WEIGHT              = 1.0

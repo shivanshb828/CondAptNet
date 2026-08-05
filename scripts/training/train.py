@@ -42,7 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
     DEVICE, RANDOM_SEED, DATA_PROCESSED, DATA_AUGMENTED, CHECKPOINTS_DIR, VIENNA_CACHE,
     BATCH_SIZE, LEARNING_RATE_BASE, LEARNING_RATE_LORA, WEIGHT_DECAY,
-    MAX_EPOCHS, EARLY_STOPPING_PATIENCE, GRAD_CLIP,
+    MAX_EPOCHS, EARLY_STOPPING_PATIENCE, EARLY_STOPPING_METRIC, GRAD_CLIP,
     DNA_MAX_LEN, PROT_MAX_TOKENS, DEFAULT_PH, DEFAULT_SALT_MM,
     DEFAULT_TEMP_C, DEFAULT_BUFFER, DEFAULT_MG_MM,
 )
@@ -458,6 +458,10 @@ def main() -> None:
                         help="Enable BF16 automatic mixed precision (A100/Ampere GPUs). "
                              "Halves activation memory — enables batch=32 + prot_len=1024 "
                              "on A100 that would OOM without it.")
+    parser.add_argument("--allow-cpu", action="store_true", default=False,
+                        help="Allow training on CPU when no GPU/MPS device is found. "
+                             "Disabled by default to prevent silent hours-long CPU runs "
+                             "when a GPU driver fails. Only use for unit tests or CI.")
     args = parser.parse_args()
 
     if args.grad_accum < 1:
@@ -471,7 +475,22 @@ def main() -> None:
     elif torch.backends.mps.is_available():
         device = torch.device("mps")
     else:
+        # Hard refusal: training on CPU wastes hours silently and is never
+        # intentional on this codebase (GCP L4 or Apple MPS expected).
+        # A GPU driver failure should be caught here, not discovered via
+        # a 2-hour CPU run. Override with --allow-cpu if you genuinely
+        # need CPU (e.g. unit tests or CI without a GPU).
+        if not getattr(args, "allow_cpu", False):
+            log.error(
+                "No CUDA or MPS device found — torch.cuda.is_available()=False, "
+                "torch.backends.mps.is_available()=False. "
+                "Training on CPU is refused to prevent silent multi-hour CPU runs. "
+                "Check your GPU driver (run: nvidia-smi). "
+                "To override intentionally: pass --allow-cpu."
+            )
+            sys.exit(1)
         device = torch.device("cpu")
+        log.warning("CPU training permitted via --allow-cpu — this will be very slow")
     log.info("Device confirmed at runtime: %s", device)
 
     use_amp = args.use_amp and device.type == "cuda"
@@ -525,6 +544,33 @@ def main() -> None:
         log.info("Vienna cache: %d entries", len(vienna_cache))
     else:
         log.warning("Vienna cache not found — features will be computed on-the-fly")
+
+    # ── Vienna cache coverage guard ───────────────────────────────────────────
+    # Abort if > 1% of sequences across any split are missing from the cache.
+    # Missing sequences get zero ViennaRNA features, which the model can learn
+    # as a spurious "non-binder" signal. Run scripts/data/vienna_features.py
+    # first to fix: python scripts/data/vienna_features.py --input data/augmented/tier1_train.csv
+    _CACHE_THRESHOLD = 0.01
+    _splits_to_check = [(train_df, "train"), (val_df, "val")]
+    _guard_failed = False
+    for _split_df, _split_name in _splits_to_check:
+        if len(_split_df) == 0:
+            continue
+        _missing = [s for s in _split_df["aptamer_sequence"].dropna()
+                    if str(s).strip().upper() not in vienna_cache]
+        _rate = len(_missing) / len(_split_df)
+        if _rate > _CACHE_THRESHOLD:
+            log.error(
+                "Vienna cache gap in %s split: %d / %d sequences missing (%.1f%%) — "
+                "threshold is %.0f%%. Fix: run `python scripts/data/vienna_features.py "
+                "--input data/augmented/tier1_train.csv` (incremental, skips cached). "
+                "First 5 missing: %s",
+                _split_name, len(_missing), len(_split_df), 100 * _rate,
+                100 * _CACHE_THRESHOLD, [s[:30] for s in _missing[:5]],
+            )
+            _guard_failed = True
+    if _guard_failed:
+        sys.exit(1)
 
     # ── Build model ───────────────────────────────────────────────────────────
     log.info("Building CondAptNet...")
@@ -600,10 +646,13 @@ def main() -> None:
     criterion = CondAptNetLoss()
 
     # ── Training loop ─────────────────────────────────────────────────────────
-    best_val_mcc   = -1.0
-    patience_count = 0
-    start_epoch    = 1
-    best_ckpt_path = os.path.join(args.checkpoint_dir, "best.pt")
+    # val_metric / best_val_metric track EARLY_STOPPING_METRIC (config.py).
+    # Default -1.0 works for both MCC (range [-1,1]) and AUC-ROC (range [0,1]).
+    log.info("Early-stopping metric: %s  patience=%d", EARLY_STOPPING_METRIC, EARLY_STOPPING_PATIENCE)
+    best_val_metric = -1.0
+    patience_count  = 0
+    start_epoch     = 1
+    best_ckpt_path  = os.path.join(args.checkpoint_dir, "best.pt")
 
     if args.resume:
         import glob as _glob
@@ -631,11 +680,22 @@ def main() -> None:
             optimizer.load_state_dict(ckpt["optimizer"])
             if "scheduler" in ckpt:
                 scheduler.load_state_dict(ckpt["scheduler"])
-            best_val_mcc   = ckpt.get("best_val_mcc",  ckpt.get("val_mcc", -1.0))
-            patience_count = ckpt.get("patience_count", 0)
-            start_epoch    = ckpt.get("epoch", 0) + 1
-            log.info("Resumed at epoch %d  best_val_mcc=%.4f  patience=%d",
-                     start_epoch - 1, best_val_mcc, patience_count)
+            # Backward-compat: old checkpoints used "best_val_mcc"/"val_mcc".
+            # When switching metric, start fresh at -1.0 (correct for both MCC
+            # and AUC-ROC) rather than carrying over a value from a different metric.
+            old_key = "best_val_metric"
+            if old_key not in ckpt:
+                log.warning(
+                    "Checkpoint has no 'best_val_metric' key (older format or metric switch). "
+                    "Resetting best_val_metric=-1.0 for metric=%s. "
+                    "Patience counter preserved: %d.",
+                    EARLY_STOPPING_METRIC, ckpt.get("patience_count", 0),
+                )
+            best_val_metric = ckpt.get("best_val_metric", -1.0)
+            patience_count  = ckpt.get("patience_count", 0)
+            start_epoch     = ckpt.get("epoch", 0) + 1
+            log.info("Resumed at epoch %d  best_val_%s=%.4f  patience=%d",
+                     start_epoch - 1, EARLY_STOPPING_METRIC, best_val_metric, patience_count)
         else:
             log.warning("--resume set but no epoch_*.pt found in %s — starting fresh",
                         args.checkpoint_dir)
@@ -676,64 +736,86 @@ def main() -> None:
                                              use_amp=use_amp)
             va_m = compute_metrics(va_labels, va_probs,
                                    kd_true=va_kd_t, kd_pred=va_kd_p)
-            val_mcc = va_m["mcc"]
+            # val_metric is the configurable early-stopping signal.
+            # MCC: return -1.0 sentinel when degenerate (0/0) so patience
+            #      increments correctly without NaN propagating.
+            # AUC: never degenerate when both classes are present in val.
+            if EARLY_STOPPING_METRIC == "mcc":
+                val_metric = va_m["mcc"] if not va_m["mcc_degenerate"] else -1.0
+            else:
+                val_metric = va_m[EARLY_STOPPING_METRIC]
 
+            va_mcc_str = ("UNDEF(0/0-all-pos/neg)"
+                          if va_m["mcc_degenerate"] else f"{va_m['mcc']:.3f}")
+            tr_mcc_str = ("UNDEF(0/0)"
+                          if tr_m["mcc_degenerate"] else f"{tr_m['mcc']:.3f}")
             log.info(
                 "Epoch %3d/%d | "
                 "loss=%.4f (bce=%.4f kd=%.4f) | "
-                "train MCC=%.3f AUC=%.3f | "
-                "val loss=%.4f MCC=%.3f AUC=%.3f | "
+                "train AUC=%.3f MCC=%s | "
+                "val loss=%.4f AUC=%.3f MCC=%s [stop_metric(%s)=%.4f] | "
                 "%.0fs",
                 epoch, args.max_epochs,
                 tr_loss, tr_bce, tr_kd,
-                tr_m["mcc"], tr_m["auroc"],
-                va_loss, va_m["mcc"], va_m["auroc"],
+                tr_m["auroc"], tr_mcc_str,
+                va_loss, va_m["auroc"], va_mcc_str,
+                EARLY_STOPPING_METRIC, val_metric,
                 elapsed,
             )
         else:
-            val_mcc = tr_m["mcc"]
+            if EARLY_STOPPING_METRIC == "mcc":
+                val_metric = tr_m["mcc"] if not tr_m["mcc_degenerate"] else -1.0
+            else:
+                val_metric = tr_m[EARLY_STOPPING_METRIC]
+            tr_mcc_str = ("UNDEF(0/0)"
+                          if tr_m["mcc_degenerate"] else f"{tr_m['mcc']:.3f}")
             log.info(
                 "Epoch %3d/%d | "
                 "loss=%.4f (bce=%.4f kd=%.4f) | "
-                "train MCC=%.3f AUC=%.3f | "
+                "train AUC=%.3f MCC=%s [stop_metric(%s)=%.4f] | "
                 "(no val split) | %.0fs",
                 epoch, args.max_epochs,
                 tr_loss, tr_bce, tr_kd,
-                tr_m["mcc"], tr_m["auroc"],
+                tr_m["auroc"], tr_mcc_str,
+                EARLY_STOPPING_METRIC, val_metric,
                 elapsed,
             )
 
         # Save every epoch
         ckpt = {
-            "epoch":         epoch,
-            "model":         model.state_dict(),
-            "optimizer":     optimizer.state_dict(),
-            "scheduler":     scheduler.state_dict(),
-            "val_mcc":       val_mcc,
-            "best_val_mcc":  best_val_mcc,
-            "patience_count": patience_count,
-            "train_loss":    tr_loss,
+            "epoch":            epoch,
+            "model":            model.state_dict(),
+            "optimizer":        optimizer.state_dict(),
+            "scheduler":        scheduler.state_dict(),
+            "val_metric":       val_metric,
+            "best_val_metric":  best_val_metric,
+            "stop_metric":      EARLY_STOPPING_METRIC,
+            "patience_count":   patience_count,
+            "train_loss":       tr_loss,
         }
         torch.save(ckpt, os.path.join(args.checkpoint_dir, f"epoch_{epoch:03d}.pt"))
 
         # Save best
-        if val_mcc > best_val_mcc:
-            best_val_mcc = val_mcc
+        if val_metric > best_val_metric:
+            best_val_metric = val_metric
             patience_count = 0
+            ckpt["best_val_metric"]  = best_val_metric
+            ckpt["patience_count"]   = patience_count
             torch.save(ckpt, best_ckpt_path)
-            log.info("  → New best MCC=%.3f  saved to %s", best_val_mcc, best_ckpt_path)
+            log.info("  → New best %s=%.4f  saved to %s",
+                     EARLY_STOPPING_METRIC, best_val_metric, best_ckpt_path)
         else:
             patience_count += 1
             if patience_count >= EARLY_STOPPING_PATIENCE:
-                log.info("Early stopping at epoch %d (patience=%d)",
-                         epoch, EARLY_STOPPING_PATIENCE)
+                log.info("Early stopping at epoch %d (patience=%d, metric=%s)",
+                         epoch, EARLY_STOPPING_PATIENCE, EARLY_STOPPING_METRIC)
                 break
 
         scheduler.step()
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
-    log.info("Training complete. Best val MCC=%.3f", best_val_mcc)
+    log.info("Training complete. Best val %s=%.4f", EARLY_STOPPING_METRIC, best_val_metric)
     log.info("Best checkpoint: %s", best_ckpt_path)
 
 
