@@ -41,7 +41,7 @@ from torch.utils.data import DataLoader, Dataset
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
     DEVICE, RANDOM_SEED, DATA_PROCESSED, DATA_AUGMENTED, CHECKPOINTS_DIR, VIENNA_CACHE,
-    BATCH_SIZE, LEARNING_RATE_BASE, LEARNING_RATE_LORA, WEIGHT_DECAY,
+    BATCH_SIZE, GRAD_ACCUM, LEARNING_RATE_BASE, LEARNING_RATE_LORA, WEIGHT_DECAY,
     MAX_EPOCHS, EARLY_STOPPING_PATIENCE, EARLY_STOPPING_METRIC, GRAD_CLIP,
     DNA_MAX_LEN, PROT_MAX_TOKENS, DEFAULT_PH, DEFAULT_SALT_MM,
     DEFAULT_TEMP_C, DEFAULT_BUFFER, DEFAULT_MG_MM,
@@ -444,7 +444,7 @@ def main() -> None:
                              "(can be smaller than prot-max-tokens; reduces cross-attn memory)")
     parser.add_argument("--max-batches", type=int, default=None,
                         help="Limit batches per epoch (for smoke-testing)")
-    parser.add_argument("--grad-accum", type=int, default=1,
+    parser.add_argument("--grad-accum", type=int, default=GRAD_ACCUM,
                         help="Accumulate gradients over this many micro-batches before "
                              "an optimizer step. Effective batch = batch-size * grad-accum. "
                              "Use a small --batch-size with --grad-accum>1 to fit long "
@@ -551,7 +551,7 @@ def main() -> None:
     # as a spurious "non-binder" signal. Run scripts/data/vienna_features.py
     # first to fix: python scripts/data/vienna_features.py --input data/augmented/tier1_train.csv
     _CACHE_THRESHOLD = 0.01
-    _splits_to_check = [(train_df, "train"), (val_df, "val")]
+    _splits_to_check = [(train_df, "train"), (val_df, "val"), (test_df, "test")]
     _guard_failed = False
     for _split_df, _split_name in _splits_to_check:
         if len(_split_df) == 0:

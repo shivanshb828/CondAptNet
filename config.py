@@ -116,7 +116,11 @@ BIND_LABEL_PROB_HIGH   = 0.66   # > 0.66 → high
 BIND_LABEL_PROB_MEDIUM = 0.33   # > 0.33 → medium  (≤ 0.33 → low)
 
 # ── Training ─────────────────────────────────────────────────────────────────
-BATCH_SIZE              = 32
+# Tested L4 GPU ceiling — larger values OOM immediately on the L4.
+# Use --grad-accum 4 (= GRAD_ACCUM below) to keep effective batch size at 32.
+BATCH_SIZE              = 8
+# Gradient accumulation steps; BATCH_SIZE * GRAD_ACCUM = effective batch 32.
+GRAD_ACCUM              = 4
 LEARNING_RATE_BASE      = 1e-4
 LEARNING_RATE_LORA      = 1e-5
 WEIGHT_DECAY            = 1e-4
