@@ -35,7 +35,9 @@ from config import POSITIVE_CLASS_WEIGHT, BCE_WEIGHT, KD_WEIGHT
 class CondAptNetLoss(nn.Module):
     """
     Args:
-        pos_weight  : multiplier on positive-class BCE terms (default 3.0)
+        pos_weight  : multiplier on NEGATIVE-class (minority) BCE terms (default 3.0).
+                      Train split is 57% positive / 43% negative; negatives are the
+                      minority class and receive the upweight. Positives receive 1.0.
         bce_weight  : scale factor on the BCE component in the combined loss
         kd_weight   : scale factor on the Kd MSE component
     """
