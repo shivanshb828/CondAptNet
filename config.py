@@ -131,7 +131,10 @@ EARLY_STOPPING_PATIENCE = 10
 EARLY_STOPPING_METRIC   = "auroc"
 GRAD_CLIP               = 1.0
 
-# Class imbalance — positives weighted 3× in BCE loss
+# Class imbalance — applied to NEGATIVES (minority class) in BCE loss.
+# Train is 57% positive / 43% negative; negatives are the minority.
+# Phase 2 fix: was incorrectly applied to positives (majority), amplifying
+# existing positive bias. Now flipped to weight the minority class.
 POSITIVE_CLASS_WEIGHT   = 3.0
 # Loss component weights — total = BCE_WEIGHT*bce + KD_WEIGHT*mse_kd
 BCE_WEIGHT              = 1.0

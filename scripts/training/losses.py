@@ -5,8 +5,10 @@ Combined binary cross-entropy (binding) + masked MSE (Kd regression).
 
     total = BCE_WEIGHT * bce  +  KD_WEIGHT * mse_kd
 
-BCE uses manual positive-class weighting (POSITIVE_CLASS_WEIGHT = 3.0) to
-compensate for class imbalance. Kd MSE is computed only over rows where a
+BCE uses manual minority-class weighting (POSITIVE_CLASS_WEIGHT = 3.0,
+applied to NEGATIVES — the minority class in training) to compensate for
+class imbalance. Train split is 57% positive / 43% negative, so negatives
+are the minority class. Kd MSE is computed only over rows where a
 ground-truth Kd value exists (non-NaN), so batches with no Kd labels
 contribute zero Kd loss rather than erroring out.
 
@@ -63,10 +65,14 @@ class CondAptNetLoss(nn.Module):
             kd_loss    : scalar — for logging (0.0 if no Kd labels in batch)
         """
         # ── Weighted BCE ──────────────────────────────────────────────────────
-        # weight tensor: pos_weight for positive rows, 1.0 for negatives
+        # weight tensor: pos_weight for NEGATIVE rows (minority class, 43% of
+        # train), 1.0 for positives. Train is 57% positive / 43% negative, so
+        # negatives are the minority and need the upweight. Prior setting had
+        # pos_weight applied to the majority class (positives), which amplified
+        # the existing positive bias and caused TN=0 across epochs 1-3.
         pw = torch.where(labels.bool(),
-                         torch.full_like(labels, self.pos_weight),
-                         torch.ones_like(labels))
+                         torch.ones_like(labels),
+                         torch.full_like(labels, self.pos_weight))
         bce_loss = F.binary_cross_entropy(binding_prob, labels, weight=pw)
 
         # ── Masked MSE on Kd ─────────────────────────────────────────────────
