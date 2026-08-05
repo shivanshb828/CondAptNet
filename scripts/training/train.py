@@ -458,6 +458,10 @@ def main() -> None:
                         help="Enable BF16 automatic mixed precision (A100/Ampere GPUs). "
                              "Halves activation memory — enables batch=32 + prot_len=1024 "
                              "on A100 that would OOM without it.")
+    parser.add_argument("--allow-cpu", action="store_true", default=False,
+                        help="Allow training on CPU when no GPU/MPS device is found. "
+                             "Disabled by default to prevent silent hours-long CPU runs "
+                             "when a GPU driver fails. Only use for unit tests or CI.")
     args = parser.parse_args()
 
     if args.grad_accum < 1:
@@ -471,7 +475,22 @@ def main() -> None:
     elif torch.backends.mps.is_available():
         device = torch.device("mps")
     else:
+        # Hard refusal: training on CPU wastes hours silently and is never
+        # intentional on this codebase (GCP L4 or Apple MPS expected).
+        # A GPU driver failure should be caught here, not discovered via
+        # a 2-hour CPU run. Override with --allow-cpu if you genuinely
+        # need CPU (e.g. unit tests or CI without a GPU).
+        if not getattr(args, "allow_cpu", False):
+            log.error(
+                "No CUDA or MPS device found — torch.cuda.is_available()=False, "
+                "torch.backends.mps.is_available()=False. "
+                "Training on CPU is refused to prevent silent multi-hour CPU runs. "
+                "Check your GPU driver (run: nvidia-smi). "
+                "To override intentionally: pass --allow-cpu."
+            )
+            sys.exit(1)
         device = torch.device("cpu")
+        log.warning("CPU training permitted via --allow-cpu — this will be very slow")
     log.info("Device confirmed at runtime: %s", device)
 
     use_amp = args.use_amp and device.type == "cuda"
