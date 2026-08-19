@@ -135,11 +135,11 @@ EARLY_STOPPING_PATIENCE = 10
 EARLY_STOPPING_METRIC   = "auroc"
 GRAD_CLIP               = 1.0
 
-# Class imbalance — applied to NEGATIVES (minority class) in BCE loss.
-# Train is 57% positive / 43% negative; negatives are the minority.
-# Phase 2 fix: was incorrectly applied to positives (majority), amplifying
-# existing positive bias. Now flipped to weight the minority class.
-POSITIVE_CLASS_WEIGHT   = 3.0
+# Class imbalance weight — applied to NEGATIVES (minority class) in BCE loss.
+# losses.py flips the weight to negatives; see that file for full rationale.
+# Set to 1.0 when --balanced-sampling is active (sampling handles the imbalance;
+# additional weighting compounds the signal and was tested/rejected in Phase 2-3).
+POSITIVE_CLASS_WEIGHT   = 1.0
 # Loss component weights — total = BCE_WEIGHT*bce + KD_WEIGHT*mse_kd
 BCE_WEIGHT              = 1.0
 KD_WEIGHT               = 0.5

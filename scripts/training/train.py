@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
@@ -462,6 +462,11 @@ def main() -> None:
                         help="Allow training on CPU when no GPU/MPS device is found. "
                              "Disabled by default to prevent silent hours-long CPU runs "
                              "when a GPU driver fails. Only use for unit tests or CI.")
+    parser.add_argument("--balanced-sampling", action="store_true", default=False,
+                        help="Use WeightedRandomSampler for ~50/50 pos/neg per batch. "
+                             "Positives are resampled with replacement each epoch so the "
+                             "full positive set is seen over training, not a fixed slice. "
+                             "Overrides shuffle=True on the train DataLoader.")
     args = parser.parse_args()
 
     if args.grad_accum < 1:
@@ -612,15 +617,47 @@ def main() -> None:
     _num_workers = 0 if device.type in ("mps", "cpu") else 2
     _pin_memory  = device.type == "cuda"
 
-    train_loader = DataLoader(
-        train_ds,
-        batch_size=args.batch_size,
-        shuffle=True,
-        collate_fn=collate_fn,
-        num_workers=_num_workers,
-        pin_memory=_pin_memory,
-        persistent_workers=_num_workers > 0,
-    )
+    # Balanced sampling: ~50/50 pos/neg per batch via WeightedRandomSampler.
+    # Each sample's weight = 1/class_count — so minority and majority classes
+    # contribute equally in expectation. Sampling with replacement means the
+    # full positive set is reachable over an epoch, not a fixed 50% slice.
+    if args.balanced_sampling:
+        labels_arr = train_df["label"].values.astype(int)
+        class_counts = np.bincount(labels_arr)           # [neg_count, pos_count]
+        sample_weights = np.where(labels_arr == 1,
+                                  1.0 / class_counts[1],
+                                  1.0 / class_counts[0])
+        sampler = WeightedRandomSampler(
+            weights=torch.from_numpy(sample_weights).double(),
+            num_samples=len(train_ds),
+            replacement=True,
+        )
+        # Verify balance on a quick sample before training
+        _check = np.random.default_rng(0).choice(
+            len(train_ds), size=min(256, len(train_ds)),
+            p=sample_weights / sample_weights.sum(), replace=True)
+        _bal = labels_arr[_check].mean()
+        log.info("Balanced sampler active: pos_rate in sampled check=%.3f (target ~0.50) "
+                 "| class counts: neg=%d pos=%d", _bal, class_counts[0], class_counts[1])
+        train_loader = DataLoader(
+            train_ds,
+            batch_size=args.batch_size,
+            sampler=sampler,       # sampler is mutually exclusive with shuffle
+            collate_fn=collate_fn,
+            num_workers=_num_workers,
+            pin_memory=_pin_memory,
+            persistent_workers=_num_workers > 0,
+        )
+    else:
+        train_loader = DataLoader(
+            train_ds,
+            batch_size=args.batch_size,
+            shuffle=True,
+            collate_fn=collate_fn,
+            num_workers=_num_workers,
+            pin_memory=_pin_memory,
+            persistent_workers=_num_workers > 0,
+        )
     val_loader = (
         DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
                    collate_fn=collate_fn, num_workers=_num_workers,
