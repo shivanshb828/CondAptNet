@@ -120,12 +120,13 @@ class CondAptNet(nn.Module):
 
     def forward(
         self,
-        aptamer_tokens  : torch.Tensor,
-        vienna_feats    : torch.Tensor,
-        protein_tokens  : torch.Tensor,
-        condition       : torch.Tensor,
-        predict_kd      : Optional[bool] = None,
-        protein_emb     : Optional[torch.Tensor] = None,
+        aptamer_tokens    : torch.Tensor,
+        vienna_feats      : torch.Tensor,
+        protein_tokens    : torch.Tensor,
+        condition         : torch.Tensor,
+        predict_kd        : Optional[bool] = None,
+        protein_emb       : Optional[torch.Tensor] = None,
+        prot_padding_mask : Optional[torch.Tensor] = None,
     ) -> CondAptNetOutput:
         """
         Args:
@@ -156,7 +157,9 @@ class CondAptNet(nn.Module):
         # prot_emb: [batch, prot_len, ESM_EMBED_DIM=480]
 
         # ── Symmetric cross-attention with FiLM conditioning ─────────────────
-        apt_fused, prot_fused = self.cross_attention(apt_emb, prot_emb, condition)
+        apt_fused, prot_fused = self.cross_attention(
+            apt_emb, prot_emb, condition, prot_padding_mask=prot_padding_mask
+        )
         # apt_fused:  [batch, apt_token_len, FUSION_DIM=256]
         # prot_fused: [batch, prot_len,      FUSION_DIM=256]
 

@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, WeightedRandomSampler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import (
@@ -256,18 +256,27 @@ def collate_fn(batch):
     lbls  = torch.stack(lbl_list)          # [B, 1]
     kds   = torch.stack(kd_list)           # [B, 1]
 
-    # Protein embeddings: variable prot_len → pad with zeros to max in batch
-    max_prot = max(e.shape[0] for e in emb_list)
+    # Protein embeddings: variable prot_len → pad with zeros to max in batch.
+    # Build a boolean mask (True = padding position) for cross-attention so
+    # padded positions are excluded from the attention softmax.
+    lengths  = [e.shape[0] for e in emb_list]
+    max_prot = max(lengths)
     esm_dim  = emb_list[0].shape[1]
     prot_emb = torch.stack([
         F.pad(e, (0, 0, 0, max_prot - e.shape[0]))   # pad sequence dim only
         for e in emb_list
     ])                                     # [B, max_prot, ESM_EMBED_DIM]
 
+    # prot_padding_mask[b, i] = True when position i is a zero-pad for sample b.
+    # nn.MultiheadAttention uses True to mean "ignore this key position".
+    prot_padding_mask = torch.zeros(len(apt_list), max_prot, dtype=torch.bool)
+    for b, length in enumerate(lengths):
+        prot_padding_mask[b, length:] = True           # [B, max_prot]
+
     # protein_tokens placeholder (unused when protein_emb is passed to model)
     prot_tok = torch.zeros(len(apt_list), 1, dtype=torch.long)
 
-    return apt, v, prot_tok, cond, lbls, kds, prot_emb
+    return apt, v, prot_tok, cond, lbls, kds, prot_emb, prot_padding_mask
 
 
 # ── Data split ────────────────────────────────────────────────────────────────
@@ -323,19 +332,21 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None,
                else torch.amp.autocast("cpu", enabled=False))
 
     optimizer.zero_grad(set_to_none=True)
-    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
+    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb, prot_mask) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
             break
 
-        apt      = apt.to(device)
-        v        = v.to(device)
-        prot_emb = prot_emb.to(device)
-        cond     = cond.to(device)
-        labels   = labels.to(device)
-        kds      = kds.to(device)
+        apt       = apt.to(device)
+        v         = v.to(device)
+        prot_emb  = prot_emb.to(device)
+        prot_mask = prot_mask.to(device)
+        cond      = cond.to(device)
+        labels    = labels.to(device)
+        kds       = kds.to(device)
 
         with amp_ctx:
-            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb,
+                        prot_padding_mask=prot_mask)
 
         # Loss always in float32 for numerical stability
         loss, bce, kd_l = criterion(
@@ -388,18 +399,20 @@ def eval_epoch(model, loader, criterion, device, max_batches=None, use_amp=False
     amp_ctx = (torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp
                else torch.amp.autocast("cpu", enabled=False))
 
-    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
+    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb, prot_mask) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
             break
-        apt      = apt.to(device)
-        v        = v.to(device)
-        prot_emb = prot_emb.to(device)
-        cond     = cond.to(device)
-        labels   = labels.to(device)
-        kds      = kds.to(device)
+        apt       = apt.to(device)
+        v         = v.to(device)
+        prot_emb  = prot_emb.to(device)
+        prot_mask = prot_mask.to(device)
+        cond      = cond.to(device)
+        labels    = labels.to(device)
+        kds       = kds.to(device)
 
         with amp_ctx:
-            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb,
+                        prot_padding_mask=prot_mask)
 
         loss, bce, kd_l = criterion(
             out.binding_prob.float(),
@@ -462,6 +475,11 @@ def main() -> None:
                         help="Allow training on CPU when no GPU/MPS device is found. "
                              "Disabled by default to prevent silent hours-long CPU runs "
                              "when a GPU driver fails. Only use for unit tests or CI.")
+    parser.add_argument("--balanced-sampling", action="store_true", default=False,
+                        help="Use WeightedRandomSampler for ~50/50 pos/neg per batch. "
+                             "Positives are resampled with replacement each epoch so the "
+                             "full positive set is seen over training, not a fixed slice. "
+                             "Overrides shuffle=True on the train DataLoader.")
     args = parser.parse_args()
 
     if args.grad_accum < 1:
@@ -612,15 +630,47 @@ def main() -> None:
     _num_workers = 0 if device.type in ("mps", "cpu") else 2
     _pin_memory  = device.type == "cuda"
 
-    train_loader = DataLoader(
-        train_ds,
-        batch_size=args.batch_size,
-        shuffle=True,
-        collate_fn=collate_fn,
-        num_workers=_num_workers,
-        pin_memory=_pin_memory,
-        persistent_workers=_num_workers > 0,
-    )
+    # Balanced sampling: ~50/50 pos/neg per batch via WeightedRandomSampler.
+    # Each sample's weight = 1/class_count — so minority and majority classes
+    # contribute equally in expectation. Sampling with replacement means the
+    # full positive set is reachable over an epoch, not a fixed 50% slice.
+    if args.balanced_sampling:
+        labels_arr = train_df["label"].values.astype(int)
+        class_counts = np.bincount(labels_arr)           # [neg_count, pos_count]
+        sample_weights = np.where(labels_arr == 1,
+                                  1.0 / class_counts[1],
+                                  1.0 / class_counts[0])
+        sampler = WeightedRandomSampler(
+            weights=torch.from_numpy(sample_weights).double(),
+            num_samples=len(train_ds),
+            replacement=True,
+        )
+        # Verify balance on a quick sample before training
+        _check = np.random.default_rng(0).choice(
+            len(train_ds), size=min(256, len(train_ds)),
+            p=sample_weights / sample_weights.sum(), replace=True)
+        _bal = labels_arr[_check].mean()
+        log.info("Balanced sampler active: pos_rate in sampled check=%.3f (target ~0.50) "
+                 "| class counts: neg=%d pos=%d", _bal, class_counts[0], class_counts[1])
+        train_loader = DataLoader(
+            train_ds,
+            batch_size=args.batch_size,
+            sampler=sampler,       # sampler is mutually exclusive with shuffle
+            collate_fn=collate_fn,
+            num_workers=_num_workers,
+            pin_memory=_pin_memory,
+            persistent_workers=_num_workers > 0,
+        )
+    else:
+        train_loader = DataLoader(
+            train_ds,
+            batch_size=args.batch_size,
+            shuffle=True,
+            collate_fn=collate_fn,
+            num_workers=_num_workers,
+            pin_memory=_pin_memory,
+            persistent_workers=_num_workers > 0,
+        )
     val_loader = (
         DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
                    collate_fn=collate_fn, num_workers=_num_workers,
