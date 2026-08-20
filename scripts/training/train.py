@@ -256,18 +256,27 @@ def collate_fn(batch):
     lbls  = torch.stack(lbl_list)          # [B, 1]
     kds   = torch.stack(kd_list)           # [B, 1]
 
-    # Protein embeddings: variable prot_len → pad with zeros to max in batch
-    max_prot = max(e.shape[0] for e in emb_list)
+    # Protein embeddings: variable prot_len → pad with zeros to max in batch.
+    # Build a boolean mask (True = padding position) for cross-attention so
+    # padded positions are excluded from the attention softmax.
+    lengths  = [e.shape[0] for e in emb_list]
+    max_prot = max(lengths)
     esm_dim  = emb_list[0].shape[1]
     prot_emb = torch.stack([
         F.pad(e, (0, 0, 0, max_prot - e.shape[0]))   # pad sequence dim only
         for e in emb_list
     ])                                     # [B, max_prot, ESM_EMBED_DIM]
 
+    # prot_padding_mask[b, i] = True when position i is a zero-pad for sample b.
+    # nn.MultiheadAttention uses True to mean "ignore this key position".
+    prot_padding_mask = torch.zeros(len(apt_list), max_prot, dtype=torch.bool)
+    for b, length in enumerate(lengths):
+        prot_padding_mask[b, length:] = True           # [B, max_prot]
+
     # protein_tokens placeholder (unused when protein_emb is passed to model)
     prot_tok = torch.zeros(len(apt_list), 1, dtype=torch.long)
 
-    return apt, v, prot_tok, cond, lbls, kds, prot_emb
+    return apt, v, prot_tok, cond, lbls, kds, prot_emb, prot_padding_mask
 
 
 # ── Data split ────────────────────────────────────────────────────────────────
@@ -323,19 +332,21 @@ def train_epoch(model, loader, optimizer, criterion, device, max_batches=None,
                else torch.amp.autocast("cpu", enabled=False))
 
     optimizer.zero_grad(set_to_none=True)
-    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
+    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb, prot_mask) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
             break
 
-        apt      = apt.to(device)
-        v        = v.to(device)
-        prot_emb = prot_emb.to(device)
-        cond     = cond.to(device)
-        labels   = labels.to(device)
-        kds      = kds.to(device)
+        apt       = apt.to(device)
+        v         = v.to(device)
+        prot_emb  = prot_emb.to(device)
+        prot_mask = prot_mask.to(device)
+        cond      = cond.to(device)
+        labels    = labels.to(device)
+        kds       = kds.to(device)
 
         with amp_ctx:
-            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb,
+                        prot_padding_mask=prot_mask)
 
         # Loss always in float32 for numerical stability
         loss, bce, kd_l = criterion(
@@ -388,18 +399,20 @@ def eval_epoch(model, loader, criterion, device, max_batches=None, use_amp=False
     amp_ctx = (torch.amp.autocast("cuda", dtype=torch.bfloat16) if use_amp
                else torch.amp.autocast("cpu", enabled=False))
 
-    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb) in enumerate(loader):
+    for batch_i, (apt, v, prot_tok, cond, labels, kds, prot_emb, prot_mask) in enumerate(loader):
         if max_batches is not None and batch_i >= max_batches:
             break
-        apt      = apt.to(device)
-        v        = v.to(device)
-        prot_emb = prot_emb.to(device)
-        cond     = cond.to(device)
-        labels   = labels.to(device)
-        kds      = kds.to(device)
+        apt       = apt.to(device)
+        v         = v.to(device)
+        prot_emb  = prot_emb.to(device)
+        prot_mask = prot_mask.to(device)
+        cond      = cond.to(device)
+        labels    = labels.to(device)
+        kds       = kds.to(device)
 
         with amp_ctx:
-            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb)
+            out = model(apt, v, prot_tok, cond, protein_emb=prot_emb,
+                        prot_padding_mask=prot_mask)
 
         loss, bce, kd_l = criterion(
             out.binding_prob.float(),

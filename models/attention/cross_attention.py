@@ -85,12 +85,20 @@ class SymmetricCrossAttention(nn.Module):
         aptamer_emb: torch.Tensor,
         protein_emb: torch.Tensor,
         condition: torch.Tensor,
+        prot_padding_mask: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Args:
-            aptamer_emb : [batch, apt_len,  DNA_EMBED_DIM]
-            protein_emb : [batch, prot_len, ESM_EMBED_DIM]
-            condition   : [batch, 5]  float32
+            aptamer_emb       : [batch, apt_len,  DNA_EMBED_DIM]
+            protein_emb       : [batch, prot_len, ESM_EMBED_DIM]
+            condition         : [batch, 5]  float32
+            prot_padding_mask : [batch, prot_len] bool, True = padding position.
+                                When provided, padded protein positions are masked
+                                out of the cross-attention keys so zero-padded
+                                positions (from collate_fn's variable-length
+                                batching) do not pollute the attention weights.
+                                None is safe for batch=1 or pre-padded inputs of
+                                equal length.
 
         Returns:
             apt_out     : [batch, apt_len,  FUSION_DIM]
@@ -112,14 +120,22 @@ class SymmetricCrossAttention(nn.Module):
         apt  = gamma * apt  + beta
         prot = gamma * prot + beta
 
-        # Aptamer queries protein (apt→prot cross-attention)
+        # Aptamer queries protein (apt→prot cross-attention).
+        # prot_padding_mask masks padded protein positions from the keys so that
+        # zero-padded positions (from variable-length batching in collate_fn)
+        # receive ~0 attention weight rather than being treated as real tokens.
         apt_attended, _  = self.apt_to_prot_attn(
-            query=apt, key=prot, value=prot
+            query=apt, key=prot, value=prot,
+            key_padding_mask=prot_padding_mask,
         )
 
-        # Protein queries aptamer (prot→apt cross-attention)
+        # Protein queries aptamer (prot→apt cross-attention).
+        # No aptamer padding mask needed — aptamer tokens are all padded to
+        # DNA_MAX_LEN by the tokenizer before batching, so every position in
+        # the apt tensor is either a real token or a PAD token that the DNA
+        # encoder already handles via its own src_key_padding_mask.
         prot_attended, _ = self.prot_to_apt_attn(
-            query=prot, key=apt, value=apt
+            query=prot, key=apt, value=apt,
         )
 
         # Residual + LayerNorm
